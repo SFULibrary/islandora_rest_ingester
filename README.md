@@ -6,9 +6,9 @@ Script to ingest Islandora objects using Islandora's REST interface.
 
 * On the target Islandora instance
   * [Islandora REST](https://github.com/discoverygarden/islandora_rest)
-  * [Islandora REST Authen](https://github.com/mjordan/islandora_rest_authen);
+  * [Islandora REST Authen](https://github.com/mjordan/islandora_rest_authen)
 * On the system where the script is run
-  * * PHP 5.5.0 or higher.
+  * PHP 5.5.0 or higher.
   * [Composer](https://getcomposer.org)
 
 ## Installation
@@ -17,10 +17,29 @@ Script to ingest Islandora objects using Islandora's REST interface.
 * `cd ingest_islandora_objects_via_rest`
 * `php composer.phar install` (or equivalent on your system, e.g., `./composer install`)
 
-### Overview and usage
+## Overview and usage
+
+### Preparing content for ingestion
 
 ```
-arg 0
+sampleinput/
+ ├── foo
+ │   ├── MODS.xml
+ │   └── OBJ.png
+ ├── bar
+ │   ├── MODS.xml
+ │   └── OBJ.jpg
+ └── baz
+    ├── MODS.xml
+    └── OJB.jpg
+```
+
+### Running the script
+
+`php ingest [options] INPUT_DIR`
+
+```
+INPUT_DIR
      Required. Ablsolute or relative path to a directory containing Islandora import packages. Trailing slash is optional.
 
 
@@ -63,21 +82,6 @@ arg 0
 -u/--user <argument>
      REST user.
 ```
-
-
-```
-sampleinput/
- ├── foo
- │   ├── MODS.xml
- │   └── OBJ.png
- ├── bar
- │   ├── MODS.xml
- │   └── OBJ.jpg
- └── baz
-    ├── MODS.xml
-    └── OJB.jpg
-```
-
 
 ## Maintainer
 
