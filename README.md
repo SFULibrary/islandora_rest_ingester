@@ -13,7 +13,7 @@ Script to ingest simple Islandora objects using Islandora's REST interface.
 
 ## Installation
 
-* Clone the Git repo
+* `git clone https://github.com/mjordan/ingest_islandora_objects_via_rest.git`
 * `cd ingest_islandora_objects_via_rest`
 * `php composer.phar install` (or equivalent on your system, e.g., `./composer install`)
 
@@ -29,7 +29,7 @@ sampleinput/
  ├── bar
  │   ├── MODS.xml
  │   └── OBJ.jpg
- ├── emtpy
+ ├── empty
  └── baz
     ├── MODS.xml
     └── OJB.jpg
@@ -41,7 +41,7 @@ sampleinput/
 
 For example,
 
-`php ingest.php -s -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_basic_image -p rest:collection -n rest -o admin -u admin -t admin testinput`
+`php ingest.php -s -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_basic_image -p rest:collection -n rest -o admin -u admin -t admin testinput`
 
 ```
 INPUT_DIR
@@ -50,34 +50,29 @@ INPUT_DIR
 -c/--checksum_type <argument>
      Checksum type to apply to datastreams. Use "none" to not apply checksums. Default is SHA-1.
 
-
 -m/--cmodel <argument>
      Required. PID of the object's content model.
-
 
 -e/--endpoint <argument>
      Fully qualified REST endpoing for the Islandora instance. Default is http://localhost/islandora/rest/v1.
 
-
 -n/--namespace <argument>
      Required. Object's namespace.
-
 
 -o/--owner <argument>
      Required. Object's owner.
 
-
 -p/--parent <argument>
      Required. PID of the object's parent collection, book, newspaper issue, compound object, etc.
-
 
 -r/--relationship <argument>
      Predicate describing relationship of object to its parent. Default is isMemberOfCollection.
 
+-l/--log/--log <argument>
+     Path to the log. Default is ./rest_ingest.log
 
 -s/--skip_empty
      Skip ingesting objects if the directory is empty. Default is false.
-
 
 -t/--token <argument>
      Required. REST authentication token.

@@ -23,6 +23,7 @@
  */
 
 require_once 'vendor/autoload.php';
+use Monolog\Logger;
 
 $cmd = new Commando\Command();
 $cmd->option()
@@ -76,11 +77,28 @@ $cmd->option('t')
     ->aka('token')
     ->require(true)
     ->describedAs('REST authentication token.');
+$cmd->option('l')
+    ->aka('log')
+    ->describedAs('Path to the log. Default is ./iipqa.log')
+    ->default('./iipqa.log');
+$cmd->option('l')
+    ->aka('log')
+    ->describedAs('Path to the log. Default is ./rest_ingest.log')
+    ->default('./rest_ingest.log');
+
+$path_to_log = $cmd['l'];
+$log = new Monolog\Logger('Ingest via REST');
+$log_stream_handler= new Monolog\Handler\StreamHandler($path_to_log, Logger::INFO);
+$log->pushHandler($log_stream_handler);
+
+$log->addInfo("ingest.php (endpoint " . $cmd['e'] . ") started at ". date("F j, Y, g:i a"));
 
 $object_dirs = new FilesystemIterator($cmd[0]);
 foreach($object_dirs as $object_dir) {
-    ingest_object($object_dir->getPathname(), $cmd);
+    ingest_object($object_dir->getPathname(), $cmd, $log);
 }
+
+$log->addInfo("ingest.php finished at ". date("F j, Y, g:i a"));
 
 /**
  * Ingests an Islandora object.
@@ -89,8 +107,10 @@ foreach($object_dirs as $object_dir) {
  *   Absolute path to the directory containing the object's datastream files.
  * @param $cmd object
  *   The Commando Command object.
+ * @param $log object
+ *   The Monolog logger.
  */
-function ingest_object($dir, $cmd) {
+function ingest_object($dir, $cmd, $log) {
     $client = new GuzzleHttp\Client();
 
     $mods_path = realpath($dir) . DIRECTORY_SEPARATOR . 'MODS.xml';
@@ -124,6 +144,8 @@ function ingest_object($dir, $cmd) {
     $object_response_body_array = json_decode($object_response_body, true);
     $pid = $object_response_body_array['pid'];
 
+    $log->addInfo("Object $pid ingested from " . realpath($dir));
+
     // Add object's model.
     $model_response = $client->request('POST', $cmd['e'] . '/object/' .
         $pid . '/relationship', [
@@ -154,7 +176,7 @@ function ingest_object($dir, $cmd) {
         ]
     ]);
 
-    ingest_datastreams($pid, $dir, $cmd);
+    ingest_datastreams($pid, $dir, $cmd, $log);
 }
 
 /**
@@ -166,8 +188,10 @@ function ingest_object($dir, $cmd) {
  *   Absolute path to the directory containing the object's datastream files.
  * @param $cmd object
  *   The Commando Command object.
+ * @param $log object
+ *   The Monolog logger.
  */
-function ingest_datastreams($pid, $dir, $cmd) {
+function ingest_datastreams($pid, $dir, $cmd, $log) {
     $client = new GuzzleHttp\Client();
     $mimes = new \Mimey\MimeTypes;
     $files = array_slice(scandir(realpath($dir)), 2);
@@ -175,6 +199,7 @@ function ingest_datastreams($pid, $dir, $cmd) {
         foreach ($files as $file) {
             $path_to_file = realpath($dir) . DIRECTORY_SEPARATOR . $file;
             $pathinfo = pathinfo($path_to_file);
+            $dsid = $pathinfo['filename'];
             $mime_type = $mimes->getMimeType($pathinfo['extension']);
 
             $request = $cmd['e'] . '/object/' . $pid . '/datastream';
@@ -187,7 +212,7 @@ function ingest_datastreams($pid, $dir, $cmd) {
                     ],
                     [
                         'name' => 'dsid',
-                        'contents' => $pathinfo['filename'],
+                        'contents' => $dsid,
                     ],
                     [
                         'name' => 'checksumType',
@@ -199,6 +224,7 @@ function ingest_datastreams($pid, $dir, $cmd) {
                     'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
                 ]
             ]);
+            $log->addInfo("Object $pid datastream $dsid ingested from $path_to_file");
         }
     }
 }
