@@ -38,32 +38,43 @@ $cmd->option()
     });
 $cmd->option('m')
     ->aka('cmodel')
+    ->require(true)
     ->describedAs("PID of the object's content model.");
 $cmd->option('p')
     ->aka('parent')
-    ->describedAs("Object's parent collection, book, newspaper issue, compound object, etc.");
+    ->require(true)
+    ->describedAs("PID of the object's parent collection, book, newspaper issue, compound object, etc.");
 $cmd->option('n')
     ->aka('namespace')
+    ->require(true)
     ->describedAs("Object's namespace.");
 $cmd->option('o')
     ->aka('owner')
+    ->require(true)
     ->describedAs("Object's owner.");
-$cmd->option('l')
-    ->aka('label')
-    ->describedAs("Object's label.");
+$cmd->option('s')
+    ->aka('skip_empty')
+    ->boolean()
+    ->describedAs("Skip ingesting objects if the directory is empty. Default is false.");
 $cmd->option('r')
     ->aka('relationship')
     ->default('isMemberOfCollection')
     ->describedAs('Predicate describing relationship of object to its parent. Default is isMemberOfCollection.');
+$cmd->option('c')
+    ->aka('checksum_type')
+    ->default('SHA-1')
+    ->describedAs('Checksum type to apply to datastreams. Use "none" to not apply checksums. Default is SHA-1.');
 $cmd->option('e')
     ->aka('endpoint')
     ->default('http://localhost/islandora/rest/v1')
     ->describedAs('Fully qualified REST endpoing for the Islandora instance. Default is http://localhost/islandora/rest/v1.');
 $cmd->option('u')
     ->aka('user')
-    ->describedAs('REST user.');
+    ->require(true)
+    ->describedAs('REST user name.');
 $cmd->option('t')
     ->aka('token')
+    ->require(true)
     ->describedAs('REST authentication token.');
 
 $object_dirs = new FilesystemIterator($cmd[0]);
@@ -81,75 +92,113 @@ foreach($object_dirs as $object_dir) {
  */
 function ingest_object($dir, $cmd) {
     $client = new GuzzleHttp\Client();
-    /*
-    // Ingest Islandora object.
-    $response = $client->request('POST', $cmd['e'] . '/object', [
-        'form_params' => [
-            'namespace' => '',
-            'owner' => '',
-            'label' => '',
-        ],
-       'headers' => [
-            'Accept' => 'application/json',
-            'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'];
-        ]
-    ]);
-    */
-    // $response = json_decode($response, true);
-    $pid = 'islandora:1'; // testing
-    $response = ''; // testing
 
-/*
-    // Add parent relationship.
-    $response = $client->request('POST', $cmd['e'] . '/' . $response['pid'] . '/relationship', [
+    $mods_path = realpath($dir) . DIRECTORY_SEPARATOR . 'MODS.xml';
+    if (file_exists($mods_path)) {
+        $xml = simplexml_load_file($mods_path);
+        $label = (string) current($xml->xpath('//mods:title'));
+    }
+    else {
+        if (!$cmd['s']) {
+           $label = $dir;
+        }
+        else {
+            return;
+        }
+    }
+
+    // Ingest Islandora object.
+    $object_response = $client->request('POST', $cmd['e'] . '/object', [
         'form_params' => [
-            'uri' => '',
-            'predicate' => $cmd['r'],
-            'object' => '',
-            'literal' => true,
+            'namespace' => $cmd['n'],
+            'owner' => $cmd['o'],
+            'label' => $label,
         ],
        'headers' => [
             'Accept' => 'application/json',
-            'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'];
+            'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
         ]
     ]);
-*/
-    ingest_datastreams($response, $dir, $cmd);
+
+    $object_response_body = $object_response->getBody();
+    $object_response_body_array = json_decode($object_response_body, true);
+    $pid = $object_response_body_array['pid'];
+
+    // Add object's model.
+    $model_response = $client->request('POST', $cmd['e'] . '/object/' .
+        $pid . '/relationship', [
+        'form_params' => [
+            'uri' => 'info:fedora/fedora-system:def/model#',
+            'predicate' => 'hasModel',
+            'object' => $cmd['m'],
+            'type' => 'uri',
+        ],
+       'headers' => [
+            'Accept' => 'application/json',
+            'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+        ]
+    ]);
+
+    // Add parent relationship.
+    $parent_response = $client->request('POST', $cmd['e'] . '/object/' .
+        $pid . '/relationship', [
+        'form_params' => [
+            'uri' => 'info:fedora/fedora-system:def/relations-external#',
+            'predicate' => $cmd['r'],
+            'object' => $cmd['p'],
+            'type' => 'uri',
+        ],
+       'headers' => [
+            'Accept' => 'application/json',
+            'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+        ]
+    ]);
+
+    ingest_datastreams($pid, $dir, $cmd);
 }
 
 /**
  * Reads the object-level directory and ingests each file as a datastream.
  *
- * @param $response array
- *   The Guzzle response as an associative array.
+ * @param $pid string
+ *   The PID of the parent object.
  * @param $dir string
  *   Absolute path to the directory containing the object's datastream files.
  * @param $cmd object
  *   The Commando Command object.
  */
-function ingest_datastreams($response, $dir, $cmd) {
+function ingest_datastreams($pid, $dir, $cmd) {
     $client = new GuzzleHttp\Client();
+    $mimes = new \Mimey\MimeTypes;
     $files = array_slice(scandir(realpath($dir)), 2);
     if (count($files)) {
         foreach ($files as $file) {
             $path_to_file = realpath($dir) . DIRECTORY_SEPARATOR . $file;
-            /*
-            $body = fopen($path_to_file, 'r');
-            $request = $cmd['e'] . '/object/' . $response['pid'] . '/datastream';
+            $pathinfo = pathinfo($path_to_file);
+            $mime_type = $mimes->getMimeType($pathinfo['extension']);
+
+            $request = $cmd['e'] . '/object/' . $pid . '/datastream';
             $response = $client->request('POST', $request, [
-               'body' => $body,
+                'multipart' => [
+                    [
+                        'name' => 'file',
+                        'filename' => $pathinfo['basename'],
+                        'contents' => fopen($path_to_file, 'r'),
+                    ],
+                    [
+                        'name' => 'dsid',
+                        'contents' => $pathinfo['filename'],
+                    ],
+                    [
+                        'name' => 'checksumType',
+                        'contents' => $cmd['c'],
+                    ],
+                ],
                'headers' => [
-                    'dsid' => '',
-                    'label' => '',
-                    'mimeType' => '',
-                    'checksumType' => '',
-                    'controlGroup' => 'M',
                     'Accept' => 'application/json',
-                    'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'];
+                    'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
                 ]
             ]);
-            */
         }
     }
-
 }

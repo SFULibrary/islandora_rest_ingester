@@ -1,6 +1,6 @@
 # Ingest Islandora Objects Via REST
 
-Script to ingest Islandora objects using Islandora's REST interface.
+Script to ingest simple Islandora objects using Islandora's REST interface.
 
 ## Requirements
 
@@ -29,6 +29,7 @@ sampleinput/
  ├── bar
  │   ├── MODS.xml
  │   └── OBJ.jpg
+ ├── emtpy
  └── baz
     ├── MODS.xml
     └── OJB.jpg
@@ -38,49 +39,54 @@ sampleinput/
 
 `php ingest [options] INPUT_DIR`
 
+For example,
+
+`php ingest.php -s -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_basic_image -p rest:collection -n rest -o admin -u admin -t admin testinput`
+
 ```
 INPUT_DIR
      Required. Ablsolute or relative path to a directory containing Islandora import packages. Trailing slash is optional.
 
+-c/--checksum_type <argument>
+     Checksum type to apply to datastreams. Use "none" to not apply checksums. Default is SHA-1.
+
 
 -m/--cmodel <argument>
-     PID of the object's content model.
+     Required. PID of the object's content model.
 
 
 -e/--endpoint <argument>
      Fully qualified REST endpoing for the Islandora instance. Default is http://localhost/islandora/rest/v1.
 
 
---help
-     Show the help page for this command.
-
-
--l/--label <argument>
-     Object's label.
-
-
 -n/--namespace <argument>
-     Object's namespace.
+     Required. Object's namespace.
 
 
 -o/--owner <argument>
-     Object's owner.
+     Required. Object's owner.
 
 
 -p/--parent <argument>
-     Object's parent collection, book, newspaper issue, compound object, etc.
+     Required. PID of the object's parent collection, book, newspaper issue, compound object, etc.
 
 
 -r/--relationship <argument>
      Predicate describing relationship of object to its parent. Default is isMemberOfCollection.
 
 
--t/--token <argument>
-     REST authentication token.
+-s/--skip_empty
+     Skip ingesting objects if the directory is empty. Default is false.
 
+
+-t/--token <argument>
+     Required. REST authentication token.
 
 -u/--user <argument>
-     REST user.
+     Required. REST user name.
+
+--help
+     Show the help page for this script.
 ```
 
 ## Maintainer
