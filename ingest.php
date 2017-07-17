@@ -10,16 +10,7 @@
  *
  * Usage information is available by running 'php ingest.php --help'.
  *
- * sampleinput/
- * ├── foo
- * │   ├── MODS.xml
- * │   └── OBJ.png
- * ├── bar
- * │   ├── MODS.xml
- * │   └── OBJ.jpg
- * └── baz
- *    ├── MODS.xml
- *    └── OJB.jpg
+ * See README.md for additional information.
  */
 
 require_once 'vendor/autoload.php';
@@ -133,8 +124,15 @@ function ingest_object($dir, $cmd, $log) {
                 'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
             ]
         ]);
-    } catch (TransferException $e) {
-        $log->addError($e->getRequest() . ' ' . $e->getResponse());
+    } catch (Exception $e) {
+        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+            $log->addError(Psr7\str($e->getRequest()));
+            if ($e->hasResponse()) {
+                $log->addError(Psr7\str($e->getResponse()));
+                print Psr7\str($e->getResponse()) . "\n";
+            }
+            exit;
+        }
     }
 
     $object_response_body = $object_response->getBody();
@@ -158,8 +156,15 @@ function ingest_object($dir, $cmd, $log) {
                 'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
             ]
         ]);
-    } catch (TransferException $e) {
-        $log->addError($e->getRequest() . ' ' . $e->getResponse());
+    } catch (Exception $e) {
+        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+            $log->addError(Psr7\str($e->getRequest()));
+            if ($e->hasResponse()) {
+                $log->addError(Psr7\str($e->getResponse()));
+                print Psr7\str($e->getResponse()) . "\n";
+            }
+            exit;
+        }
     }
 
     // Add parent relationship.
@@ -177,8 +182,15 @@ function ingest_object($dir, $cmd, $log) {
                 'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
             ]
         ]);
-    } catch (TransferException $e) {
-        $log->addError($e->getRequest() . ' ' . $e->getResponse());
+    } catch (Exception $e) {
+        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+            $log->addError(Psr7\str($e->getRequest()));
+            if ($e->hasResponse()) {
+                $log->addError(Psr7\str($e->getResponse()));
+                print Psr7\str($e->getResponse()) . "\n";
+            }
+            exit;
+        }
     }
 
     ingest_datastreams($pid, $dir, $cmd, $log);
@@ -229,8 +241,15 @@ function ingest_datastreams($pid, $dir, $cmd, $log) {
                     ]
                 ]);
                 $log->addInfo("Object $pid datastream $dsid ingested from $path_to_file");
-            } catch (TransferException $e) {
-                $log->addError($e->getRequest() . ' ' . $e->getResponse());
+            } catch (Exception $e) {
+                if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+                    $log->addError(Psr7\str($e->getRequest()));
+                    if ($e->hasResponse()) {
+                        $log->addError(Psr7\str($e->getResponse()));
+                        print Psr7\str($e->getResponse()) . "\n";
+                    }
+                    exit;
+                }
             }
 
             if ($cmd['c'] != 'none') {
