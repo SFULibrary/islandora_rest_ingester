@@ -24,6 +24,11 @@
 
 require_once 'vendor/autoload.php';
 use Monolog\Logger;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 
 $cmd = new Commando\Command();
 $cmd->option()
@@ -116,17 +121,21 @@ function ingest_object($dir, $cmd, $log) {
     }
 
     // Ingest Islandora object.
-    $object_response = $client->request('POST', $cmd['e'] . '/object', [
-        'form_params' => [
-            'namespace' => $cmd['n'],
-            'owner' => $cmd['o'],
-            'label' => $label,
-        ],
-       'headers' => [
-            'Accept' => 'application/json',
-            'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
-        ]
-    ]);
+    try {
+        $object_response = $client->request('POST', $cmd['e'] . '/object', [
+            'form_params' => [
+                'namespace' => $cmd['n'],
+                'owner' => $cmd['o'],
+                'label' => $label,
+            ],
+           'headers' => [
+                'Accept' => 'application/json',
+                'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+            ]
+        ]);
+    } catch (TransferException $e) {
+        $log->addError($e->getRequest() . ' ' . $e->getResponse());
+    }
 
     $object_response_body = $object_response->getBody();
     $object_response_body_array = json_decode($object_response_body, true);
@@ -135,34 +144,42 @@ function ingest_object($dir, $cmd, $log) {
     $log->addInfo("Object $pid ingested from " . realpath($dir));
 
     // Add object's model.
-    $model_response = $client->request('POST', $cmd['e'] . '/object/' .
-        $pid . '/relationship', [
-        'form_params' => [
-            'uri' => 'info:fedora/fedora-system:def/model#',
-            'predicate' => 'hasModel',
-            'object' => $cmd['m'],
-            'type' => 'uri',
-        ],
-       'headers' => [
-            'Accept' => 'application/json',
-            'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
-        ]
-    ]);
+    try {
+        $model_response = $client->request('POST', $cmd['e'] . '/object/' .
+            $pid . '/relationship', [
+            'form_params' => [
+                'uri' => 'info:fedora/fedora-system:def/model#',
+                'predicate' => 'hasModel',
+                'object' => $cmd['m'],
+                'type' => 'uri',
+            ],
+           'headers' => [
+                'Accept' => 'application/json',
+                'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+            ]
+        ]);
+    } catch (TransferException $e) {
+        $log->addError($e->getRequest() . ' ' . $e->getResponse());
+    }
 
     // Add parent relationship.
-    $parent_response = $client->request('POST', $cmd['e'] . '/object/' .
-        $pid . '/relationship', [
-        'form_params' => [
-            'uri' => 'info:fedora/fedora-system:def/relations-external#',
-            'predicate' => $cmd['r'],
-            'object' => $cmd['p'],
-            'type' => 'uri',
-        ],
-       'headers' => [
-            'Accept' => 'application/json',
-            'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
-        ]
-    ]);
+    try {
+        $parent_response = $client->request('POST', $cmd['e'] . '/object/' .
+            $pid . '/relationship', [
+            'form_params' => [
+                'uri' => 'info:fedora/fedora-system:def/relations-external#',
+                'predicate' => $cmd['r'],
+                'object' => $cmd['p'],
+                'type' => 'uri',
+            ],
+           'headers' => [
+                'Accept' => 'application/json',
+                'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+            ]
+        ]);
+    } catch (TransferException $e) {
+        $log->addError($e->getRequest() . ' ' . $e->getResponse());
+    }
 
     ingest_datastreams($pid, $dir, $cmd, $log);
 }
@@ -188,29 +205,33 @@ function ingest_datastreams($pid, $dir, $cmd, $log) {
             $pathinfo = pathinfo($path_to_file);
             $dsid = $pathinfo['filename'];
 
-            $request = $cmd['e'] . '/object/' . $pid . '/datastream';
-            $response = $client->request('POST', $request, [
-                'multipart' => [
-                    [
-                        'name' => 'file',
-                        'filename' => $pathinfo['basename'],
-                        'contents' => fopen($path_to_file, 'r'),
+            try {
+                $request = $cmd['e'] . '/object/' . $pid . '/datastream';
+                $response = $client->request('POST', $request, [
+                    'multipart' => [
+                        [
+                            'name' => 'file',
+                            'filename' => $pathinfo['basename'],
+                            'contents' => fopen($path_to_file, 'r'),
+                        ],
+                        [
+                            'name' => 'dsid',
+                            'contents' => $dsid,
+                        ],
+                        [
+                            'name' => 'checksumType',
+                            'contents' => $cmd['c'],
+                        ],
                     ],
-                    [
-                        'name' => 'dsid',
-                        'contents' => $dsid,
-                    ],
-                    [
-                        'name' => 'checksumType',
-                        'contents' => $cmd['c'],
-                    ],
-                ],
-               'headers' => [
-                    'Accept' => 'application/json',
-                    'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
-                ]
-            ]);
-            $log->addInfo("Object $pid datastream $dsid ingested from $path_to_file");
+                   'headers' => [
+                        'Accept' => 'application/json',
+                        'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+                    ]
+                ]);
+                $log->addInfo("Object $pid datastream $dsid ingested from $path_to_file");
+            } catch (TransferException $e) {
+                $log->addError($e->getRequest() . ' ' . $e->getResponse());
+            }
 
             if ($cmd['c'] != 'none') {
                 $local_checksum = get_local_checksum($path_to_file, $cmd);
@@ -218,8 +239,7 @@ function ingest_datastreams($pid, $dir, $cmd, $log) {
                 $response_body_array = json_decode($response_body, true);
                 if ($local_checksum == $response_body_array['checksum']) {
                     $log->addInfo($cmd['c'] . " checksum for object $pid datastream $dsid verified.");
-                }
-                else {
+                } else {
                     $log->addWarning($cmd['c'] . " checksum for object $pid datastream $dsid mismatch.");
                 }
             }

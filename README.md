@@ -34,10 +34,11 @@ sampleinput/
  ├── empty
  └── baz
     ├── MODS.xml
+    ├── TN.png 
     └── OJB.jpg
 ```
 
-You may add whatever additional datastream files you want to the object directories. For example, if you want to pregenerate FITS output for each object, you can add 'TECHMD.xml' and it will be ingested as the TECHMD datastream.
+You may add whatever additional datastream files you want to the object directories. For example, if you want to pregenerate FITS output for each object, you can add 'TECHMD.xml' and it will be ingested as the TECHMD datastream. Another common use for ingesting pregenerated datastream files is custom thumbnails.
 
 ### Running the script
 
@@ -51,14 +52,11 @@ For example,
 INPUT_DIR
      Required. Ablsolute or relative path to a directory containing Islandora import packages. Trailing slash is optional.
 
--c/--checksum_type <argument>
-     Checksum type to apply to datastreams. Use "none" to not apply checksums. Default is SHA-1.
+-e/--endpoint <argument>
+     Fully qualified REST endpoing for the Islandora instance. Default is http://localhost/islandora/rest/v1.
 
 -m/--cmodel <argument>
      Required. PID of the object's content model.
-
--e/--endpoint <argument>
-     Fully qualified REST endpoing for the Islandora instance. Default is http://localhost/islandora/rest/v1.
 
 -n/--namespace <argument>
      Required. Object's namespace.
@@ -71,6 +69,9 @@ INPUT_DIR
 
 -r/--relationship <argument>
      Predicate describing relationship of object to its parent. Default is isMemberOfCollection.
+
+-c/--checksum_type <argument>
+     Checksum type to apply to datastreams. Use "none" to not apply checksums. Default is SHA-1.
 
 -l/--log/--log <argument>
      Path to the log. Default is ./rest_ingest.log
@@ -87,7 +88,7 @@ INPUT_DIR
 
 ### The log file
 
-The log file records when the Islandora REST Ingester was run, what objects and datastreams it ingested, and checksum verifications (if checksums were enabled on datastreams). It also records any empty directories it encounters:
+The log file records when the Islandora REST Ingester was run, what objects and datastreams it ingested, and checksum verifications (if checksums were enabled on datastreams). It also records any empty directories it encounters and exceptions thown during REST requests:
 
 ```
 [2017-07-17 07:12:35] Ingest via REST.INFO: ingest.php (endpoint http://localhost:8000/islandora/rest/v1) started at July 17, 2017, 7:12 am [] []
