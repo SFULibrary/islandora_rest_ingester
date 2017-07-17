@@ -1,4 +1,4 @@
-# Ingest Islandora Objects Via REST
+# Islandora REST Ingester
 
 Script to ingest simple Islandora objects using Islandora's REST interface.
 
@@ -13,13 +13,15 @@ Script to ingest simple Islandora objects using Islandora's REST interface.
 
 ## Installation
 
-* `git clone https://github.com/mjordan/ingest_islandora_objects_via_rest.git`
-* `cd ingest_islandora_objects_via_rest`
-* `php composer.phar install` (or equivalent on your system, e.g., `./composer install`)
+1. `git clone https://github.com/mjordan/ingest_islandora_objects_via_rest.git`
+1. _objects_via_rest`
+1. `php composer.phar install` (or equivalent on your system, e.g., `./composer install`)
 
 ## Overview and usage
 
 ### Preparing content for ingestion
+
+Currently, this tool only ingests single-file Islandora objects (basic and large image, PDF, video, etc.). To prepare your content for ingesting, put a MODS.xml file and the file intended to be the OBJ datastream in their own subdirectory of the input directory. Subdirectories that do not contain a MODS.xml file are skipped:
 
 ```
 sampleinput/
@@ -71,9 +73,6 @@ INPUT_DIR
 -l/--log/--log <argument>
      Path to the log. Default is ./rest_ingest.log
 
--s/--skip_empty
-     Skip ingesting objects if the directory is empty. Default is false.
-
 -t/--token <argument>
      Required. REST authentication token.
 
@@ -83,6 +82,28 @@ INPUT_DIR
 --help
      Show the help page for this script.
 ```
+
+### The log file
+
+The log file records when the Islandora REST Ingester was run, what objects and datastreams it ingested, and checksum verifications (if checksums were enabled on datastreams). It also records any empty directories it encounters:
+
+```
+[2017-07-17 07:12:35] Ingest via REST.INFO: ingest.php (endpoint http://localhost:8000/islandora/rest/v1) started at July 17, 2017, 7:12 am [] []
+[2017-07-17 07:12:35] Ingest via REST.WARNING: /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/bar appears to be empty, skipping. [] []
+[2017-07-17 07:12:35] Ingest via REST.INFO: Object rest:172 ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz [] []
+[2017-07-17 07:12:36] Ingest via REST.INFO: Object rest:172 datastream MODS ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz/MODS.xml [] []
+[2017-07-17 07:12:36] Ingest via REST.INFO: SHA-1 checksum for object rest:172 datastream MODS verified. [] []
+[2017-07-17 07:13:37] Ingest via REST.INFO: Object rest:172 datastream OBJ ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz/OBJ.png [] []
+[2017-07-17 07:13:37] Ingest via REST.INFO: SHA-1 checksum for object rest:172 datastream OBJ verified. [] []
+[2017-07-17 07:13:38] Ingest via REST.INFO: Object rest:173 ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo [] []
+[2017-07-17 07:13:38] Ingest via REST.INFO: Object rest:173 datastream MODS ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo/MODS.xml [] []
+[2017-07-17 07:13:38] Ingest via REST.INFO: SHA-1 checksum for object rest:173 datastream MODS verified. [] []
+[2017-07-17 07:13:48] Ingest via REST.INFO: Object rest:173 datastream OBJ ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo/OBJ.jpg [] []
+[2017-07-17 07:13:48] Ingest via REST.INFO: SHA-1 checksum for object rest:173 datastream OBJ verified. [] []
+[2017-07-17 07:13:48] Ingest via REST.INFO: ingest.php finished at July 17, 2017, 7:13 am [] []
+```
+
+You can specify the location of the log file with the `-l` option.
 
 ## Maintainer
 

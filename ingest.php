@@ -53,10 +53,6 @@ $cmd->option('o')
     ->aka('owner')
     ->require(true)
     ->describedAs("Object's owner.");
-$cmd->option('s')
-    ->aka('skip_empty')
-    ->boolean()
-    ->describedAs("Skip ingesting objects if the directory is empty. Default is false.");
 $cmd->option('r')
     ->aka('relationship')
     ->default('isMemberOfCollection')
@@ -81,10 +77,6 @@ $cmd->option('l')
     ->aka('log')
     ->describedAs('Path to the log. Default is ./iipqa.log')
     ->default('./iipqa.log');
-$cmd->option('l')
-    ->aka('log')
-    ->describedAs('Path to the log. Default is ./rest_ingest.log')
-    ->default('./rest_ingest.log');
 
 $path_to_log = $cmd['l'];
 $log = new Monolog\Logger('Ingest via REST');
@@ -119,12 +111,8 @@ function ingest_object($dir, $cmd, $log) {
         $label = (string) current($xml->xpath('//mods:title'));
     }
     else {
-        if (!$cmd['s']) {
-           $label = $dir;
-        }
-        else {
-            return;
-        }
+        $log->addWarning(realpath($dir) . " appears to be empty, skipping.");
+        return;
     }
 
     // Ingest Islandora object.
@@ -193,14 +181,12 @@ function ingest_object($dir, $cmd, $log) {
  */
 function ingest_datastreams($pid, $dir, $cmd, $log) {
     $client = new GuzzleHttp\Client();
-    $mimes = new \Mimey\MimeTypes;
     $files = array_slice(scandir(realpath($dir)), 2);
     if (count($files)) {
         foreach ($files as $file) {
             $path_to_file = realpath($dir) . DIRECTORY_SEPARATOR . $file;
             $pathinfo = pathinfo($path_to_file);
             $dsid = $pathinfo['filename'];
-            $mime_type = $mimes->getMimeType($pathinfo['extension']);
 
             $request = $cmd['e'] . '/object/' . $pid . '/datastream';
             $response = $client->request('POST', $request, [
@@ -225,6 +211,41 @@ function ingest_datastreams($pid, $dir, $cmd, $log) {
                 ]
             ]);
             $log->addInfo("Object $pid datastream $dsid ingested from $path_to_file");
+
+            if ($cmd['c'] != 'none') {
+                $local_checksum = get_local_checksum($path_to_file, $cmd);
+                $response_body = $response->getBody();
+                $response_body_array = json_decode($response_body, true);
+                if ($local_checksum == $response_body_array['checksum']) {
+                    $log->addInfo($cmd['c'] . " checksum for object $pid datastream $dsid verified.");
+                }
+                else {
+                    $log->addWarning($cmd['c'] . " checksum for object $pid datastream $dsid mismatch.");
+                }
+            }
         }
     }
+}
+
+/**
+ * Generates a checksum for comparison to the one reported by Islandora.
+ *
+ * @param $path_to_file string
+ *   The path to the file.
+ * @param $cmd object
+ *   The Commando Command object.
+ *
+ * @return string|bool
+ *   The checksum value, false if no checksum type is specified.
+ */
+function get_local_checksum($path_to_file, $cmd) {
+    switch ($cmd['c']) {
+        case 'SHA-1':
+            $checksum = sha1_file($path_to_file);
+            break;
+        // @todo: Add more checksum types.
+        default:
+            $checksum = false;
+    }
+    return $checksum;
 }

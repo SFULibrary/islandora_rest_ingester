@@ -2,7 +2,6 @@
     "require": {
         "guzzlehttp/guzzle": "~6.0",
         "nategood/commando": "*",
-        "monolog/monolog": "~1.13",
-        "ralouphie/mimey": "*"
+        "monolog/monolog": "~1.13"
     }
 }
