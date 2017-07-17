@@ -13,15 +13,15 @@ Script to ingest simple Islandora objects using Islandora's REST interface.
 
 ## Installation
 
-1. `git clone https://github.com/mjordan/ingest_islandora_objects_via_rest.git`
-1. _objects_via_rest`
+1. `git clone https://github.com/mjordan/islandora_rest_ingester.git`
+1. `cd islandora_rest_ingester`
 1. `php composer.phar install` (or equivalent on your system, e.g., `./composer install`)
 
 ## Overview and usage
 
 ### Preparing content for ingestion
 
-Currently, this tool only ingests single-file Islandora objects (basic and large image, PDF, video, etc.). To prepare your content for ingesting, put a MODS.xml file and the file intended to be the OBJ datastream in their own subdirectory of the input directory. Subdirectories that do not contain a MODS.xml file are skipped:
+Currently, this tool only ingests single-file Islandora objects (basic and large image, PDF, video, etc.). To prepare your content for ingesting, within the input directory, create subdirectories for each object. Within each, put a MODS.xml file and the file intended to be the OBJ datastream. This file should be named 'OBJ' and have whichever extension is appropriate for its content. Subdirectories that do not contain a MODS.xml file are skipped:
 
 ```
 sampleinput/
@@ -37,13 +37,15 @@ sampleinput/
     └── OJB.jpg
 ```
 
+You may add whatever additional datastream files you want to the object directories. For example, if you want to pregenerate FITS output for each object, you can add 'TECHMD.xml' and it will be ingested as the TECHMD datastream.
+
 ### Running the script
 
 `php ingest [options] INPUT_DIR`
 
 For example,
 
-`php ingest.php -s -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_basic_image -p rest:collection -n rest -o admin -u admin -t admin testinput`
+`php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_basic_image -p rest:collection -n rest -o admin -u admin -t admin testinput`
 
 ```
 INPUT_DIR
