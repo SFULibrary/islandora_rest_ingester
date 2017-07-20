@@ -71,8 +71,8 @@ $cmd->option('t')
     ->describedAs('REST authentication token.');
 $cmd->option('l')
     ->aka('log')
-    ->describedAs('Path to the log. Default is ./iipqa.log')
-    ->default('./iipqa.log');
+    ->describedAs('Path to the log. Default is ./ingester.log')
+    ->default('./ingester.log');
 
 $path_to_log = $cmd['l'];
 $log = new Monolog\Logger('Ingest via REST');
