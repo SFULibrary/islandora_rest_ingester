@@ -59,7 +59,7 @@ INPUT_DIR
      Required. PID of the object's content model.
 
 -n/--namespace <argument>
-     Required. Object's namespace.
+     Required. Object's namespace. If you provide a full PID, it will be used.
 
 -o/--owner <argument>
      Required. Object's owner.
