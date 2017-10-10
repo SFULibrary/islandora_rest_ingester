@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Utilities for the Islandora REST Ingester.
+ */
+
+/**
  * Generates a checksum for comparison to the one reported by Islandora.
  *
  * @param $path_to_file string

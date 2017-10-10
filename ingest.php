@@ -46,7 +46,7 @@ $cmd->option('p')
 $cmd->option('n')
     ->aka('namespace')
     ->require(true)
-    ->describedAs("Object's namespace.");
+    ->describedAs("Object's namespace. If you provide a full PID, it will be used.");
 $cmd->option('o')
     ->aka('owner')
     ->require(true)
