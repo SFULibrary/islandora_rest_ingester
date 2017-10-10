@@ -46,7 +46,7 @@ If a datastream already exists (for example, a TN created as a derivative), and 
 
 If the value of `-n` is a full (and valid) PID, an object with that PID will be created. If an object with that PID already exists, it will be skipped and logged. However, providing a full PID as the value of `-n` is only useful if your input directory contains a single object directory.
 
-If you omit the `-n` option, the Ingester assumes that each object-level directory encodes the PID it should use when ingesting the object. Directory names should be the same as the PID, e.g. `test:245`. If your PIDs contain characters that may not be safe in filenames (for example, `:` on Windows), you can URL-endcode them (e.g., `test%3A5`); the Ingester will automatically decode them to get the PID.
+If you omit the `-n` option, the Ingester assumes that each object-level directory encodes the PID it should use when ingesting the object. Directory names should be the same as the PID, e.g. `test:245`. If your PIDs contain characters that may not be safe in filenames (for example, `:` on Windows), you can URL-endcode them (e.g., `test%3A245`); the Ingester will automatically decode them to get the PID.
 
 Changing our examples above so that the object directories encode PIDs would look like this:
 
@@ -66,7 +66,7 @@ sampleinput/
     └── OJB.jpg
 ```
 
-URL-encoding the directory names as `foo%351`, `bar%351`, etc. would be valid as well.
+URL-encoding the directory names as `foo%3A1`, `bar%3A1`, etc. would be valid as well.
 
 ### Running the script
 
