@@ -45,8 +45,7 @@ $cmd->option('p')
     ->describedAs("PID of the object's parent collection, book, newspaper issue, compound object, etc.");
 $cmd->option('n')
     ->aka('namespace')
-    ->require(true)
-    ->describedAs("Object's namespace. If you provide a full PID, it will be used.");
+    ->describedAs("Object's namespace. If you provide a full PID, it will be used. If you do not include this option, the ingester assumes that each object-level input directory encodes the object PIDs, and will ingest objects using those PIDs.");
 $cmd->option('o')
     ->aka('owner')
     ->require(true)
@@ -105,7 +104,8 @@ function ingest_object($dir, $cmd, $log) {
 
     $mods_path = realpath($dir) . DIRECTORY_SEPARATOR . 'MODS.xml';
     if (file_exists($mods_path)) {
-        $xml = simplexml_load_file($mods_path);
+        $mods_xml = file_get_contents($mods_path);
+        $xml = simplexml_load_string($mods_xml);
         $label = (string) current($xml->xpath('//mods:title'));
     }
     else {
@@ -113,12 +113,24 @@ function ingest_object($dir, $cmd, $log) {
         return;
     }
 
-    // If the user supplied a PID, check to see if the object exists.
-    if (is_valid_pid($cmd['n'])) {
-        $url = $cmd['e'] . '/object/' . $cmd['n'];
+    // If no namespace is provided, use input directory names as PIDs.
+    // Here, 'namespace' can be a full PID, as per the Fedora and Islandora
+    // REST APIs.
+    if (strlen($cmd['n'])) {
+        $namespace = $cmd['n'];
+    }
+    else {
+        $namespace = basename(realpath($dir));
+        $namespace = urldecode($namespace);
+    }
+
+    // If the "namespace" is a valid PID, check to see if the object exists.
+    if (is_valid_pid($namespace)) {
+        $url = $cmd['e'] . '/object/' . $namespace;
         $http_status = ping_url($url, $cmd, $log);
         if (is_string($http_status) && $http_status == '200') {
-            $log->addWarning("Object " . $cmd['n'] . " (from " . realpath($dir) . ") already exists, skipping.");
+            // If it does, log it and skip ingesting it.
+            $log->addWarning("Object " . $namespace . " (from " . realpath($dir) . ") already exists, skipping.");
             return;
         }
     }
@@ -127,7 +139,7 @@ function ingest_object($dir, $cmd, $log) {
     try {
         $object_response = $client->request('POST', $cmd['e'] . '/object', [
             'form_params' => [
-                'namespace' => $cmd['n'],
+                'namespace' => $namespace,
                 'owner' => $cmd['o'],
                 'label' => $label,
             ],

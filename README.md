@@ -42,7 +42,31 @@ You may add whatever additional datastream files you want to the object director
 
 If a datastream already exists (for example, a TN created as a derivative), and there is a datastream file in the input directory that would otherwise trigger the ingestion of the datastrea, the datastream's content is updated from the file. The check for the existence of the datastream is logged (HTTP response code 200 if it exists, 404 if it does not).
 
-If the value of `-n` is a full PID, an object with that PID will be created. If an object with that PID already exists, it will be skipped and logged. However, use of a PID here is problematic; see [issue #7](https://github.com/mjordan/islandora_rest_ingester/issues/7).
+### Reusing PIDs
+
+If the value of `-n` is a full (and valid) PID, an object with that PID will be created. If an object with that PID already exists, it will be skipped and logged. However, providing a full PID as the value of `-n` is only useful if your input directory contains a single object directory.
+
+If you omit the `-n` option, the Ingester assumes that each object-level directory encodes the PID it should use when ingesting the object. Directory names should be the same as the PID, e.g. `test:245`. If your PIDs contain characters that may not be safe in filenames (for example, `:` on Windows), you can URL-endcode them (e.g., `test%3A5`); the Ingester will automatically decode them to get the PID.
+
+Changing our examples above so that the object directories encode PIDs would look like this:
+
+
+```
+sampleinput/
+ ├── foo:1
+ │   ├── MODS.xml
+ │   └── OBJ.png
+ ├── bar:1
+ │   ├── MODS.xml
+ │   └── OBJ.jpg
+ ├── empty:1
+ └── baz:1
+    ├── MODS.xml
+    ├── TN.png 
+    └── OJB.jpg
+```
+
+URL-encoding the directory names as `foo%351`, `bar%351`, etc. would be valid as well.
 
 ### Running the script
 
@@ -63,7 +87,7 @@ INPUT_DIR
      Required. PID of the object's content model.
 
 -n/--namespace <argument>
-     Required. Object's namespace. If you provide a full PID, it will be used.
+     Object's namespace. If you provide a full PID, it will be used. If you do not include this option, the ingester assumes that each object-level input directory encodes the object PIDs, and will ingest objects using those PIDs.
 
 -o/--owner <argument>
      Required. Object's owner.
