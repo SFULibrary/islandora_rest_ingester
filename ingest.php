@@ -113,6 +113,16 @@ function ingest_object($dir, $cmd, $log) {
         return;
     }
 
+    // If the user supplied a PID, check to see if the object exists.
+    if (is_valid_pid($cmd['n'])) {
+        $url = $cmd['e'] . '/object/' . $cmd['n'];
+        $http_status = ping_url($url, $cmd, $log);
+        if (is_string($http_status) && $http_status == '200') {
+            $log->addWarning("Object " . $cmd['n'] . " (from " . realpath($dir) . ") already exists, skipping.");
+            return;
+        }
+    }
+
     // Ingest Islandora object.
     try {
         $object_response = $client->request('POST', $cmd['e'] . '/object', [
@@ -141,7 +151,9 @@ function ingest_object($dir, $cmd, $log) {
     $object_response_body_array = json_decode($object_response_body, true);
     $pid = $object_response_body_array['pid'];
 
-    $log->addInfo("Object $pid ingested from " . realpath($dir));
+    $message = "Object $pid ingested from " . realpath($dir);
+    $log->addInfo($message);
+    print $message . "\n";
 
     // Add object's model.
     try {

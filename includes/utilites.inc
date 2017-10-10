@@ -139,3 +139,18 @@ function get_properties_from_foxml($path) {
 
     return $properties;
 }
+
+/**
+ * Checks if the given pid is valid.
+ *
+ * Adapted from the Islandora utilities.inc file.
+ *
+ * @param string $pid
+ *   The object id to check.
+ *
+ * @return bool
+ *   TRUE if valid, FALSE otherwise.
+ */
+function is_valid_pid($pid) {
+  return strlen(trim($pid)) <= 64 && preg_match('/^([A-Za-z0-9]|-|\.)+:(([A-Za-z0-9])|-|\.|~|_|(%[0-9A-F]{2}))+$/', trim($pid));
+}
