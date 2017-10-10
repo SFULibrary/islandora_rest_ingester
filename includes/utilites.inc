@@ -105,7 +105,7 @@ function ping_url($url, $cmd, $log) {
  *
  * @return array
  *   An array with two members, 'object' and 'datastreams':
- *     -'object' contains an array of object properties
+ *     -'object' contains an array of object properties 'PID',
  *      'ownerId', 'label', 'state', 'createdDate', and 'lastModifiedDate'.
  *     -'datastreams' contains an array of arrays, one per datastream.
  *      The datastream ID is the key for each array, which in turn contains
@@ -116,6 +116,11 @@ function get_properties_from_foxml($path) {
     $properties = array();
     $dom = new DOMDocument;
     $dom->load($path);
+
+    $object = $dom->getElementsByTagNameNS("info:fedora/fedora-system:def/foxml#", 'digitalObject');
+    $pid = $object->item(0)->getAttribute("PID");
+    $properties['object']['PID'] = $pid;
+
     $object_properties = $dom->getElementsByTagNameNS("info:fedora/fedora-system:def/foxml#", 'property');
     foreach ($object_properties as $object_property) {
         $name = $object_property->getAttribute("NAME");
