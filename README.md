@@ -42,7 +42,9 @@ You may add whatever additional datastream files you want to the object director
 
 If a datastream already exists (for example, a TN created as a derivative), and there is a datastream file in the input directory that would otherwise trigger the ingestion of the datastrea, the datastream's content is updated from the file. The check for the existence of the datastream is logged (HTTP response code 200 if it exists, 404 if it does not).
 
-### Reusing PIDs
+### Replacing objects by providing PIDs
+
+The Islandora REST interface allows you to provide a full PID when ingesting an object. This means that we can replace/restore objects. This is not an update operation; if an object with the specified PID exists, it must be purged before the PID can be reused.
 
 If the value of `-n` is a full (and valid) PID, an object with that PID will be created. If an object with that PID already exists, it will be skipped and logged. However, providing a full PID as the value of `-n` is only useful if your input directory contains a single object directory.
 
