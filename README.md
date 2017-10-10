@@ -42,7 +42,7 @@ You may add whatever additional datastream files you want to the object director
 
 If a datastream already exists (for example, a TN created as a derivative), and there is a datastream file in the input directory that would otherwise trigger the ingestion of the datastrea, the datastream's content is updated from the file. The check for the existence of the datastream is logged (HTTP response code 200 if it exists, 404 if it does not).
 
-If the value of `-n` is a full PID, an object with that PID will be created. If an object with that PID already exists, it will be skipped and logged. However, use of a PID here is problematic; see #7.
+If the value of `-n` is a full PID, an object with that PID will be created. If an object with that PID already exists, it will be skipped and logged. However, use of a PID here is problematic; see [issue #7](https://github.com/mjordan/islandora_rest_ingester/issues/7).
 
 ### Running the script
 
