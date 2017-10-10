@@ -96,3 +96,46 @@ function ping_url($url, $cmd, $log) {
 
   return (string) $status_code;
 }
+
+/**
+ * Parses object and datastream properties from FOXML.
+ *
+ * @param $path string
+ *   The path to the FOXML file.
+ *
+ * @return array
+ *   An array with two members, 'object' and 'datastreams':
+ *     -'object' contains an array of object properties
+ *      'ownerId', 'label', 'state', 'createdDate', and 'lastModifiedDate'.
+ *     -'datastreams' contains an array of arrays, one per datastream.
+ *      The datastream ID is the key for each array, which in turn contains
+ *      and array of datastream properties 'state', 'control_group', and
+ *      'versionable'.
+ */
+function get_properties_from_foxml($path) {
+    $properties = array();
+    $dom = new DOMDocument;
+    $dom->load($path);
+    $object_properties = $dom->getElementsByTagNameNS("info:fedora/fedora-system:def/foxml#", 'property');
+    foreach ($object_properties as $object_property) {
+        $name = $object_property->getAttribute("NAME");
+        preg_match("/#.*$/", $name, $matches);
+        $short_name = $matches[0];
+        $short_name = ltrim($short_name, '#');
+        $value = $object_property->getAttribute("VALUE");
+        $properties['object'][$short_name] = $value;
+    }
+
+    $datastreams = $dom->getElementsByTagNameNS("info:fedora/fedora-system:def/foxml#", 'datastream');
+    foreach ($datastreams as $datastream) {
+        $id = $datastream->getAttribute("ID");
+        $state = $datastream->getAttribute("STATE");
+        $properties['datastreams'][$id]['state'] = $state;
+        $control_group = $datastream->getAttribute("CONTROL_GROUP");
+        $properties['datastreams'][$id]['control_group'] = $control_group;
+        $versionable = $datastream->getAttribute("VERSIONABLE");
+        $properties['datastreams'][$id]['versionable'] = $versionable;
+    }
+
+    return $properties;
+}
