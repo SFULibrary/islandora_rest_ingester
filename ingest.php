@@ -199,6 +199,9 @@ function ingest_object($dir, $cmd, $log) {
 /**
  * Reads the object-level directory and ingests each file as a datastream.
  *
+ * If the datastream already exists due to derivative generation (e.g., a
+ * TN datastream), its content is updated from the datastream file.
+ *
  * @param $pid string
  *   The PID of the parent object.
  * @param $dir string
@@ -211,30 +214,67 @@ function ingest_object($dir, $cmd, $log) {
 function ingest_datastreams($pid, $dir, $cmd, $log) {
     $client = new GuzzleHttp\Client();
     $files = array_slice(scandir(realpath($dir)), 2);
+
     if (count($files)) {
         foreach ($files as $file) {
             $path_to_file = realpath($dir) . DIRECTORY_SEPARATOR . $file;
             $pathinfo = pathinfo($path_to_file);
             $dsid = $pathinfo['filename'];
 
+            // This is the POST request and multipart form data required
+            // to create a new datastream.
+            $post_request = $cmd['e'] . '/object/' . $pid . '/datastream';
+            $multipart = array( 
+                [
+                    'name' => 'file',
+                    'filename' => $pathinfo['basename'],
+                    'contents' => fopen($path_to_file, 'r'),
+                ],
+                [
+                    'name' => 'dsid',
+                    'contents' => $dsid,
+                ],
+                [
+                    'name' => 'checksumType',
+                    'contents' => $cmd['c'],
+                ],
+            );
+
+            // However, before we create the datastream, check to see if the
+            // datastream already exists, in which case we modify the request
+            // in order to replace the datastream content.
+            $ds_url = $cmd['e'] . '/object/' . $pid . '/datastream/' . $dsid . '?content=false';
+            $http_status = ping_url($ds_url, $cmd, $log);
+            // If the datastream already exists, change the POST values and
+            // URL to update the datastream's content.
+            if (is_string($http_status)) {
+                if ($http_status == '200') {
+                    // This POST value is necessary for replacing the datastream content.
+                    $multipart[] = array(
+                        'name' => 'method',
+                        'contents' => 'PUT',
+                    );
+                    $post_request = $cmd['e'] . '/object/' . $pid . '/datastream/' . $dsid;
+                    $log->addInfo("Ping URL response code for the $dsid datastream was $http_status; will attempt to update datastream content.");
+                }
+                else {
+                    // If the status code was not 200, log it.
+                    $log->addInfo("Ping URL response code for the $dsid datastream was $http_status (404 means it hasn't been created yet).");
+                }
+            }
+            else {
+                // If there was an error getting the status code, move on to
+                // the next file. The exception will be logged from within
+                // ping_url() but we log the response code here.
+                continue;
+            }
+
+            // Now that we have the correct request URL and multipart form
+            // data, attempt to ingest the datastream if it doesn't already
+            // exist, or if it does, update its content.
             try {
-                $request = $cmd['e'] . '/object/' . $pid . '/datastream';
-                $response = $client->request('POST', $request, [
-                    'multipart' => [
-                        [
-                            'name' => 'file',
-                            'filename' => $pathinfo['basename'],
-                            'contents' => fopen($path_to_file, 'r'),
-                        ],
-                        [
-                            'name' => 'dsid',
-                            'contents' => $dsid,
-                        ],
-                        [
-                            'name' => 'checksumType',
-                            'contents' => $cmd['c'],
-                        ],
-                    ],
+                $response = $client->request('POST', $post_request, [
+                   'multipart' => $multipart,
                    'headers' => [
                         'Accept' => 'application/json',
                         'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
@@ -248,7 +288,6 @@ function ingest_datastreams($pid, $dir, $cmd, $log) {
                         $log->addError(Psr7\str($e->getResponse()));
                         print Psr7\str($e->getResponse()) . "\n";
                     }
-                    exit;
                 }
             }
 
@@ -287,4 +326,78 @@ function get_local_checksum($path_to_file, $cmd) {
             $checksum = false;
     }
     return $checksum;
+}
+
+/**
+ * Sends a describe object request to the REST endpoint.
+ *
+ * @param $pid string
+ *   The PID of the parent object.
+ * @param $cmd object
+ *   The Commando Command object.
+ * @param $log object
+ *   The Monolog logger.
+ *
+ * @return array
+ *   The body of the describe request.
+ */
+function describe_object($pid, $cmd, $log) {
+  $client = new GuzzleHttp\Client();
+  try {
+      $response = $client->request('GET', $cmd['e'] . '/object/' .  $pid, [
+         'headers' => [
+              'Accept' => 'application/json',
+              'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+          ]
+      ]);
+  } catch (Exception $e) {
+      if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+          $log->addError(Psr7\str($e->getRequest()));
+          if ($e->hasResponse()) {
+              $log->addError(Psr7\str($e->getResponse()));
+              print Psr7\str($e->getResponse()) . "\n";
+          }
+          exit;
+      }
+  }
+
+  $response_body = $response->getBody();
+  $response_body_array = json_decode($response_body, true);
+  return $response_body_array;
+}
+
+/**
+ * Sends a describe object request to the REST endpoint.
+ *
+ * @param $url string
+ *   The URL to ping.
+ * @param $cmd object
+ *   The Commando Command object.
+ * @param $log object
+ *   The Monolog logger.
+ *
+ * @return string|object
+ *   The returned status code or an exception object if one is encountered.
+ */
+function ping_url($url, $cmd, $log) {
+  $client = new GuzzleHttp\Client(['http_errors' => false]);
+  try {
+      $response = $client->request('GET', $url, [
+         'headers' => [
+              'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+          ]
+      ]);
+      $status_code = $response->getStatusCode();
+  } catch (Exception $e) {
+      if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+          $log->addError(Psr7\str($e->getRequest()));
+          if ($e->hasResponse()) {
+              $log->addError(Psr7\str($e->getResponse()));
+              print Psr7\str($e->getResponse()) . "\n";
+          }
+          return $e;
+      }
+  }
+
+  return (string) $status_code;
 }

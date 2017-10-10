@@ -40,6 +40,8 @@ sampleinput/
 
 You may add whatever additional datastream files you want to the object directories. For example, if you want to pregenerate FITS output for each object, you can add 'TECHMD.xml' and it will be ingested as the TECHMD datastream. Another common use for ingesting pregenerated datastream files is custom thumbnails.
 
+If a datastream already exists (for example, a TN created as a derivative), and there is a datastream file in the input directory that would otherwise trigger the ingestion of the datastrea, the datastream's content is updated from the file. The check for the existence of the datastream is logged (HTTP response code 200 if it exists, 404 if it does not).
+
 ### Running the script
 
 `php ingest [options] INPUT_DIR`
