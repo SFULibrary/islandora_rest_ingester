@@ -72,7 +72,7 @@ URL-encoding the directory names as `foo%3A1`, `bar%3A1`, etc. would be valid as
 
 ### Running the script
 
-`php ingest [options] INPUT_DIR`
+`php ingest.php [options] INPUT_DIR`
 
 For example,
 
