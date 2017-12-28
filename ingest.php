@@ -15,11 +15,6 @@
 
 require_once 'vendor/autoload.php';
 use Monolog\Logger;
-use GuzzleHttp\Psr7;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 
 require_once 'includes/utilites.inc';
 
@@ -82,256 +77,26 @@ $log->pushHandler($log_stream_handler);
 
 $log->addInfo("ingest.php (endpoint " . $cmd['e'] . ") started at ". date("F j, Y, g:i a"));
 
+switch ($cmd['m']) {
+    case 'single':
+        $ingester = new \islandora_rest\ingesters\Single($log, $cmd);
+        break;
+    case 'newspapers':
+        $ingester = new \islandora_rest\ingesters\Newspaper($log, $cmd);
+        break;
+    case 'books':
+        $ingester = new \islandora_rest\ingesters\Book($log, $cmd);
+        break;
+    case 'compound':
+        $ingester = new \islandora_rest\ingesters\Compound($log, $cmd);
+        break;
+    default:
+        exit("Sorry, the content model " . $cmd['m'] . " is not recognized ." . PHP_EOL );
+}
+
 $object_dirs = new FilesystemIterator($cmd[0]);
 foreach($object_dirs as $object_dir) {
-    ingest_object($object_dir->getPathname(), $cmd, $log);
+    $ingester->ingestObject($object_dir->getPathname());
 }
 
 $log->addInfo("ingest.php finished at ". date("F j, Y, g:i a"));
-
-/**
- * Ingests an Islandora object.
- *
- * @param $dir string
- *   Absolute path to the directory containing the object's datastream files.
- * @param $cmd object
- *   The Commando Command object.
- * @param $log object
- *   The Monolog logger.
- */
-function ingest_object($dir, $cmd, $log) {
-    $client = new GuzzleHttp\Client();
-
-    $mods_path = realpath($dir) . DIRECTORY_SEPARATOR . 'MODS.xml';
-    if (file_exists($mods_path)) {
-        $mods_xml = file_get_contents($mods_path);
-        $xml = simplexml_load_string($mods_xml);
-        $label = (string) current($xml->xpath('//mods:title'));
-    }
-    else {
-        $log->addWarning(realpath($dir) . " appears to be empty, skipping.");
-        return;
-    }
-
-    // If no namespace is provided, use input directory names as PIDs.
-    // Here, 'namespace' can be a full PID, as per the Fedora and Islandora
-    // REST APIs.
-    if (strlen($cmd['n'])) {
-        $namespace = $cmd['n'];
-    }
-    else {
-        $namespace = basename(realpath($dir));
-        $namespace = urldecode($namespace);
-    }
-
-    // If the "namespace" is a valid PID, check to see if the object exists.
-    if (is_valid_pid($namespace)) {
-        $url = $cmd['e'] . '/object/' . $namespace;
-        $http_status = ping_url($url, $cmd, $log);
-        if (is_string($http_status) && $http_status == '200') {
-            // If it does, log it and skip ingesting it.
-            $log->addWarning("Object " . $namespace . " (from " . realpath($dir) . ") already exists, skipping.");
-            return;
-        }
-    }
-
-    // Ingest Islandora object.
-    try {
-        $object_response = $client->request('POST', $cmd['e'] . '/object', [
-            'form_params' => [
-                'namespace' => $namespace,
-                'owner' => $cmd['o'],
-                'label' => $label,
-            ],
-           'headers' => [
-                'Accept' => 'application/json',
-                'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
-            ]
-        ]);
-    } catch (Exception $e) {
-        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
-            $log->addError(Psr7\str($e->getRequest()));
-            if ($e->hasResponse()) {
-                $log->addError(Psr7\str($e->getResponse()));
-                print Psr7\str($e->getResponse()) . "\n";
-            }
-            exit;
-        }
-    }
-
-    $object_response_body = $object_response->getBody();
-    $object_response_body_array = json_decode($object_response_body, true);
-    $pid = $object_response_body_array['pid'];
-
-    $message = "Object $pid ingested from " . realpath($dir);
-    $log->addInfo($message);
-    print $message . "\n";
-
-    // Add object's model.
-    try {
-        $model_response = $client->request('POST', $cmd['e'] . '/object/' .
-            $pid . '/relationship', [
-            'form_params' => [
-                'uri' => 'info:fedora/fedora-system:def/model#',
-                'predicate' => 'hasModel',
-                'object' => $cmd['m'],
-                'type' => 'uri',
-            ],
-           'headers' => [
-                'Accept' => 'application/json',
-                'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
-            ]
-        ]);
-    } catch (Exception $e) {
-        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
-            $log->addError(Psr7\str($e->getRequest()));
-            if ($e->hasResponse()) {
-                $log->addError(Psr7\str($e->getResponse()));
-                print Psr7\str($e->getResponse()) . "\n";
-            }
-            exit;
-        }
-    }
-
-    // Add parent relationship.
-    try {
-        $parent_response = $client->request('POST', $cmd['e'] . '/object/' .
-            $pid . '/relationship', [
-            'form_params' => [
-                'uri' => 'info:fedora/fedora-system:def/relations-external#',
-                'predicate' => $cmd['r'],
-                'object' => $cmd['p'],
-                'type' => 'uri',
-            ],
-           'headers' => [
-                'Accept' => 'application/json',
-                'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
-            ]
-        ]);
-    } catch (Exception $e) {
-        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
-            $log->addError(Psr7\str($e->getRequest()));
-            if ($e->hasResponse()) {
-                $log->addError(Psr7\str($e->getResponse()));
-                print Psr7\str($e->getResponse()) . "\n";
-            }
-            exit;
-        }
-    }
-
-    ingest_datastreams($pid, $dir, $cmd, $log);
-}
-
-/**
- * Reads the object-level directory and ingests each file as a datastream.
- *
- * If the datastream already exists due to derivative generation (e.g., a
- * TN datastream), its content is updated from the datastream file.
- *
- * @param $pid string
- *   The PID of the parent object.
- * @param $dir string
- *   Absolute path to the directory containing the object's datastream files.
- * @param $cmd object
- *   The Commando Command object.
- * @param $log object
- *   The Monolog logger.
- */
-function ingest_datastreams($pid, $dir, $cmd, $log) {
-    $client = new GuzzleHttp\Client();
-    $files = array_slice(scandir(realpath($dir)), 2);
-
-    if (count($files)) {
-        foreach ($files as $file) {
-            $path_to_file = realpath($dir) . DIRECTORY_SEPARATOR . $file;
-            $pathinfo = pathinfo($path_to_file);
-            $dsid = $pathinfo['filename'];
-
-            // This is the POST request and multipart form data required
-            // to create a new datastream.
-            $post_request = $cmd['e'] . '/object/' . $pid . '/datastream';
-            $multipart = array( 
-                [
-                    'name' => 'file',
-                    'filename' => $pathinfo['basename'],
-                    'contents' => fopen($path_to_file, 'r'),
-                ],
-                [
-                    'name' => 'dsid',
-                    'contents' => $dsid,
-                ],
-                [
-                    'name' => 'checksumType',
-                    'contents' => $cmd['c'],
-                ],
-            );
-
-            // However, before we create the datastream, check to see if the
-            // datastream already exists, in which case we modify the request
-            // in order to replace the datastream content.
-            $ds_url = $cmd['e'] . '/object/' . $pid . '/datastream/' . $dsid . '?content=false';
-            $http_status = ping_url($ds_url, $cmd, $log);
-            // If the datastream already exists, change the POST values and
-            // URL to update the datastream's content.
-            if (is_string($http_status)) {
-                if ($http_status == '200') {
-                    // This POST value is necessary for replacing the datastream content.
-                    $multipart[] = array(
-                        'name' => 'method',
-                        'contents' => 'PUT',
-                    );
-                    $post_request = $cmd['e'] . '/object/' . $pid . '/datastream/' . $dsid;
-                    $log->addInfo("Ping URL response code for the $dsid datastream was $http_status; will attempt to update datastream content.");
-                }
-                else {
-                    // If the status code was not 200, log it.
-                    if ($http_status == '404') {
-                        $log->addInfo("Ping URL response code for the $dsid datastream was $http_status (this is OK; it means the datastream hasn't been ingested yet).");
-                    }
-                    else {
-                        $log->addInfo("Ping URL response code for the $dsid datastream was $http_status.");
-                    }
-                }
-            }
-            else {
-                // If there was an error getting the status code, move on to
-                // the next file. The exception will be logged from within
-                // ping_url() but we log the response code here.
-                continue;
-            }
-
-            // Now that we have the correct request URL and multipart form
-            // data, attempt to ingest the datastream if it doesn't already
-            // exist, or if it does, update its content.
-            try {
-                $response = $client->request('POST', $post_request, [
-                   'multipart' => $multipart,
-                   'headers' => [
-                        'Accept' => 'application/json',
-                        'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
-                    ]
-                ]);
-                $log->addInfo("Object $pid datastream $dsid ingested from $path_to_file");
-            } catch (Exception $e) {
-                if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
-                    $log->addError(Psr7\str($e->getRequest()));
-                    if ($e->hasResponse()) {
-                        $log->addError(Psr7\str($e->getResponse()));
-                        print Psr7\str($e->getResponse()) . "\n";
-                    }
-                }
-            }
-
-            if ($cmd['c'] != 'none') {
-                $local_checksum = get_local_checksum($path_to_file, $cmd);
-                $response_body = $response->getBody();
-                $response_body_array = json_decode($response_body, true);
-                if ($local_checksum == $response_body_array['checksum']) {
-                    $log->addInfo($cmd['c'] . " checksum for object $pid datastream $dsid verified.");
-                } else {
-                    $log->addWarning($cmd['c'] . " checksum for object $pid datastream $dsid mismatch.");
-                }
-            }
-        }
-    }
-}

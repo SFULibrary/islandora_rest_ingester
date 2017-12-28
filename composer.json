@@ -1,4 +1,7 @@
 {
+    "autoload": {
+        "classmap": ["includes/"]
+    },
     "require": {
         "guzzlehttp/guzzle": "~6.0",
         "nategood/commando": "*",
