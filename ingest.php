@@ -78,17 +78,26 @@ $log->pushHandler($log_stream_handler);
 $log->addInfo("ingest.php (endpoint " . $cmd['e'] . ") started at ". date("F j, Y, g:i a"));
 
 switch ($cmd['m']) {
-    case 'single':
+    case 'islandora:sp_basic_image':
+    case 'islandora:sp_large_image_cmodel':
+    case 'islandora:sp_pdf':
+    case 'islandora:sp-audioCModel':
+    case 'islandora:sp_videoCModel':
+    case 'ir:citationCModel':
+    case 'ir:thesisCModel':
         $ingester = new \islandora_rest\ingesters\Single($log, $cmd);
         break;
-    case 'newspapers':
+    case 'islandora:newspaperIssueCModel':
         $ingester = new \islandora_rest\ingesters\Newspaper($log, $cmd);
         break;
-    case 'books':
+    case 'islandora:bookCModel':
         $ingester = new \islandora_rest\ingesters\Book($log, $cmd);
         break;
-    case 'compound':
+    case 'islandora:compoundCModel':
         $ingester = new \islandora_rest\ingesters\Compound($log, $cmd);
+        break;
+    case 'islandora:collectionCModel':
+        $ingester = new \islandora_rest\ingesters\Collection($log, $cmd);
         break;
     default:
         exit("Sorry, the content model " . $cmd['m'] . " is not recognized ." . PHP_EOL );

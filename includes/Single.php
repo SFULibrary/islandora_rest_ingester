@@ -82,6 +82,22 @@ class Single extends Ingester
         $object_response_body_array = json_decode($object_response_body, true);
         $pid = $object_response_body_array['pid'];
 
+        $cmodel_params = array(
+            'uri' => 'info:fedora/fedora-system:def/model#',
+            'predicate' => 'hasModel',
+            'object' => $this->command['m'],
+            'type' => 'uri',
+        );
+        parent::addRelationship($pid, $cmodel_params);
+
+        $parent_rels_params = array(
+            'uri' => 'info:fedora/fedora-system:def/relations-external#',
+            'predicate' => $this->command['r'],
+            'object' => $this->command['p'],
+            'type' => 'uri',
+        );
+        parent::addRelationship($pid, $parent_rels_params);
+
         $message = "Object $pid ingested from " . realpath($dir);
         $this->log->addInfo($message);
         print $message . "\n";
