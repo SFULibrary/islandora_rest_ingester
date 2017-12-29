@@ -1,6 +1,6 @@
 <?php
 
-namespace islandora_rest\ingesters;
+namespace islandora_rest_client\ingesters;
 
 /**
  *

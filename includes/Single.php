@@ -1,6 +1,6 @@
 <?php
 
-namespace islandora_rest\ingesters;
+namespace islandora_rest_client\ingesters;
 
 /**
  * Islandora REST Single (e.g. basic image, PDF, etc.) ingester class.
@@ -11,7 +11,7 @@ class Single extends Ingester
      * @param object $log
      *    The Monolog logger.
      * @param object $command
-     *    The command used to invoke ingest.php.
+     *    The Commando command used in ingest.php.
      */
     public function __construct($log, $command)
     {
@@ -34,6 +34,24 @@ class Single extends Ingester
         }
 
         $pid = $this->ingestObject($dir, $label);
+
+        $cmodel_params = array(
+            'uri' => 'info:fedora/fedora-system:def/model#',
+            'predicate' => 'hasModel',
+            'object' => $this->command['m'],
+            'type' => 'uri',
+        );
+        $this->addRelationship($pid, $cmodel_params);
+
+        $parent_params = array(
+            'uri' => 'info:fedora/fedora-system:def/relations-external#',
+            'predicate' => $this->command['r'],
+            'object' => $this->command['p'],
+            'type' => 'uri',
+        );
+        $this->addRelationship($pid, $parent_params);
+
+        $this->ingestDatastreams($pid, $dir);
 
         if ($pid) {
             $message = "Object $pid ingested from " . realpath($dir);

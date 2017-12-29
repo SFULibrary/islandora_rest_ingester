@@ -1,6 +1,6 @@
 <?php
 
-namespace islandora_rest\ingesters;
+namespace islandora_rest_client\ingesters;
 
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
@@ -9,7 +9,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 
 /**
- * Base class for Islandora REST Ingesters.
+ * Abstract class for Islandora REST Ingesters.
  */
 abstract class Ingester
 {
@@ -17,7 +17,7 @@ abstract class Ingester
      * @param object $log
      *    The Monolog logger.
      * @param object $command
-     *    The command used to invoke ingest.php.
+     *    The Commando command used in ingest.php.
      */
     public function __construct($log, $command)
     {
@@ -30,8 +30,8 @@ abstract class Ingester
     /**
      * Package the object.
      *
-     * Inspect the object-level input directory and get the
-     * object's title.
+     * Inspect the object-level input directory, get the
+     * object's title, and ingest any children.
      *
      * @param string $object_dir
      *    The absolute path to the object's input directory.
@@ -101,24 +101,6 @@ abstract class Ingester
         $object_response_body_array = json_decode($object_response_body, true);
         $pid = $object_response_body_array['pid'];
 
-        $cmodel_params = array(
-            'uri' => 'info:fedora/fedora-system:def/model#',
-            'predicate' => 'hasModel',
-            'object' => $this->command['m'],
-            'type' => 'uri',
-        );
-        $this->addRelationship($pid, $cmodel_params);
-
-        $parent_params = array(
-            'uri' => 'info:fedora/fedora-system:def/relations-external#',
-            'predicate' => $this->command['r'],
-            'object' => $this->command['p'],
-            'type' => 'uri',
-        );
-        $this->addRelationship($pid, $parent_params);
-
-        $this->ingestDatastreams($pid, $dir);
-
         return $pid;
     }
 
@@ -162,7 +144,7 @@ abstract class Ingester
     }
 
     /**
-     * Reads the object-level directory and ingests each file as a datastream.
+     * Read the object-level directory and ingest each file as a datastream.
      *
      * If the datastream already exists due to derivative generation (e.g., a
      * TN datastream), its content is updated from the datastream file.
@@ -173,10 +155,14 @@ abstract class Ingester
      *   Absolute path to the directory containing the object's datastream files.
      */
     public function ingestDatastreams($pid, $dir) {
+        // First get rid of . and .. directories.
         $files = array_slice(scandir(realpath($dir)), 2);
         if (count($files)) {
             foreach ($files as $file) {
                 $path_to_file = realpath($dir) . DIRECTORY_SEPARATOR . $file;
+                if (!is_file($path_to_file)) {
+                    continue;
+                }
                 $pathinfo = pathinfo($path_to_file);
                 $dsid = $pathinfo['filename'];
                 // This is the POST request and multipart form data required
