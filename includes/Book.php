@@ -64,17 +64,24 @@ class Book extends Ingester
         $page_ingester = new \islandora_rest_client\ingesters\Single($this->log, $this->command);
         $page_dirs = new \FilesystemIterator(realpath($dir));
         foreach($page_dirs as $page_dir) {
+            $page_dir = $page_dir->getPathname();
+
             if (!is_dir($page_dir)) {
                 continue;
             }
-            // Get page/sequence number from directory name, which is numeric.
+
+            // Get page/sequence number from directory name.
             $page_dir_name = pathinfo($page_dir, PATHINFO_FILENAME);
             $page_label = 'Page ' . $page_dir_name;
-            $page_pid = $page_ingester->ingestObject($page_dir->getPathname(), $page_label);
+            $page_pid = $page_ingester->ingestObject($page_dir, $page_label);
 
-            // @todo: If not $page_pid is FALSE, log error and continue.
+            // If $page_pid is FALSE, log error and continue.
+            if (!$page_pid) {
+                $this->log->addError("Page object at " . realpath($page_dir) . " not ingested");
+                continue;
+            }
 
-            $page_ingester->ingestDatastreams($page_pid, $page_dir->getPathname());
+            $page_ingester->ingestDatastreams($page_pid, $page_dir);
 
             $cmodel_params = array(
                 'uri' => 'info:fedora/fedora-system:def/model#',
@@ -104,7 +111,7 @@ class Book extends Ingester
                 'uri' => 'http://islandora.ca/ontology/relsext#',
                 'predicate' => 'isSequenceNumber',
                 'object' => $page_dir_name,
-                'type' => 'literal',
+                'type' => 'none',
             );
             $page_ingester->addRelationship($page_pid, $is_sequence_number_params);
 
@@ -112,7 +119,7 @@ class Book extends Ingester
                 'uri' => 'http://islandora.ca/ontology/relsext#',
                 'predicate' => 'isPageNumber',
                 'object' => $page_dir_name,
-                'type' => 'literal',
+                'type' => 'none',
             );
             $page_ingester->addRelationship($page_pid, $is_page_number_params);
 
@@ -120,12 +127,12 @@ class Book extends Ingester
                 'uri' => 'http://islandora.ca/ontology/relsext#',
                 'predicate' => 'isSection',
                 'object' => '1',
-                'type' => 'literal',
+                'type' => 'none',
             );
             $page_ingester->addRelationship($page_pid, $is_section_params);
 
             if ($page_pid) {
-                $message = "Object $page_pid ingested from " . realpath($page_dir->getPathname());
+                $message = "Object $page_pid ingested from " . realpath($page_dir);
                 $this->log->addInfo($message);
                 print $message . "\n";
             }

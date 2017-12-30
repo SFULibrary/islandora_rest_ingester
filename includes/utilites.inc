@@ -67,7 +67,7 @@ function describe_object($pid, $cmd, $log) {
 }
 
 /**
- * Sends a describe object request to the REST endpoint.
+ * Sends a request to a REST endpoint (e.g. object or datastream).
  *
  * @param $url string
  *   The URL to ping.

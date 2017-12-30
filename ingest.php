@@ -85,6 +85,7 @@ switch ($cmd['m']) {
     case 'islandora:sp_videoCModel':
     case 'ir:citationCModel':
     case 'ir:thesisCModel':
+    case 'islandora:pageCModel':
         $ingester = new \islandora_rest_client\ingesters\Single($log, $cmd);
         break;
     case 'islandora:newspaperIssueCModel':

@@ -144,7 +144,7 @@ abstract class Ingester
     }
 
     /**
-     * Read the object-level directory and ingest each file as a datastream.
+     * Read the object-level directory and ingest each file in it as a datastream.
      *
      * If the datastream already exists due to derivative generation (e.g., a
      * TN datastream), its content is updated from the datastream file.
@@ -183,7 +183,7 @@ abstract class Ingester
                         'contents' => $this->command['c'],
                     ],
                 );
-                // However, before we create the datastream, check to see if the
+                // However, before we create the datastream, we check to see if the
                 // datastream already exists, in which case we modify the request
                 // in order to replace the datastream content.
                 $ds_url = $this->command['e'] . '/object/' . $pid . '/datastream/' . $dsid . '?content=false';
@@ -198,22 +198,22 @@ abstract class Ingester
                             'contents' => 'PUT',
                         );
                         $post_request = $this->command['e'] . '/object/' . $pid . '/datastream/' . $dsid;
-                        $this->log->addInfo("Ping URL response code for the $dsid datastream was $http_status; will attempt to update datastream content.");
+                        $this->log->addInfo("Ping URL response code for object $pid datastream $dsid was $http_status; will attempt to update datastream content.");
                     }
                     else {
                         // If the status code was not 200, log it.
                         if ($http_status == '404') {
-                            $this->log->addInfo("Ping URL response code for the $dsid datastream was $http_status (this is OK; it means the datastream hasn't been ingested yet).");
+                            $this->log->addInfo("Ping URL response code for object $pid datastream $dsid was $http_status (this is OK; it means the datastream hasn't been ingested yet).");
                         }
                         else {
-                            $this->log->addInfo("Ping URL response code for the $dsid datastream was $http_status.");
+                            $this->log->addInfo("Ping URL response code for object $pid datastream $dsid was $http_status.");
                         }
                     }
                 }
                 else {
                     // If there was an error getting the status code, move on to
                     // the next file. The exception will be logged from within
-                    // ping_url() but we log the response code here.
+                    // ping_url().
                     continue;
                 }
                 // Now that we have the correct request URL and multipart form
@@ -227,16 +227,24 @@ abstract class Ingester
                             'X-Authorization-User' => $this->command['u'] . ':' . $this->command['t'],
                         ]
                     ]);
-                    $this->log->addInfo("Object $pid datastream $dsid ingested from $path_to_file");
+                    if ($response->getStatusCode() === 201) {
+                        $this->log->addInfo("Object $pid datastream $dsid ingested from $path_to_file");
+                    }
+                    else {
+                        $this->log->addInfo("Object $pid datastream $dsid not ingested from " .
+                            $path_to_file . "(HTTP response " . $response->getStatusCode() . ")");
+                    }
                 } catch (Exception $e) {
                     if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
-                        $log->addError(Psr7\str($e->getRequest()));
+                        $this->log->addError(Psr7\str($e->getRequest()));
                         if ($e->hasResponse()) {
                             $this->log->addError(Psr7\str($e->getResponse()));
                             continue;
                         }
                     }
                 }
+
+                // Verify checksum of newly created datastream.
                 if ($this->command['c'] != 'none') {
                     $local_checksum = get_local_checksum($path_to_file, $this->command);
                     $response_body = $response->getBody();
@@ -247,6 +255,7 @@ abstract class Ingester
                         $this->log->addWarning($this->command['c'] . " checksum for object $pid datastream $dsid mismatch.");
                     }
                 }
+
             }
         }
     }
