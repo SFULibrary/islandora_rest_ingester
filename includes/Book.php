@@ -23,12 +23,7 @@ class Book extends Ingester
         // is no MODS.xml file in the input directory, move on to the
         // next directory.
         $mods_path = realpath($dir) . DIRECTORY_SEPARATOR . 'MODS.xml';
-        if (file_exists($mods_path)) {
-            $mods_xml = file_get_contents($mods_path);
-            $xml = simplexml_load_string($mods_xml);
-            $label = (string) current($xml->xpath('//mods:title'));
-        }
-        else {
+        if (!$label = get_label_from_mods($mods_path, $this->log)) {
             $this->log->addWarning(realpath($dir) . " appears to be empty, skipping.");
             return;
         }
@@ -71,6 +66,7 @@ class Book extends Ingester
             }
 
             // Get page/sequence number from directory name.
+            // @todo: If there's a MODS file, get the label from it?
             $page_dir_name = pathinfo($page_dir, PATHINFO_FILENAME);
             $page_label = 'Page ' . $page_dir_name;
             $page_pid = $page_ingester->ingestObject($page_dir, $page_label);
@@ -81,8 +77,6 @@ class Book extends Ingester
                 continue;
             }
 
-            $page_ingester->ingestDatastreams($page_pid, $page_dir);
-
             $cmodel_params = array(
                 'uri' => 'info:fedora/fedora-system:def/model#',
                 'predicate' => 'hasModel',
@@ -90,6 +84,10 @@ class Book extends Ingester
                 'type' => 'uri',
             );
             $page_ingester->addRelationship($page_pid, $cmodel_params);
+
+            // ingestDatastreams() must come after the object's content
+            // model is set in order to derivatives to be generated.
+            $page_ingester->ingestDatastreams($page_pid, $page_dir);
 
             $parent_params = array(
                 'uri' => 'info:fedora/fedora-system:def/relations-external#',
@@ -138,5 +136,7 @@ class Book extends Ingester
             }
         }
 
+        // @todo: Get the first page's TN and push it up to replace
+        // the book's TN.
     }
 }

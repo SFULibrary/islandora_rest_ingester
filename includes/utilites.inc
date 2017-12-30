@@ -103,6 +103,40 @@ function ping_url($url, $cmd, $log) {
 }
 
 /**
+ * Parses a MODS document to get a label.
+ *
+ * @param $path string
+ *   The absolute path to the MODS XML file.
+ * @param $log object
+ *   The Monolog logger.
+ *
+ * @return string|bool
+ *   The label, or false if one cannot be parsed.
+ */
+function get_label_from_mods($path, $log) {
+    if (file_exists($path)) {
+        $dom = new DOMDocument();
+        $dom->load($path);
+        $xpath = new DOMXPath($dom);
+        $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+        $titles = $xpath->query('//mods:titleInfo/mods:title');
+        if ($titles->length > 0) {
+          $label = $titles->item(0)->nodeValue;
+          return $label;
+        }
+        else {
+            $log->addWarning("Cannot parse label from MODS file at $path");
+            return false;
+        }
+    }
+    else {
+        $log->addWarning("Cannot get label from MODS file at " .
+            "$path since file does not exist.");
+        return false;
+    }
+}
+
+/**
  * Parses object and datastream properties from FOXML.
  *
  * @param $path string
@@ -163,4 +197,43 @@ function get_properties_from_foxml($path) {
  */
 function is_valid_pid($pid) {
   return strlen(trim($pid)) <= 64 && preg_match('/^([A-Za-z0-9]|-|\.)+:(([A-Za-z0-9])|-|\.|~|_|(%[0-9A-F]{2}))+$/', trim($pid));
+}
+
+/**
+ * Determines content model based on file extension.
+ *
+ * @param string $extension
+ *   The file extension to look up.
+ *
+ * @return string
+ *   The corresponding content model.
+ */
+function get_cmodel_from_extension($extension) {
+    $cmodels = array(
+      'jpeg' => 'islandora:sp_basic_image',
+      'jpg' => 'islandora:sp_basic_image',
+      'gif' => 'islandora:sp_basic_image',
+      'png' => 'islandora:sp_basic_image',
+      'tif' => 'islandora:sp_large_image_cmodel',
+      'tiff' => 'islandora:sp_large_image_cmodel',
+      'jp2' => 'islandora:sp_large_image_cmodel',
+      'pdf' => 'islandora:sp_pdf',
+      'mp3' => 'islandora:sp-audioCModel',
+      'mp4a' => 'islandora:sp-audioCModel',
+      'm4a' => 'islandora:sp-audioCModel',
+      'oga' => 'islandora:sp-audioCModel',
+      'ogg' => 'islandora:sp-audioCModel',
+      'flac' => 'islandora:sp-audioCModel',
+      'wav' => 'islandora:sp-audioCModel',
+      'mp4' => 'islandora:sp_videoCModel',
+      'm4v'  => 'islandora:sp_videoCModel',
+      'mkv'  => 'islandora:sp_videoCModel',
+      'mpeg' => 'islandora:sp_videoCModel',
+      'mpe' => 'islandora:sp_videoCModel',
+      'mpg' => 'islandora:sp_videoCModel',
+      'qt' => 'islandora:sp_videoCModel',
+      'mov' => 'islandora:sp_videoCModel',
+      'ogv' => 'islandora:sp_videoCModel',
+    );
+    return $cmodels[$extension];
 }

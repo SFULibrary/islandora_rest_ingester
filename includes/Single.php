@@ -3,7 +3,7 @@
 namespace islandora_rest_client\ingesters;
 
 /**
- * Islandora REST Single (e.g. basic image, PDF, etc.) ingester class.
+ * Islandora REST Ingester Single (e.g. basic image, PDF, etc.) class.
  */
 class Single extends Ingester
 {
@@ -23,12 +23,7 @@ class Single extends Ingester
         // no MODS.xml file in the input directory, move on to the
         // next directory.
         $mods_path = realpath($dir) . DIRECTORY_SEPARATOR . 'MODS.xml';
-        if (file_exists($mods_path)) {
-            $mods_xml = file_get_contents($mods_path);
-            $xml = simplexml_load_string($mods_xml);
-            $label = (string) current($xml->xpath('//mods:title'));
-        }
-        else {
+        if (!$label = get_label_from_mods($mods_path, $this->log)) {
             $this->log->addWarning(realpath($dir) . " appears to be empty, skipping.");
             return;
         }
