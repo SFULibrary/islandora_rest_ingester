@@ -56,6 +56,7 @@ class Compound extends Ingester
         }
 
         // Get the child object directories and ingest each child.
+        $child_pids = array();
         $child_ingester = new \islandora_rest_client\ingesters\Single($this->log, $this->command);
         $child_dirs = new \FilesystemIterator(realpath($dir));
         foreach($child_dirs as $child_dir) {
@@ -72,11 +73,14 @@ class Compound extends Ingester
             $child_label = get_label_from_mods($child_mods_path, $this->log);
             $child_pid = $child_ingester->ingestObject($child_dir, $child_label);
 
-            // If $child_pid is FALSE, log error and continue.
+            // If $child_pid is FALSE, log error and move on to next object.
             if (!$child_pid) {
                 $this->log->addError("Child object at " . realpath($child_dir) . " not ingested");
                 continue;
             }
+
+            // Keep track of child PIDS so we can get the first one's TN later.
+            array_push($child_pids, $child_pid);
 
             $obj_files = glob($child_dir . DIRECTORY_SEPARATOR . 'OBJ.*');
             $obj_file_path = $child_dir . DIRECTORY_SEPARATOR . $obj_files[0];
@@ -119,7 +123,11 @@ class Compound extends Ingester
             }
         }
 
-        // @todo: Get the first child's TN and push it up to replace
-        // the parent's TN.
+        // Get the first child's TN and push it up to replace the parent's TN.
+        $uri_safe_first_child_pid = preg_replace('/:/', '_', $child_pids[0]);
+        $ds_content_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR .
+            $uri_safe_first_child_pid . '_' . $dsid . '.' . $extensions[0]; // <- where?
+        // download_datastream_content($child_pids[0], 'TN', $cmd, $log)
+        // replace_datastream_content($child_pids[0], 'TN', $path_to_file, $cmd, $log)
     }
 }

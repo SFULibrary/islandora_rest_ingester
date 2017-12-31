@@ -57,7 +57,7 @@ function describe_object($pid, $cmd, $log) {
               $log->addError(Psr7\str($e->getResponse()));
               print Psr7\str($e->getResponse()) . "\n";
           }
-          exit;
+          return;
       }
   }
 
@@ -68,6 +68,9 @@ function describe_object($pid, $cmd, $log) {
 
 /**
  * Sends a request to a REST endpoint (e.g. object or datastream).
+ *
+ * Useful for determining if an object or datastream exists (200)
+ * or not (404).
  *
  * @param $url string
  *   The URL to ping.
@@ -103,7 +106,122 @@ function ping_url($url, $cmd, $log) {
 }
 
 /**
- * Parses a MODS document to get a label.
+ * Downloads a datastream's content and save it.
+ *
+ * @param $pid string
+ *   The PID of the object the datastream is part of.
+  * @param $dsid string
+ *   The DSID of the datastream.
+ * @param $cmd object
+ *   The Commando Command object.
+ * @param $log object
+ *   The Monolog logger.
+ *
+ * @return string|bool
+ *   The file path to the downloaded content or false if there was an error.
+ */
+function download_datastream_content($pid, $dsid, $cmd, $log) {
+    $ds_url = $cmd['e'] . '/object/' . $pid . '/datastream/' . $dsid . '?content=true';
+    $client = new GuzzleHttp\Client(['http_errors' => false]);
+    try {
+        $response = $client->request('GET', $ds_url, [
+           'headers' => [
+                'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+            ]
+        ]);
+        $status_code = $response->getStatusCode();
+    } catch (Exception $e) {
+        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+            $log->addError(Psr7\str($e->getRequest()));
+            if ($e->hasResponse()) {
+                $log->addError(Psr7\str($e->getResponse()));
+            }
+            return false;
+        }
+    }
+
+    // Get content type from header, and get corresponding extension.
+    $mimes = new \Mimey\MimeTypes;
+    $content_type = $response->getHeader('content-type');
+    $extensions = $mimes->getAllExtensions($content_type[0]);
+    $uri_safe_pid = preg_replace('/:/', '_', $pid);
+    $ds_content_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $uri_safe_pid .
+        '_' . $dsid . '.' . $extensions[0];
+    if (file_put_contents($ds_content_path, $response->getBody())) {
+      print "Writing TN for $pid / $dsid to $ds_content_path\n";
+      return $ds_content_path;
+    }
+    else {
+      $log->addWarning("Cannot save datastream content for object $pid datastream $dsid at $ds_content_path");
+      return false;
+    }
+}
+
+/**
+ * Replaces a datastream's content from a local file.
+ *
+ * @param $pid string
+ *   The PID of the object the datastream is part of.
+ * @param $dsid string
+ *   The DSID of the datastream.
+ * @param $path_to_file string
+ *   The absolute path to the datastream replacement file.
+ * @param $cmd object
+ *   The Commando Command object.
+ * @param $log object
+ *   The Monolog logger.
+ *
+ * @return bool
+ *   True if successful (HTTP 200) or false if not.
+ */
+function replace_datastream_content($pid, $dsid, $path_to_file, $cmd, $log) {
+      $client = new GuzzleHttp\Client(['http_errors' => false]);
+      $pathinfo = pathinfo($path_to_file);
+      $multipart = array(
+          [
+              'name' => 'file',
+              'filename' => $pathinfo['basename'],
+              'contents' => fopen($path_to_file, 'r'),
+          ],
+          [
+              'name' => 'dsid',
+              'contents' => $dsid,
+          ],
+          [
+               'name' => 'method',
+               'contents' => 'PUT',
+          ]
+      );
+      $post_request = $cmd['e'] . '/object/' . $pid . '/datastream/' . $dsid;
+      try {
+          $response = $this->client->request('POST', $post_request, [
+             'multipart' => $multipart,
+             'headers' => [
+                  'Accept' => 'application/json',
+                  'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+              ]
+          ]);
+          if ($response->getStatusCode() === 200) {
+              $log->addInfo("Object $pid datastream $dsid updated from $path_to_file");
+              return true;
+          }
+          else {
+              $log->addWarning("Object $pid datastream $dsid not updated from " .
+                  $path_to_file . "(HTTP response " . $response->getStatusCode() . ")");
+          }
+      } catch (Exception $e) {
+          if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+              $log->addError(Psr7\str($e->getRequest()));
+              if ($e->hasResponse()) {
+                  $log->addError(Psr7\str($e->getResponse()));
+                  return false;
+              }
+          }
+      }
+}
+
+/**
+ * Parses a MODS document to get an object's label.
  *
  * @param $path string
  *   The absolute path to the MODS XML file.

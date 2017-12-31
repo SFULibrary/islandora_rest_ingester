@@ -5,6 +5,7 @@
     "require": {
         "guzzlehttp/guzzle": "~6.0",
         "nategood/commando": "*",
+        "ralouphie/mimey": "*",
         "monolog/monolog": "~1.13"
     }
 }
