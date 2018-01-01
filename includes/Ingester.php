@@ -153,18 +153,37 @@ abstract class Ingester
      *   The PID of the parent object.
      * @param $dir string
      *   Absolute path to the directory containing the object's datastream files.
+     * @param $dsid string
+     *   The DSID of the datastream. If present, only it will be ingested (i.e.,
+     *   no scanning of $dir takes place).
+     * @param $dsid_path string
+     *   The absolute path to the datastream file. If present, and if $dsid present,
+     *   only it will be ingested (i.e., no scanning of $dir takes place).
      */
-    public function ingestDatastreams($pid, $dir) {
-        // First get rid of . and .. directories.
-        $files = array_slice(scandir(realpath($dir)), 2);
+    public function ingestDatastreams($pid, $dir, $dsid = NULL, $dsid_path = NULL) {
+        if ($dsid && $dsid_path) {
+            $files = array($dsid_path);
+        }
+        else {
+            // Get rid of . and .. directories.
+            $files = array_slice(scandir(realpath($dir)), 2);
+        }
         if (count($files)) {
             foreach ($files as $file) {
-                $path_to_file = realpath($dir) . DIRECTORY_SEPARATOR . $file;
+                if ($dsid && $dsid_path) {
+                    $path_to_file = $dsid_path;
+                    $pathinfo = pathinfo($path_to_file);
+                }
+                else {
+                    $path_to_file = realpath($dir) . DIRECTORY_SEPARATOR . $file;
+                    $pathinfo = pathinfo($path_to_file);
+                    $dsid = $pathinfo['filename'];
+                }
+
                 if (!is_file($path_to_file)) {
                     continue;
                 }
-                $pathinfo = pathinfo($path_to_file);
-                $dsid = $pathinfo['filename'];
+
                 // This is the POST request and multipart form data required
                 // to create a new datastream.
                 $post_request = $this->command['e'] . '/object/' . $pid . '/datastream';

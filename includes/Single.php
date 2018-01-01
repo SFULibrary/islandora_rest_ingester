@@ -51,7 +51,6 @@ class Single extends Ingester
         $this->ingestDatastreams($pid, $dir);
 
         $tn_path = download_datastream_content($pid, 'TN', $this->command, $this->log);
-        print "TN for $pid saved at $tn_path\n";
 
         if ($pid) {
             $message = "Object $pid ingested from " . realpath($dir);

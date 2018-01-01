@@ -18,7 +18,8 @@ class Compound extends Ingester
         parent::__construct($log, $command);
     }
 
-    public function packageObject($dir) {
+    public function packageObject($dir)
+    {
         // Get the compound object's label from the MODS.xml file. If there
         // is no MODS.xml file in the input directory, move on to the
         // next directory.
@@ -123,11 +124,13 @@ class Compound extends Ingester
             }
         }
 
-        // Get the first child's TN and push it up to replace the parent's TN.
-        $uri_safe_first_child_pid = preg_replace('/:/', '_', $child_pids[0]);
-        $ds_content_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR .
-            $uri_safe_first_child_pid . '_' . $dsid . '.' . $extensions[0]; // <- where?
-        // download_datastream_content($child_pids[0], 'TN', $cmd, $log)
-        // replace_datastream_content($child_pids[0], 'TN', $path_to_file, $cmd, $log)
+        // Give the parent compound object the TN from its first child.
+        if ($path_to_tn_file = download_datastream_content($child_pids[0], 'TN', $this->command, $this->log)) {
+            $this->ingestDatastreams($cpd_pid, $dir, 'TN', $path_to_tn_file);
+            unlink($path_to_tn_file);
+        }
+        else {
+            $this->log->addWarning("TN for compound object $cpd_pid not replaced with TN for first child");
+        }
     }
 }
