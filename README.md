@@ -100,7 +100,7 @@ input/
 
 #### Newspaper issues
 
-Newspaper issues are arranged the same way as books. Each issue should be in its own directory, and within that directory, each page should be in its own subdirectory. The sequence of the pages within the book (and the labels of page objects) is determined by the numbering of the page subdirectories:
+Newspaper issues are arranged the same way as books. Each issue should be in its own directory, and within that directory, each page should be in its own subdirectory. The sequence of the pages within the issue (and the labels of page objects) is determined by the numbering of the page subdirectories:
 
 ```
 input/
@@ -204,6 +204,7 @@ Please note:
 
 * when ingesting compound objects, the value of the `--cmodel` option should be "islandora:compoundCModel". Content models for child elements are assigned automatically based on the OBJ datastream file's extension.
 * when ingesting books, the value of the `--cmodel` option should be "islandora:bookCModel".
+* when ingesting newspaper issues, the value of the `--cmodel` option should be "islandora:newspaperIssueCModel", and the value of the `--parent` option should be the PID of the newspaper object.
 
 ### The log file
 
