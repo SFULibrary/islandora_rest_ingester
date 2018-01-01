@@ -21,7 +21,11 @@ Script to ingest simple Islandora objects using Islandora's REST interface.
 
 ### Preparing content for ingestion
 
-Currently, this tool only ingests single-file Islandora objects (basic and large image, PDF, video, etc.). To prepare your content for ingesting, within the input directory, create subdirectories for each object. Within each, put a MODS.xml file and the file intended to be the OBJ datastream. This file should be named 'OBJ' and have whichever extension is appropriate for its content. Subdirectories that do not contain a MODS.xml file are skipped:
+Currently, this tool ingests single-file Islandora objects (basic and large image, PDF, video, etc.), compound objects, and book objects.
+
+#### Single-file objects
+
+To prepare your content for ingesting, within the input directory, create subdirectories for each object. Within each, put a MODS.xml file and the file intended to be the OBJ datastream. This file should be named 'OBJ' and have whichever extension is appropriate for its content. Subdirectories that do not contain a MODS.xml file are skipped:
 
 ```
 sampleinput/
@@ -34,13 +38,65 @@ sampleinput/
  ├── empty
  └── baz
     ├── MODS.xml
-    ├── TN.png 
+    ├── TN.png
     └── OJB.jpg
 ```
 
 You may add whatever additional datastream files you want to the object directories. For example, if you want to pregenerate FITS output for each object, you can add 'TECHMD.xml' and it will be ingested as the TECHMD datastream. Another common use for ingesting pregenerated datastream files is custom thumbnails.
 
 If a datastream already exists (for example, a TN created as a derivative), and there is a datastream file in the input directory that would otherwise trigger the ingestion of the datastrea, the datastream's content is updated from the file. The check for the existence of the datastream is logged (HTTP response code 200 if it exists, 404 if it does not).
+
+#### Compound objects
+
+For compound objects, each parent object should be in its own directory, and within that directory, each child should be in its own subdirectory. The sequence of the children within the compound is determined by the numbering of the child subdirectories:
+
+```
+input/
+├── foo
+│   ├── 1
+│   │   ├── MODS.xml
+│   │   └── OBJ.jpg
+│   ├── 2
+│   │   ├── MODS.xml
+│   │   └── OBJ.jpg
+│   └── MODS.xml
+└── bar
+    ├── 1
+    │   ├── MODS.xml
+    │   └── OBJ.tif
+    ├── 2
+    │   ├── MODS.xml
+    │   └── OBJ.tif
+    └── MODS.xml
+```
+
+#### Book objects
+
+Each book object should be in its own directory, and within that directory, each page should be in its own subdirectory. The sequence of the pages within the book is determined by the numbering of the page subdirectories:
+
+```
+input/
+├── foo
+│   ├── 1
+│   │   └── OBJ.tiff
+│   ├── 2
+│   │   └── OBJ.tiff
+│   ├── 3
+│   │   └── OBJ.tiff
+│   ├── 4
+│   │   └── OBJ.tiff
+│   └── MODS.xml
+└── bar
+    ├── 1
+    │   └── OBJ.tiff
+    ├── 2
+    │   └── OBJ.tiff
+    ├── 3
+    │   └── OBJ.tiff
+    ├── 4
+    │   └── OBJ.tiff
+    └── MODS.xml
+```
 
 ### Replacing objects by providing PIDs
 
@@ -64,7 +120,7 @@ sampleinput/
  ├── empty:1
  └── baz:1
     ├── MODS.xml
-    ├── TN.png 
+    ├── TN.png
     └── OJB.jpg
 ```
 
@@ -121,19 +177,19 @@ INPUT_DIR
 The log file records when the Islandora REST Ingester was run, what objects and datastreams it ingested, and checksum verifications (if checksums were enabled on datastreams). It also records any empty directories it encounters and exceptions thown during REST requests:
 
 ```
-[2017-07-17 07:12:35] Ingest via REST.INFO: ingest.php (endpoint http://localhost:8000/islandora/rest/v1) started at July 17, 2017, 7:12 am [] []
-[2017-07-17 07:12:35] Ingest via REST.WARNING: /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/bar appears to be empty, skipping. [] []
-[2017-07-17 07:12:35] Ingest via REST.INFO: Object rest:172 ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz [] []
-[2017-07-17 07:12:36] Ingest via REST.INFO: Object rest:172 datastream MODS ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz/MODS.xml [] []
-[2017-07-17 07:12:36] Ingest via REST.INFO: SHA-1 checksum for object rest:172 datastream MODS verified. [] []
-[2017-07-17 07:13:37] Ingest via REST.INFO: Object rest:172 datastream OBJ ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz/OBJ.png [] []
-[2017-07-17 07:13:37] Ingest via REST.INFO: SHA-1 checksum for object rest:172 datastream OBJ verified. [] []
-[2017-07-17 07:13:38] Ingest via REST.INFO: Object rest:173 ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo [] []
-[2017-07-17 07:13:38] Ingest via REST.INFO: Object rest:173 datastream MODS ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo/MODS.xml [] []
-[2017-07-17 07:13:38] Ingest via REST.INFO: SHA-1 checksum for object rest:173 datastream MODS verified. [] []
-[2017-07-17 07:13:48] Ingest via REST.INFO: Object rest:173 datastream OBJ ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo/OBJ.jpg [] []
-[2017-07-17 07:13:48] Ingest via REST.INFO: SHA-1 checksum for object rest:173 datastream OBJ verified. [] []
-[2017-07-17 07:13:48] Ingest via REST.INFO: ingest.php finished at July 17, 2017, 7:13 am [] []
+[2017-07-17 07:12:35] Islandora REST Ingester.INFO: ingest.php (endpoint http://localhost:8000/islandora/rest/v1) started at July 17, 2017, 7:12 am [] []
+[2017-07-17 07:12:35] Islandora REST Ingester.WARNING: /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/bar appears to be empty, skipping. [] []
+[2017-07-17 07:12:35] Islandora REST Ingester.INFO: Object rest:172 ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz [] []
+[2017-07-17 07:12:36] Islandora REST Ingester.INFO: Object rest:172 datastream MODS ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz/MODS.xml [] []
+[2017-07-17 07:12:36] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:172 datastream MODS verified. [] []
+[2017-07-17 07:13:37] Islandora REST Ingester.INFO: Object rest:172 datastream OBJ ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz/OBJ.png [] []
+[2017-07-17 07:13:37] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:172 datastream OBJ verified. [] []
+[2017-07-17 07:13:38] Islandora REST Ingester.INFO: Object rest:173 ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo [] []
+[2017-07-17 07:13:38] Islandora REST Ingester.INFO: Object rest:173 datastream MODS ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo/MODS.xml [] []
+[2017-07-17 07:13:38] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:173 datastream MODS verified. [] []
+[2017-07-17 07:13:48] Islandora REST Ingester.INFO: Object rest:173 datastream OBJ ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo/OBJ.jpg [] []
+[2017-07-17 07:13:48] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:173 datastream OBJ verified. [] []
+[2017-07-17 07:13:48] Islandora REST Ingester.INFO: ingest.php finished at July 17, 2017, 7:13 am [] []
 ```
 
 You can specify the location of the log file with the `-l` option.
@@ -144,7 +200,10 @@ You can specify the location of the log file with the `-l` option.
 
 ## Development and feedback
 
-Bug reports, use cases and suggestions are welcome. If you want to open a pull request, please open an issue first.
+* If you discover a bug, or have a use case not documented here, open an issue.
+* If you want to open a pull request, open an issue first.
+  * Check code style with `./vendor/bin/phpcs --standard=PSR2 src
+  * Use the pull request template.
 
 ## License
 
