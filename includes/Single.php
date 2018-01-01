@@ -18,7 +18,8 @@ class Single extends Ingester
         parent::__construct($log, $command);
     }
 
-    public function packageObject($dir) {
+    public function packageObject($dir)
+    {
         // Get the object's label from the MODS.xml file. If there is
         // no MODS.xml file in the input directory, move on to the
         // next directory.
@@ -49,8 +50,6 @@ class Single extends Ingester
         // ingestDatastreams() must come after the object's content
         // model is set in order to derivatives to be generated.
         $this->ingestDatastreams($pid, $dir);
-
-        $tn_path = download_datastream_content($pid, 'TN', $this->command, $this->log);
 
         if ($pid) {
             $message = "Object $pid ingested from " . realpath($dir);

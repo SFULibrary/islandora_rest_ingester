@@ -5,6 +5,12 @@
  * Utilities for the Islandora REST Ingester.
  */
 
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
+
 /**
  * Generates a checksum for comparison to the one reported by Islandora.
  *
@@ -16,7 +22,8 @@
  * @return string|bool
  *   The checksum value, false if no checksum type is specified.
  */
-function get_local_checksum($path_to_file, $cmd) {
+function get_local_checksum($path_to_file, $cmd)
+{
     switch ($cmd['c']) {
         case 'SHA-1':
             $checksum = sha1_file($path_to_file);
@@ -41,29 +48,30 @@ function get_local_checksum($path_to_file, $cmd) {
  * @return array
  *   The body of the describe request.
  */
-function describe_object($pid, $cmd, $log) {
-  $client = new GuzzleHttp\Client();
-  try {
-      $response = $client->request('GET', $cmd['e'] . '/object/' .  $pid, [
-         'headers' => [
-              'Accept' => 'application/json',
-              'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
-          ]
-      ]);
-  } catch (Exception $e) {
-      if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
-          $log->addError(Psr7\str($e->getRequest()));
-          if ($e->hasResponse()) {
-              $log->addError(Psr7\str($e->getResponse()));
-              print Psr7\str($e->getResponse()) . "\n";
-          }
-          return;
-      }
-  }
+function describe_object($pid, $cmd, $log)
+{
+    $client = new GuzzleHttp\Client();
+    try {
+        $response = $client->request('GET', $cmd['e'] . '/object/' .  $pid, [
+           'headers' => [
+                'Accept' => 'application/json',
+                'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+            ]
+        ]);
+    } catch (Exception $e) {
+        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException) {
+            $log->addError(Psr7\str($e->getRequest()));
+            if ($e->hasResponse()) {
+                $log->addError(Psr7\str($e->getResponse()));
+                print Psr7\str($e->getResponse()) . "\n";
+            }
+            return;
+        }
+    }
 
-  $response_body = $response->getBody();
-  $response_body_array = json_decode($response_body, true);
-  return $response_body_array;
+    $response_body = $response->getBody();
+    $response_body_array = json_decode($response_body, true);
+    return $response_body_array;
 }
 
 /**
@@ -82,27 +90,28 @@ function describe_object($pid, $cmd, $log) {
  * @return string|object
  *   The returned status code or an exception object if one is encountered.
  */
-function ping_url($url, $cmd, $log) {
-  $client = new GuzzleHttp\Client(['http_errors' => false]);
-  try {
-      $response = $client->request('GET', $url, [
-         'headers' => [
-              'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
-          ]
-      ]);
-      $status_code = $response->getStatusCode();
-  } catch (Exception $e) {
-      if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
-          $log->addError(Psr7\str($e->getRequest()));
-          if ($e->hasResponse()) {
-              $log->addError(Psr7\str($e->getResponse()));
-              print Psr7\str($e->getResponse()) . "\n";
-          }
-          return $e;
-      }
-  }
+function ping_url($url, $cmd, $log)
+{
+    $client = new GuzzleHttp\Client(['http_errors' => false]);
+    try {
+        $response = $client->request('GET', $url, [
+           'headers' => [
+                'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+            ]
+        ]);
+        $status_code = $response->getStatusCode();
+    } catch (Exception $e) {
+        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException) {
+            $log->addError(Psr7\str($e->getRequest()));
+            if ($e->hasResponse()) {
+                $log->addError(Psr7\str($e->getResponse()));
+                print Psr7\str($e->getResponse()) . "\n";
+            }
+            return $e;
+        }
+    }
 
-  return (string) $status_code;
+    return (string) $status_code;
 }
 
 /**
@@ -120,7 +129,8 @@ function ping_url($url, $cmd, $log) {
  * @return string|bool
  *   The file path to the downloaded content or false if there was an error.
  */
-function download_datastream_content($pid, $dsid, $cmd, $log) {
+function download_datastream_content($pid, $dsid, $cmd, $log)
+{
     $ds_url = $cmd['e'] . '/object/' . $pid . '/datastream/' . $dsid . '?content=true';
     $client = new GuzzleHttp\Client(['http_errors' => false]);
     try {
@@ -131,7 +141,7 @@ function download_datastream_content($pid, $dsid, $cmd, $log) {
         ]);
         $status_code = $response->getStatusCode();
     } catch (Exception $e) {
-        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException) {
             $log->addError(Psr7\str($e->getRequest()));
             if ($e->hasResponse()) {
                 $log->addError(Psr7\str($e->getResponse()));
@@ -154,11 +164,10 @@ function download_datastream_content($pid, $dsid, $cmd, $log) {
     $ds_content_path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $uri_safe_pid .
         '_' . $dsid . '.' . $extensions[0];
     if (file_put_contents($ds_content_path, $response->getBody())) {
-      return $ds_content_path;
-    }
-    else {
-      $log->addWarning("Cannot save datastream content for object $pid datastream $dsid at $ds_content_path");
-      return false;
+        return $ds_content_path;
+    } else {
+        $log->addWarning("Cannot save datastream content for object $pid datastream $dsid at $ds_content_path");
+        return false;
     }
 }
 
@@ -173,7 +182,8 @@ function download_datastream_content($pid, $dsid, $cmd, $log) {
  * @return string|bool
  *   The label, or false if one cannot be parsed.
  */
-function get_label_from_mods($path, $log) {
+function get_label_from_mods($path, $log)
+{
     if (file_exists($path)) {
         $dom = new DOMDocument();
         $dom->load($path);
@@ -181,15 +191,13 @@ function get_label_from_mods($path, $log) {
         $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
         $titles = $xpath->query('//mods:titleInfo/mods:title');
         if ($titles->length > 0) {
-          $label = $titles->item(0)->nodeValue;
-          return $label;
-        }
-        else {
+            $label = $titles->item(0)->nodeValue;
+            return $label;
+        } else {
             $log->addWarning("Cannot parse label from MODS file at $path");
             return false;
         }
-    }
-    else {
+    } else {
         $log->addWarning("Cannot get label from MODS file at " .
             "$path since file does not exist.");
         return false;
@@ -211,7 +219,8 @@ function get_label_from_mods($path, $log) {
  *      and array of datastream properties 'state', 'control_group', and
  *      'versionable'.
  */
-function get_properties_from_foxml($path) {
+function get_properties_from_foxml($path)
+{
     $properties = array();
     $dom = new DOMDocument;
     $dom->load($path);
@@ -255,8 +264,10 @@ function get_properties_from_foxml($path) {
  * @return bool
  *   TRUE if valid, FALSE otherwise.
  */
-function is_valid_pid($pid) {
-  return strlen(trim($pid)) <= 64 && preg_match('/^([A-Za-z0-9]|-|\.)+:(([A-Za-z0-9])|-|\.|~|_|(%[0-9A-F]{2}))+$/', trim($pid));
+function is_valid_pid($pid)
+{
+    return strlen(trim($pid)) <= 64 &&
+        preg_match('/^([A-Za-z0-9]|-|\.)+:(([A-Za-z0-9])|-|\.|~|_|(%[0-9A-F]{2}))+$/', trim($pid));
 }
 
 /**
@@ -268,7 +279,8 @@ function is_valid_pid($pid) {
  * @return string
  *   The corresponding content model.
  */
-function get_cmodel_from_extension($extension) {
+function get_cmodel_from_extension($extension)
+{
     $cmodels = array(
       'jpeg' => 'islandora:sp_basic_image',
       'jpg' => 'islandora:sp_basic_image',

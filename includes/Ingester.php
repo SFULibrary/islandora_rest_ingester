@@ -56,8 +56,7 @@ abstract class Ingester
         // REST APIs.
         if (strlen($this->command['n'])) {
             $namespace = $this->command['n'];
-        }
-        else {
+        } else {
             $namespace = basename(realpath($dir));
             $namespace = urldecode($namespace);
         }
@@ -68,8 +67,9 @@ abstract class Ingester
             $http_status = ping_url($url, $this->command, $this->log);
             if (is_string($http_status) && $http_status == '200') {
                 // If it does, log it and skip ingesting it.
-                $this->log->addWarning("Object " . $namespace . " (from " . realpath($dir) . ") already exists, skipping.");
-                return FALSE;
+                $this->log->addWarning("Object " . $namespace . " (from " . realpath($dir) .
+                    ") already exists, skipping.");
+                return false;
             }
         }
 
@@ -81,13 +81,13 @@ abstract class Ingester
                     'owner' => $this->command['o'],
                     'label' => $label,
                 ],
-               'headers' => [
+                'headers' => [
                     'Accept' => 'application/json',
                     'X-Authorization-User' => $this->command['u'] . ':' . $this->command['t'],
                 ]
             ]);
         } catch (Exception $e) {
-            if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+            if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException) {
                 $this->log->addError(Psr7\str($e->getRequest()));
                 if ($e->hasResponse()) {
                     $this->log->addError(Psr7\str($e->getResponse()));
@@ -124,16 +124,16 @@ abstract class Ingester
                     'object' => $params['object'],
                     'type' => $params['type'],
                 ],
-               'headers' => [
+                'headers' => [
                     'Accept' => 'application/json',
                     'X-Authorization-User' => $this->command['u'] . ':' . $this->command['t'],
-                ]
-            ]);
+                ],
+                ]);
         } catch (Exception $e) {
             $this->log->addError("Relationship for $pid (predicate: " .
                 $params['predicate'] . " , object: " . $params['predicate'] .
                 " not added");
-            if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+            if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException) {
                 $this->log->addError(Psr7\str($e->getRequest()));
                 if ($e->hasResponse()) {
                     $this->log->addError(Psr7\str($e->getResponse()));
@@ -160,11 +160,11 @@ abstract class Ingester
      *   The absolute path to the datastream file. If present, and if $dsid present,
      *   only it will be ingested (i.e., no scanning of $dir takes place).
      */
-    public function ingestDatastreams($pid, $dir, $dsid = NULL, $dsid_path = NULL) {
+    public function ingestDatastreams($pid, $dir, $dsid = null, $dsid_path = null)
+    {
         if ($dsid && $dsid_path) {
             $files = array($dsid_path);
-        }
-        else {
+        } else {
             // Get rid of . and .. directories.
             $files = array_slice(scandir(realpath($dir)), 2);
         }
@@ -173,8 +173,7 @@ abstract class Ingester
                 if ($dsid && $dsid_path) {
                     $path_to_file = $dsid_path;
                     $pathinfo = pathinfo($path_to_file);
-                }
-                else {
+                } else {
                     $path_to_file = realpath($dir) . DIRECTORY_SEPARATOR . $file;
                     $pathinfo = pathinfo($path_to_file);
                     $dsid = $pathinfo['filename'];
@@ -217,19 +216,19 @@ abstract class Ingester
                             'contents' => 'PUT',
                         );
                         $post_request = $this->command['e'] . '/object/' . $pid . '/datastream/' . $dsid;
-                        $this->log->addInfo("Ping URL response code for object $pid datastream $dsid was $http_status; will attempt to update datastream content.");
-                    }
-                    else {
+                        $this->log->addInfo("Ping URL response code for object $pid datastream $dsid was " .
+                            "$http_status; will attempt to update datastream content.");
+                    } else {
                         // If the status code was not 200, log it.
                         if ($http_status == '404') {
-                            $this->log->addInfo("Ping URL response code for object $pid datastream $dsid was $http_status (this is OK; it means the datastream hasn't been ingested yet).");
-                        }
-                        else {
-                            $this->log->addInfo("Ping URL response code for object $pid datastream $dsid was $http_status.");
+                            $this->log->addInfo("Ping URL response code for object $pid datastream $dsid " .
+                                "was $http_status (this is OK).");
+                        } else {
+                            $this->log->addInfo("Ping URL response code for object $pid datastream $dsid " .
+                                "was $http_status.");
                         }
                     }
-                }
-                else {
+                } else {
                     // If there was an error getting the status code, move on to
                     // the next file. The exception will be logged from within
                     // ping_url().
@@ -248,13 +247,13 @@ abstract class Ingester
                     ]);
                     if ($response->getStatusCode() === 201) {
                         $this->log->addInfo("Object $pid datastream $dsid ingested from $path_to_file");
-                    }
-                    else {
+                    } else {
                         $this->log->addInfo("Object $pid datastream $dsid not ingested from " .
                             $path_to_file . "(HTTP response " . $response->getStatusCode() . ")");
                     }
                 } catch (Exception $e) {
-                    if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException ) {
+                    if ($e instanceof RequestException or $e instanceof ClientException or
+                        $e instanceof ServerException) {
                         $this->log->addError(Psr7\str($e->getRequest()));
                         if ($e->hasResponse()) {
                             $this->log->addError(Psr7\str($e->getResponse()));
@@ -269,14 +268,14 @@ abstract class Ingester
                     $response_body = $response->getBody();
                     $response_body_array = json_decode($response_body, true);
                     if ($local_checksum == $response_body_array['checksum']) {
-                        $this->log->addInfo($this->command['c'] . " checksum for object $pid datastream $dsid verified.");
+                        $this->log->addInfo($this->command['c'] . " checksum for object $pid " .
+                            "datastream $dsid verified.");
                     } else {
-                        $this->log->addWarning($this->command['c'] . " checksum for object $pid datastream $dsid mismatch.");
+                        $this->log->addWarning($this->command['c'] . " checksum for object $pid " .
+                            "datastream $dsid mismatch.");
                     }
                 }
-
             }
         }
     }
-
 }

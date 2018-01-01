@@ -1,6 +1,13 @@
 {
+    "name": "Islandora REST Ingester",
+    "license": "Unlicense",
+    "type": "project",
+    "description": "Command-line tool for ingesting content into Islandora via its REST interface.",
     "autoload": {
         "classmap": ["includes/"]
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer":"~2.3"
     },
     "require": {
         "guzzlehttp/guzzle": "~6.0",

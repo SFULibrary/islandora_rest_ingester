@@ -18,7 +18,8 @@ class Newspaper extends Ingester
         parent::__construct($log, $command);
     }
 
-    public function ingestObject($dir) {
+    public function ingestObject($dir)
+    {
         // @todo: Finish.
     }
 }

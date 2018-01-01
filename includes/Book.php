@@ -18,7 +18,8 @@ class Book extends Ingester
         parent::__construct($log, $command);
     }
 
-    public function packageObject($dir) {
+    public function packageObject($dir)
+    {
         // Get the book object's label from the MODS.xml file. If there
         // is no MODS.xml file in the input directory, move on to the
         // next directory.
@@ -56,9 +57,10 @@ class Book extends Ingester
         }
 
         // Get the child (page) directories and ingest each one.
+        $page_pids = array();
         $page_ingester = new \islandora_rest_client\ingesters\Single($this->log, $this->command);
         $page_dirs = new \FilesystemIterator(realpath($dir));
-        foreach($page_dirs as $page_dir) {
+        foreach ($page_dirs as $page_dir) {
             $page_dir = $page_dir->getPathname();
 
             if (!is_dir($page_dir)) {
@@ -76,6 +78,9 @@ class Book extends Ingester
                 $this->log->addError("Page object at " . realpath($page_dir) . " not ingested");
                 continue;
             }
+
+            // Keep track of child PIDS so we can get the first one's TN later.
+            array_push($page_pids, $page_pid);
 
             $cmodel_params = array(
                 'uri' => 'info:fedora/fedora-system:def/model#',
@@ -136,7 +141,12 @@ class Book extends Ingester
             }
         }
 
-        // @todo: Get the first page's TN and push it up to replace
-        // the book's TN.
+        // Give the parent compound object the TN from its first child.
+        if ($path_to_tn_file = download_datastream_content($page_pids[0], 'TN', $this->command, $this->log)) {
+            $this->ingestDatastreams($book_pid, $dir, 'TN', $path_to_tn_file);
+            unlink($path_to_tn_file);
+        } else {
+            $this->log->addWarning("TN for book object $book_pid not replaced with TN for first page");
+        }
     }
 }

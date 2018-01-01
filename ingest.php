@@ -40,7 +40,9 @@ $cmd->option('p')
     ->describedAs("PID of the object's parent collection, book, newspaper issue, compound object, etc.");
 $cmd->option('n')
     ->aka('namespace')
-    ->describedAs("Object's namespace. If you provide a full PID, it will be used. If you do not include this option, the ingester assumes that each object-level input directory encodes the object PIDs, and will ingest objects using those PIDs.");
+    ->describedAs("Object's namespace. If you provide a full PID, it will be used. " .
+        "If you do not include this option, the ingester assumes that each object-level " .
+        "input directory encodes the object PIDs, and will ingest objects using those PIDs.");
 $cmd->option('o')
     ->aka('owner')
     ->require(true)
@@ -56,7 +58,8 @@ $cmd->option('c')
 $cmd->option('e')
     ->aka('endpoint')
     ->default('http://localhost/islandora/rest/v1')
-    ->describedAs('Fully qualified REST endpoing for the Islandora instance. Default is http://localhost/islandora/rest/v1.');
+    ->describedAs('Fully qualified REST endpoing for the Islandora instance. Default is ' .
+        'http://localhost/islandora/rest/v1.');
 $cmd->option('u')
     ->aka('user')
     ->require(true)
@@ -71,7 +74,7 @@ $cmd->option('l')
     ->default('./ingester.log');
 
 $path_to_log = $cmd['l'];
-$log = new Monolog\Logger('Ingest via REST');
+$log = new Monolog\Logger('Islandora REST Ingester');
 $log_stream_handler= new Monolog\Handler\StreamHandler($path_to_log, Logger::INFO);
 $log->pushHandler($log_stream_handler);
 
@@ -101,11 +104,11 @@ switch ($cmd['m']) {
         $ingester = new \islandora_rest_client\ingesters\Collection($log, $cmd);
         break;
     default:
-        exit("Sorry, the content model " . $cmd['m'] . " is not recognized ." . PHP_EOL );
+        exit("Sorry, the content model " . $cmd['m'] . " is not recognized ." . PHP_EOL);
 }
 
 $object_dirs = new FilesystemIterator($cmd[0]);
-foreach($object_dirs as $object_dir) {
+foreach ($object_dirs as $object_dir) {
     $ingester->packageObject($object_dir->getPathname());
 }
 

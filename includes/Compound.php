@@ -60,7 +60,7 @@ class Compound extends Ingester
         $child_pids = array();
         $child_ingester = new \islandora_rest_client\ingesters\Single($this->log, $this->command);
         $child_dirs = new \FilesystemIterator(realpath($dir));
-        foreach($child_dirs as $child_dir) {
+        foreach ($child_dirs as $child_dir) {
             $child_dir = $child_dir->getPathname();
 
             if (!is_dir($child_dir)) {
@@ -128,8 +128,7 @@ class Compound extends Ingester
         if ($path_to_tn_file = download_datastream_content($child_pids[0], 'TN', $this->command, $this->log)) {
             $this->ingestDatastreams($cpd_pid, $dir, 'TN', $path_to_tn_file);
             unlink($path_to_tn_file);
-        }
-        else {
+        } else {
             $this->log->addWarning("TN for compound object $cpd_pid not replaced with TN for first child");
         }
     }
