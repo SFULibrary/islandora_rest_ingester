@@ -172,6 +172,48 @@ function download_datastream_content($pid, $dsid, $cmd, $log)
 }
 
 /**
+ * Queries the Solr endpoint.
+ *
+ * @param $query string
+ *   A Solr query string.
+ * @param $cmd object
+ *   The Commando Command object.
+ * @param $log object
+ *   The Monolog logger.
+ *
+ * @return string|bool
+ *   The raw JSON response, or false if there was an error.
+ */
+function query_solr($query, $cmd, $log)
+{
+    $url = $cmd['e'] . 'solr/' . $query;
+    $client = new GuzzleHttp\Client(['http_errors' => false]);
+    try {
+        $response = $client->request('GET', $url, [
+           'headers' => [
+                'X-Authorization-User' => $cmd['u'] . ':' . $cmd['t'],
+            ]
+        ]);
+        $status_code = $response->getStatusCode();
+    } catch (Exception $e) {
+        if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException) {
+            $log->addError(Psr7\str($e->getRequest()));
+            if ($e->hasResponse()) {
+                $log->addError(Psr7\str($e->getResponse()));
+            }
+            return false;
+        }
+    }
+
+    if ($status_code === 200) {
+        return $response->getBody();
+    } else {
+        $log->addWarning("Cannot query Solr, HTTP response is " . $status_code);
+        return false;
+    }
+}
+
+/**
  * Parses a MODS document to get an object's label.
  *
  * @param $path string
@@ -199,6 +241,39 @@ function get_label_from_mods($path, $log)
         }
     } else {
         $log->addWarning("Cannot get label from MODS file at " .
+            "$path since file does not exist.");
+        return false;
+    }
+}
+
+/**
+ * Parses a MODS document to get a date issued.
+ *
+ * @param $path string
+ *   The absolute path to the MODS XML file.
+ * @param $log object
+ *   The Monolog logger.
+ *
+ * @return string|bool
+ *   The dateIssed value, or false if one cannot be parsed.
+ */
+function get_date_from_mods($path, $log)
+{
+    if (file_exists($path)) {
+        $dom = new DOMDocument();
+        $dom->load($path);
+        $xpath = new DOMXPath($dom);
+        $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
+        $dates = $xpath->query('//mods:originInfo/mods:dateIssued');
+        if ($dates->length > 0) {
+            $date = $dates->item(0)->nodeValue;
+            return $date;
+        } else {
+            $log->addWarning("Cannot parse dateIssued from MODS file at $path");
+            return false;
+        }
+    } else {
+        $log->addWarning("Cannot get dateIssued from MODS file at " .
             "$path since file does not exist.");
         return false;
     }

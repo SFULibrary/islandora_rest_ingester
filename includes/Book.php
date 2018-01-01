@@ -79,7 +79,7 @@ class Book extends Ingester
                 continue;
             }
 
-            // Keep track of child PIDS so we can get the first one's TN later.
+            // Keep track of page PIDS so we can get the first one's TN later.
             array_push($page_pids, $page_pid);
 
             $cmodel_params = array(
@@ -141,7 +141,7 @@ class Book extends Ingester
             }
         }
 
-        // Give the parent compound object the TN from its first child.
+        // Give the book object the TN from its first page.
         if ($path_to_tn_file = download_datastream_content($page_pids[0], 'TN', $this->command, $this->log)) {
             $this->ingestDatastreams($book_pid, $dir, 'TN', $path_to_tn_file);
             unlink($path_to_tn_file);

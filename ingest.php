@@ -92,7 +92,7 @@ switch ($cmd['m']) {
         $ingester = new \islandora_rest_client\ingesters\Single($log, $cmd);
         break;
     case 'islandora:newspaperIssueCModel':
-        $ingester = new \islandora_rest_client\ingesters\Newspaper($log, $cmd);
+        $ingester = new \islandora_rest_client\ingesters\NewspaperIssue($log, $cmd);
         break;
     case 'islandora:bookCModel':
         $ingester = new \islandora_rest_client\ingesters\Book($log, $cmd);

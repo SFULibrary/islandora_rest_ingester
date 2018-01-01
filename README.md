@@ -21,7 +21,7 @@ Script to ingest simple Islandora objects using Islandora's REST interface.
 
 ### Preparing content for ingestion
 
-Currently, this tool ingests single-file Islandora objects (basic and large image, PDF, video, etc.), compound objects, and book objects.
+Currently, this tool ingests single-file Islandora objects (basic and large image, PDF, video, etc.), compound objects, book objects, and newspaper issue objects (not newspaper objects).
 
 #### Single-file objects
 
@@ -97,6 +97,35 @@ input/
     │   └── OBJ.tiff
     └── MODS.xml
 ```
+
+#### Newspaper issues
+
+Newspaper issues are arranged the same way as books. Each issue should be in its own directory, and within that directory, each page should be in its own subdirectory. The sequence of the pages within the book (and the labels of page objects) is determined by the numbering of the page subdirectories:
+
+```
+input/
+├── foo
+│   ├── 1
+│   │   └── OBJ.tiff
+│   ├── 2
+│   │   └── OBJ.tiff
+│   ├── 3
+│   │   └── OBJ.tiff
+│   ├── 4
+│   │   └── OBJ.tiff
+│   └── MODS.xml
+└── bar
+    ├── 1
+    │   └── OBJ.tiff
+    ├── 2
+    │   └── OBJ.tiff
+    ├── 3
+    │   └── OBJ.tiff
+    ├── 4
+    │   └── OBJ.tiff
+    └── MODS.xml
+```
+
 
 ### Replacing objects by providing PIDs
 
@@ -206,7 +235,7 @@ You can specify the location of the log file with the `-l` option.
 
 * If you discover a bug, or have a use case not documented here, open an issue.
 * If you want to open a pull request, open an issue first.
-  * Check code style with `./vendor/bin/phpcs --standard=PSR2 src`
+  * Check code style with `./vendor/bin/phpcs --standard=PSR2 ingest.php `and `./vendor/bin/phpcs --standard=PSR2 includes`
   * Use the pull request template.
 
 ## License
