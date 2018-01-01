@@ -72,7 +72,7 @@ input/
 
 #### Book objects
 
-Each book object should be in its own directory, and within that directory, each page should be in its own subdirectory. The sequence of the pages within the book is determined by the numbering of the page subdirectories:
+Each book object should be in its own directory, and within that directory, each page should be in its own subdirectory. The sequence of the pages within the book (and the labels of page objects) is determined by the numbering of the page subdirectories:
 
 ```
 input/
@@ -107,7 +107,6 @@ If the value of `-n` is a full (and valid) PID, an object with that PID will be 
 If you omit the `-n` option, the Ingester assumes that each object-level directory encodes the PID it should use when ingesting the object. Directory names should be the same as the PID, e.g. `test:245`. If your PIDs contain characters that may not be safe in filenames (for example, `:` on Windows), you can URL-endcode them (e.g., `test%3A245`); the Ingester will automatically decode them to get the PID.
 
 Changing our examples above so that the object directories encode PIDs would look like this:
-
 
 ```
 sampleinput/
@@ -172,9 +171,14 @@ INPUT_DIR
      Show the help page for this script.
 ```
 
+Please note:
+
+* when ingesting compound objects, the value of the `--cmodel` option should be "islandora:compoundCModel". Content models for child elements are assigned automatically based on the OBJ datastream file's extension.
+* when ingesting books, the value of the `--cmodel` option should be "islandora:bookCModel".
+
 ### The log file
 
-The log file records when the Islandora REST Ingester was run, what objects and datastreams it ingested, and checksum verifications (if checksums were enabled on datastreams). It also records any empty directories it encounters and exceptions thown during REST requests:
+The log file records when the Islandora REST Ingester was run, what objects and datastreams it ingested, and checksum verifications (if checksums were enabled on datastreams). It also records any exceptions thown during REST requests:
 
 ```
 [2017-07-17 07:12:35] Islandora REST Ingester.INFO: ingest.php (endpoint http://localhost:8000/islandora/rest/v1) started at July 17, 2017, 7:12 am [] []
@@ -202,7 +206,7 @@ You can specify the location of the log file with the `-l` option.
 
 * If you discover a bug, or have a use case not documented here, open an issue.
 * If you want to open a pull request, open an issue first.
-  * Check code style with `./vendor/bin/phpcs --standard=PSR2 src
+  * Check code style with `./vendor/bin/phpcs --standard=PSR2 src`
   * Use the pull request template.
 
 ## License
