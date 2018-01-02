@@ -25,6 +25,8 @@ abstract class Ingester
         $this->command = $command;
 
         $this->client = new \GuzzleHttp\Client();
+
+        $this->unwantedFiles = array('.Thumbs.db', 'Thumbs.db', '.DS_Store', 'DS_Store');
     }
 
     /**
@@ -165,8 +167,13 @@ abstract class Ingester
         if ($dsid && $dsid_path) {
             $files = array($dsid_path);
         } else {
-            // Get rid of . and .. directories.
+            // Get rid of . and .. directories and other junk.
             $files = array_slice(scandir(realpath($dir)), 2);
+            foreach ($files as &$file) {
+                if (in_array($file, $this->unwantedFiles)) {
+                    unset($file);
+                }
+            }
         }
         if (count($files)) {
             foreach ($files as $file) {
