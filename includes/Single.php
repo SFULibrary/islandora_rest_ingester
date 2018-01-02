@@ -31,10 +31,11 @@ class Single extends Ingester
 
         $pid = $this->ingestObject($dir, $label);
 
+        $cmodel = get_cmodel_from_cmodel_txt($dir) ? get_cmodel_from_cmodel_txt($dir) : $this->command['m'];
         $cmodel_params = array(
             'uri' => 'info:fedora/fedora-system:def/model#',
             'predicate' => 'hasModel',
-            'object' => $this->command['m'],
+            'object' => $cmodel,
             'type' => 'uri',
         );
         $this->addRelationship($pid, $cmodel_params);

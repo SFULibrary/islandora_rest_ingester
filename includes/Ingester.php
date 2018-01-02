@@ -26,7 +26,8 @@ abstract class Ingester
 
         $this->client = new \GuzzleHttp\Client();
 
-        $this->unwantedFiles = array('.Thumbs.db', 'Thumbs.db', '.DS_Store', 'DS_Store');
+        // These files are skipped for the purpose of creating datastreams.
+        $this->unwantedFiles = array('cmodel.txt', '.Thumbs.db', 'Thumbs.db', '.DS_Store', 'DS_Store');
     }
 
     /**
@@ -118,7 +119,7 @@ abstract class Ingester
     public function addRelationship($pid, $params)
     {
         try {
-            $model_response = $this->client->request('POST', $this->command['e'] . '/object/' .
+            $response = $this->client->request('POST', $this->command['e'] . '/object/' .
                 $pid . '/relationship', [
                     'form_params' => [
                         'uri' => $params['uri'],

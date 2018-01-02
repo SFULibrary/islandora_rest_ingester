@@ -66,9 +66,12 @@ input/
     │   └── OBJ.tif
     ├── 2
     │   ├── MODS.xml
-    │   └── OBJ.tif
+    │   ├── cmodel.txt
+    │   └── OBJ.bin
     └── MODS.xml
 ```
+
+In this example, the file 'cmodel.txt' contains the PID of the content model to assign to the child object.
 
 #### Book objects
 
@@ -205,6 +208,7 @@ Please note:
 * when ingesting compound objects, the value of the `--cmodel` option should be "islandora:compoundCModel". Content models for child elements are assigned automatically based on the OBJ datastream file's extension. If the content model cannot be assigned, the child object is not ingested.
 * when ingesting books, the value of the `--cmodel` option should be "islandora:bookCModel".
 * when ingesting newspaper issues, the value of the `--cmodel` option should be "islandora:newspaperIssueCModel", and the value of the `--parent` option should be the PID of the newspaper object.
+* content model for any object can be overridden by the presence of a file called 'cmodel.txt' within the object directory that contains the PID of the desired content model.
 
 ### The log file
 

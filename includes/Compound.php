@@ -31,10 +31,12 @@ class Compound extends Ingester
 
         $cpd_pid = $this->ingestObject($dir, $label);
 
+        $cmodel = get_cmodel_from_cmodel_txt(realpath($dir)) ?
+            get_cmodel_from_cmodel_txt(realpath($dir)) : $this->command['m'];
         $cmodel_params = array(
             'uri' => 'info:fedora/fedora-system:def/model#',
             'predicate' => 'hasModel',
-            'object' => $this->command['m'],
+            'object' => $cmodel,
             'type' => 'uri',
         );
         $this->addRelationship($cpd_pid, $cmodel_params);
@@ -72,11 +74,14 @@ class Compound extends Ingester
 
             $obj_files = glob($child_dir . DIRECTORY_SEPARATOR . 'OBJ.*');
             $obj_file_path = $child_dir . DIRECTORY_SEPARATOR . $obj_files[0];
-            $obj_file_ext = pathinfo($obj_file_path, PATHINFO_EXTENSION);
-            if (!$obj_file_cmodel = get_cmodel_from_extension($obj_file_ext)) {
-                $this->log->addWarning("Cannot determine content model for child object " .
-                    "at " . realpath($dir) . ", skipping.");
-                continue;
+
+            if (!$obj_file_cmodel = get_cmodel_from_cmodel_txt($child_dir)) {
+                $obj_file_ext = pathinfo($obj_file_path, PATHINFO_EXTENSION);
+                if (!$obj_file_cmodel = get_cmodel_from_extension($obj_file_ext)) {
+                    $this->log->addWarning("Cannot determine content model for child object " .
+                        "at " . realpath($dir) . ", skipping.");
+                    continue;
+                }
             }
 
             $child_mods_path = realpath($child_dir) . DIRECTORY_SEPARATOR . 'MODS.xml';

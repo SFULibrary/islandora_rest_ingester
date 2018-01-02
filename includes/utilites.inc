@@ -75,7 +75,7 @@ function describe_object($pid, $cmd, $log)
 }
 
 /**
- * Sends a request to a REST endpoint (e.g. object or datastream).
+ * Sends a simple GET request to a REST endpoint (e.g. object or datastream).
  *
  * Useful for determining if an object or datastream exists (200)
  * or not (404).
@@ -362,5 +362,29 @@ function get_cmodel_from_extension($extension)
         return false;
     } else {
         return $cmodels[$extension];
+    }
+}
+
+/**
+ * Reads 'cmodel.txt' in an object directory and return the contents.
+ *
+ * @param string $dir
+ *   The absolute path to the object's input directory.
+ *
+ * @return string|bool
+ *   The corresponding content model, false if none can be determined.
+ */
+function get_cmodel_from_cmodel_txt($dir)
+{
+    $path = $dir . DIRECTORY_SEPARATOR . 'cmodel.txt';
+    if (file_exists($path)) {
+        $cmodel_pid = trim(file_get_contents($path));
+        if (is_valid_pid($cmodel_pid)) {
+            return $cmodel_pid;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
     }
 }

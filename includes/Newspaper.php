@@ -37,10 +37,12 @@ class NewspaperIssue extends Ingester
 
         $issue_pid = $this->ingestObject($dir, $label);
 
+        $cmodel = get_cmodel_from_cmodel_txt(realpath($dir)) ?
+            get_cmodel_from_cmodel_txt(realpath($dir)) : $this->command['m'];
         $cmodel_params = array(
             'uri' => 'info:fedora/fedora-system:def/model#',
             'predicate' => 'hasModel',
-            'object' => $this->command['m'],
+            'object' => $cmodel,
             'type' => 'uri',
         );
         $this->addRelationship($issue_pid, $cmodel_params);
@@ -115,10 +117,14 @@ class NewspaperIssue extends Ingester
             // Keep track of page PIDS so we can get the first one's TN later.
             array_push($page_pids, $page_pid);
 
+
+            if (!$page_cmodel = get_cmodel_from_cmodel_txt(realpath($page_dir))) {
+                $page_cmodel = 'islandora:newspaperPageCModel';
+            }
             $cmodel_params = array(
                 'uri' => 'info:fedora/fedora-system:def/model#',
                 'predicate' => 'hasModel',
-                'object' => 'islandora:newspaperPageCModel',
+                'object' => $page_cmodel,
                 'type' => 'uri',
             );
             $page_ingester->addRelationship($page_pid, $cmodel_params);
