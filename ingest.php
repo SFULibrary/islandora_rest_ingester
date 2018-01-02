@@ -89,6 +89,14 @@ switch ($cmd['m']) {
     case 'ir:citationCModel':
     case 'ir:thesisCModel':
     case 'islandora:pageCModel':
+    case 'islandora:collectionCModel':
+    case 'islandora:entityCModel':
+    case 'islandora:eventCModel':
+    case 'islandora:placeCModel':
+    case 'islandora:sp_disk_image':
+    case 'islandora:personCModel':
+    case 'islandora:organizationCModel':
+    case 'islandora:sp_web_archive':
         $ingester = new \islandora_rest_client\ingesters\Single($log, $cmd);
         break;
     case 'islandora:newspaperIssueCModel':
@@ -99,9 +107,6 @@ switch ($cmd['m']) {
         break;
     case 'islandora:compoundCModel':
         $ingester = new \islandora_rest_client\ingesters\Compound($log, $cmd);
-        break;
-    case 'islandora:collectionCModel':
-        $ingester = new \islandora_rest_client\ingesters\Collection($log, $cmd);
         break;
     default:
         exit("Sorry, the content model " . $cmd['m'] . " is not recognized ." . PHP_EOL);

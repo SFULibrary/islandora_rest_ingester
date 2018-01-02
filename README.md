@@ -21,11 +21,11 @@ Script to ingest Islandora objects using Islandora's REST interface.
 
 ### Preparing content for ingestion
 
-Currently, this tool ingests single-file Islandora objects (basic and large image, PDF, video, etc.), compound objects, book objects, and newspaper issue objects (not newspaper objects).
+Currently, this tool ingests single-file Islandora objects (basic and large image, PDF, video, etc.), collection objects, compound objects, book objects, and newspaper issue objects (not newspaper objects).
 
 #### Single-file objects
 
-To prepare your content for ingesting, within the input directory, create subdirectories for each object. Within each, put a MODS.xml file and the file intended to be the OBJ datastream. This file should be named 'OBJ' and have whichever extension is appropriate for its content. Subdirectories that do not contain a MODS.xml file are skipped:
+Single-file objects include all content models that have no child objects. To prepare your content for ingesting, within the input directory, create subdirectories for each object. Within each, put a MODS.xml file and the file intended to be the OBJ datastream. This file should be named 'OBJ' and have whichever extension is appropriate for its content. Subdirectories that do not contain a MODS.xml file are skipped:
 
 ```
 sampleinput/
@@ -202,7 +202,7 @@ INPUT_DIR
 
 Please note:
 
-* when ingesting compound objects, the value of the `--cmodel` option should be "islandora:compoundCModel". Content models for child elements are assigned automatically based on the OBJ datastream file's extension.
+* when ingesting compound objects, the value of the `--cmodel` option should be "islandora:compoundCModel". Content models for child elements are assigned automatically based on the OBJ datastream file's extension. If the content model cannot be assigned, the child object is not ingested.
 * when ingesting books, the value of the `--cmodel` option should be "islandora:bookCModel".
 * when ingesting newspaper issues, the value of the `--cmodel` option should be "islandora:newspaperIssueCModel", and the value of the `--parent` option should be the PID of the newspaper object.
 

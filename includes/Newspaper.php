@@ -24,13 +24,13 @@ class NewspaperIssue extends Ingester
         // is no MODS.xml file in the input directory, move on to the
         // next directory.
         $mods_path = realpath($dir) . DIRECTORY_SEPARATOR . 'MODS.xml';
-        if (!$label = get_label_from_mods($mods_path, $this->log)) {
+        if (!$label = get_value_from_mods($mods_path, '//mods:titleInfo/mods:title', $this->log)) {
             $this->log->addWarning(realpath($dir) . " appears to be empty, skipping.");
             return;
         }
 
         // Get dateIssued from MODS.
-        if (!$date_issued = get_date_from_mods($mods_path, $this->log)) {
+        if (!$date_issued = get_value_from_mods($mods_path, '//mods:originInfo/mods:dateIssued', $this->log)) {
             $this->log->addWarning(realpath($dir) . " appears to be empty, skipping.");
             return;
         }

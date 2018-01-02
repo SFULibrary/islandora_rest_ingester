@@ -115,7 +115,7 @@ function ping_url($url, $cmd, $log)
 }
 
 /**
- * Downloads a datastream's content and save it.
+ * Downloads a datastream's content and save it to the system's temp directory.
  *
  * @param $pid string
  *   The PID of the object the datastream is part of.
@@ -214,66 +214,37 @@ function query_solr($query, $cmd, $log)
 }
 
 /**
- * Parses a MODS document to get an object's label.
+ * Parses a MODS document (file) to get a node value.
  *
  * @param $path string
  *   The absolute path to the MODS XML file.
+ * @param $xpath_expression string
+ *   The XPath expression to the element whose value you want.
+ *   Since we return a string, this expression should select
+ *   the first instance if the element is repeatable.
  * @param $log object
  *   The Monolog logger.
  *
  * @return string|bool
- *   The label, or false if one cannot be parsed.
+ *   The node value, or false if it cannot be parsed.
  */
-function get_label_from_mods($path, $log)
+function get_value_from_mods($path, $xpath_expression, $log)
 {
     if (file_exists($path)) {
         $dom = new DOMDocument();
         $dom->load($path);
         $xpath = new DOMXPath($dom);
         $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
-        $titles = $xpath->query('//mods:titleInfo/mods:title');
-        if ($titles->length > 0) {
-            $label = $titles->item(0)->nodeValue;
-            return $label;
+        $nodes = $xpath->query($xpath_expression);
+        if ($nodes->length > 0) {
+            $value = $nodes->item(0)->nodeValue;
+            return $value;
         } else {
-            $log->addWarning("Cannot parse label from MODS file at $path");
+            $log->addWarning("Cannot parse value from MODS file at $path using $xpath");
             return false;
         }
     } else {
-        $log->addWarning("Cannot get label from MODS file at " .
-            "$path since file does not exist.");
-        return false;
-    }
-}
-
-/**
- * Parses a MODS document to get a date issued.
- *
- * @param $path string
- *   The absolute path to the MODS XML file.
- * @param $log object
- *   The Monolog logger.
- *
- * @return string|bool
- *   The dateIssed value, or false if one cannot be parsed.
- */
-function get_date_from_mods($path, $log)
-{
-    if (file_exists($path)) {
-        $dom = new DOMDocument();
-        $dom->load($path);
-        $xpath = new DOMXPath($dom);
-        $xpath->registerNamespace('mods', 'http://www.loc.gov/mods/v3');
-        $dates = $xpath->query('//mods:originInfo/mods:dateIssued');
-        if ($dates->length > 0) {
-            $date = $dates->item(0)->nodeValue;
-            return $date;
-        } else {
-            $log->addWarning("Cannot parse dateIssued from MODS file at $path");
-            return false;
-        }
-    } else {
-        $log->addWarning("Cannot get dateIssued from MODS file at " .
+        $log->addWarning("Cannot get value from MODS file at " .
             "$path since file does not exist.");
         return false;
     }
@@ -348,11 +319,15 @@ function is_valid_pid($pid)
 /**
  * Determines content model based on file extension.
  *
+ * Note: not all Islandora content models can be mapped
+ * using the OBJ extension, e.g., islandora:sp_web_archive,
+ * islandora:binaryObjectCModel.
+ *
  * @param string $extension
  *   The file extension to look up.
  *
- * @return string
- *   The corresponding content model.
+ * @return string|bool
+ *   The corresponding content model, false if none can be determined.
  */
 function get_cmodel_from_extension($extension)
 {
@@ -381,6 +356,11 @@ function get_cmodel_from_extension($extension)
       'qt' => 'islandora:sp_videoCModel',
       'mov' => 'islandora:sp_videoCModel',
       'ogv' => 'islandora:sp_videoCModel',
+      'warc' => 'islandora:sp_web_archive',
     );
-    return $cmodels[$extension];
+    if (!in_array($extension, array_keys($cmodels))) {
+        return false;
+    } else {
+        return $cmodels[$extension];
+    }
 }

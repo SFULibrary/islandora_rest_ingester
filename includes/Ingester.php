@@ -118,16 +118,16 @@ abstract class Ingester
         try {
             $model_response = $this->client->request('POST', $this->command['e'] . '/object/' .
                 $pid . '/relationship', [
-                'form_params' => [
-                    'uri' => $params['uri'],
-                    'predicate' => $params['predicate'],
-                    'object' => $params['object'],
-                    'type' => $params['type'],
-                ],
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'X-Authorization-User' => $this->command['u'] . ':' . $this->command['t'],
-                ],
+                    'form_params' => [
+                        'uri' => $params['uri'],
+                        'predicate' => $params['predicate'],
+                        'object' => $params['object'],
+                        'type' => $params['type'],
+                    ],
+                    'headers' => [
+                        'Accept' => 'application/json',
+                        'X-Authorization-User' => $this->command['u'] . ':' . $this->command['t'],
+                    ],
                 ]);
         } catch (Exception $e) {
             $this->log->addError("Relationship for $pid (predicate: " .

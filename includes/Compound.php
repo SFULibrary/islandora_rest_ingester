@@ -24,7 +24,7 @@ class Compound extends Ingester
         // is no MODS.xml file in the input directory, move on to the
         // next directory.
         $mods_path = realpath($dir) . DIRECTORY_SEPARATOR . 'MODS.xml';
-        if (!$label = get_label_from_mods($mods_path, $this->log)) {
+        if (!$label = get_value_from_mods($mods_path, '//mods:titleInfo/mods:title', $this->log)) {
             $this->log->addWarning(realpath($dir) . " appears to be empty, skipping.");
             return;
         }
@@ -70,8 +70,17 @@ class Compound extends Ingester
             // Get sequence number from directory name.
             $child_dir_name = pathinfo($child_dir, PATHINFO_FILENAME);
 
+            $obj_files = glob($child_dir . DIRECTORY_SEPARATOR . 'OBJ.*');
+            $obj_file_path = $child_dir . DIRECTORY_SEPARATOR . $obj_files[0];
+            $obj_file_ext = pathinfo($obj_file_path, PATHINFO_EXTENSION);
+            if (!$obj_file_cmodel = get_cmodel_from_extension($obj_file_ext)) {
+                $this->log->addWarning("Cannot determine content model for child object " .
+                    "at " . realpath($dir) . ", skipping.");
+                continue;
+            }
+
             $child_mods_path = realpath($child_dir) . DIRECTORY_SEPARATOR . 'MODS.xml';
-            $child_label = get_label_from_mods($child_mods_path, $this->log);
+            $child_label = get_value_from_mods($child_mods_path, '//mods:titleInfo/mods:title', $this->log);
             $child_pid = $child_ingester->ingestObject($child_dir, $child_label);
 
             // If $child_pid is FALSE, log error and move on to next object.
@@ -82,11 +91,6 @@ class Compound extends Ingester
 
             // Keep track of child PIDS so we can get the first one's TN later.
             array_push($child_pids, $child_pid);
-
-            $obj_files = glob($child_dir . DIRECTORY_SEPARATOR . 'OBJ.*');
-            $obj_file_path = $child_dir . DIRECTORY_SEPARATOR . $obj_files[0];
-            $obj_file_ext = pathinfo($obj_file_path, PATHINFO_EXTENSION);
-            $obj_file_cmodel = get_cmodel_from_extension($obj_file_ext);
 
             $cmodel_params = array(
                 'uri' => 'info:fedora/fedora-system:def/model#',
