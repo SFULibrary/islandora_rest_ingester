@@ -225,7 +225,11 @@ The `--cmodel` option tells the ingest.php script which ingester class to invoke
 
 There are situations where you may want to assign an object's content model explicitly. For example, some content models do not use OBJ datastreams, such as islandora:entityCModel and islandora:personCModel. Some solution packs do not rely on a specific set of file extensions to define their OBJ content models, such as the Binary Object Solution Pack.
 
-The content model for any object can be overridden by the presence of a file called 'cmodel.txt' within the object directory. This file contains the PID of the desired content model.
+The content model for any object can be overridden by the presence of a file called 'cmodel.txt' within the object directory. This file contains the PID of the desired content model. See the example in `sampledata/single/binary/cmodel.txt`, which contains
+
+```
+islandora:binaryObjectCModel
+```
 
 ### The log file
 
