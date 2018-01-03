@@ -71,7 +71,7 @@ input/
     └── MODS.xml
 ```
 
-In this example, the file 'cmodel.txt' contains the PID of the content model to assign to the child object.
+In this example, the file 'cmodel.txt' contains the PID of the content model to assign to the child object (see "Specifying the content model" below for more information).
 
 #### Book objects
 
@@ -205,10 +205,27 @@ INPUT_DIR
 
 Please note:
 
-* when ingesting compound objects, the value of the `--cmodel` option should be "islandora:compoundCModel". Content models for child elements are assigned automatically based on the OBJ datastream file's extension. If the content model cannot be assigned, the child object is not ingested.
+* when ingesting compound objects, the value of the `--cmodel` option should be "islandora:compoundCModel".
 * when ingesting books, the value of the `--cmodel` option should be "islandora:bookCModel".
-* when ingesting newspaper issues, the value of the `--cmodel` option should be "islandora:newspaperIssueCModel", and the value of the `--parent` option should be the PID of the newspaper object.
-* content model for any object can be overridden by the presence of a file called 'cmodel.txt' within the object directory that contains the PID of the desired content model.
+* when ingesting newspaper issues, the value of the `--cmodel` option should be "islandora:newspaperIssueCModel", and the value of the `--parent` option should be the PID of the newspaper object. You do not need to include the `--relationship` argument.
+* operating system junk files 'Thumbs.db' and 'DS_Store' are ignored.
+
+### Sample content
+
+The directory `sampledata` provides samples that are intended to illustrate how input should be arranged, and to let you try ingesting objects quickly. All objects are from Simon Fraser University's Islandora instance at http://digital.lib.sfu.ca; a few are concocted, such as the same binary object.
+
+* single file objects: to ingest these three objects (two editorial cartoons and one binary object), run the command `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_large_image_cmodel -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/single`
+* compound objects: to ingest these two objects (two postcards), run `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:compoundCModel -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/compound`
+* book: to ingest the sample book (there is only one, and to reduce the size of the sample data it only contains pages 1-4 and 17-19), run `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:bookCModel  -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/book`
+* newspaper issues: to ingest the two sample newspaper issues, create a newspaper object and run the command `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:newspaperIssueCModel -p my:newspaper -n mynamespace -o admin -u admin -t admintoken sampledata/newspaper`
+
+### Specifying the content model
+
+The `--cmodel` option tells the ingest.php script which ingester class to invoke for each object in the input directory. A default (paged) content model is applied to pages in books and newspaper issues, and the content model for each child element in a compound object is assigned based on the OBJ datastream file's extension. If the content model cannot be assigned from the extension, the child object is not ingested.
+
+There are situations where you may want to assign an object's content model explicitly. For example, some content models do not use OBJ datastreams, such as islandora:entityCModel and islandora:personCModel. Some solution packs do not rely on a specific set of file extensions to define their OBJ content models, such as the Binary Object Solution Pack.
+
+The content model for any object can be overridden by the presence of a file called 'cmodel.txt' within the object directory. This file contains the PID of the desired content model.
 
 ### The log file
 
