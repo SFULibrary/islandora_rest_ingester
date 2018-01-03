@@ -44,7 +44,7 @@ sampleinput/
 
 You may add whatever additional datastream files you want to the object directories. For example, if you want to pregenerate FITS output for each object, you can add `TECHMD.xml` and it will be ingested as the TECHMD datastream. Another common use for ingesting pregenerated datastream files is custom thumbnails.
 
-If a datastream already exists (for example, a TN created as a derivative), and there is a datastream file in the input directory that would otherwise trigger the ingestion of the datastrea, the datastream's content is updated from the file. The check for the existence of the datastream is logged (HTTP response code 200 if it exists, 404 if it does not).
+If a datastream already exists (for example, a TN created as a derivative), and there is a datastream file in the input directory that would otherwise trigger the ingestion of the datastream, the datastream's content is updated from the file. The check for the existence of the datastream is logged (HTTP response code 200 if it exists, 404 if it does not).
 
 #### Compound objects
 
@@ -100,6 +100,8 @@ input/
     │   └── OBJ.tiff
     └── MODS.xml
 ```
+
+Page directories can contain OCR.txt files or any other datastream files.
 
 #### Newspaper issue objects
 
@@ -210,15 +212,6 @@ Please note:
 * when ingesting newspaper issues, the value of the `--cmodel` option should be "islandora:newspaperIssueCModel", and the value of the `--parent` option should be the PID of the newspaper object. You do not need to include the `--relationship` argument.
 * operating system junk files 'Thumbs.db' and 'DS_Store' are ignored.
 
-### Sample content
-
-The directory `sampledata` provides samples that are intended to illustrate how input should be arranged, and to let you try ingesting objects quickly. All objects are from Simon Fraser University's Islandora instance at http://digital.lib.sfu.ca; a few are concocted, such as the same binary object.
-
-* single file objects: to ingest these three objects (two editorial cartoons and one binary object), run the command `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_large_image_cmodel -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/single`
-* compound objects: to ingest these two objects (two postcards), run `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:compoundCModel -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/compound`
-* book: to ingest the sample book (there is only one, and to reduce the size of the sample data it only contains pages 1-4 and 17-19), run `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:bookCModel  -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/book`
-* newspaper issues: to ingest the two sample newspaper issues, create a newspaper object and run the command `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:newspaperIssueCModel -p my:newspaper -n mynamespace -o admin -u admin -t admintoken sampledata/newspaper`
-
 ### Specifying the content model
 
 The `--cmodel` option tells the ingest.php script which ingester class to invoke for each object in the input directory. A default (paged) content model is applied to pages in books and newspaper issues, and the content model for each child element in a compound object is assigned based on the OBJ datastream file's extension. If the content model cannot be assigned from the extension, the child object is not ingested.
@@ -252,6 +245,15 @@ The log file records when the Islandora REST Ingester was run, what objects and 
 ```
 
 You can specify the location of the log file with the `-l` option.
+
+### Sample content
+
+The directory `sampledata` provides samples that are intended to illustrate how input should be arranged, and to let you try ingesting objects quickly. All objects are from Simon Fraser University's Islandora instance at http://digital.lib.sfu.ca; a few are concocted, such as the same binary object.
+
+* single file objects: to ingest these three objects (two editorial cartoons and one binary object), run the command `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_large_image_cmodel -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/single`
+* compound objects: to ingest these two objects (two postcards), run `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:compoundCModel -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/compound`
+* book: to ingest the sample book (there is only one, and to reduce the size of the sample data it only contains pages 1-4 and 17-19), run `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:bookCModel  -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/book`
+* newspaper issues: to ingest the two sample newspaper issues, create a newspaper object and run the command `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:newspaperIssueCModel -p my:newspaper -n mynamespace -o admin -u admin -t admintoken sampledata/newspaper`
 
 ## Maintainer
 
