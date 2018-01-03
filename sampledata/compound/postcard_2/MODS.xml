@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<mods xmlns="http://www.loc.gov/mods/v3" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <titleInfo>
+    <title>Regatta at the Gorge, Queen's Birthday, May 24th 1892, Victoria, B.C.</title>
+  </titleInfo>
+  <name>
+    <namePart>Trueman Photo, Vancouver (B.C.)</namePart>
+    <role>
+      <roleTerm type="text" authority="marcrelator">photographer</roleTerm>
+      <roleTerm type="code" authority="marcrelator">pht</roleTerm>
+    </role>
+  </name>
+  <language>
+    <languageTerm type="text">English</languageTerm>
+  </language>
+  <genre authority="gmgpc">Postcards</genre>
+  <identifier type="local">MSC130-3155</identifier>
+  <physicalDescription>
+    <extent>1 postcard : b&amp;w ; 3 x 18 cm.</extent>
+  </physicalDescription>
+  <abstract>View of a regatta taking place at the Gorge in Victoria, B.C. on the Queen's birthday in 1892.</abstract>
+  <typeOfResource>still image</typeOfResource>
+  <identifier type="uuid">e94c624b-309f-47e4-88fe-6b62644e8634</identifier>
+  <originInfo>
+    <publisher>Trueman's Studio, Vancouver (B.C.)</publisher>
+    <dateIssued encoding="w3cdtf" keyDate="yes"/>
+  </originInfo>
+  <originInfo eventType="manufacture">
+    <publisher/>
+  </originInfo>
+  <originInfo eventType="publication">
+    <dateIssued encoding="w3cdtf">1892</dateIssued>
+  </originInfo>
+  <subject>
+    <topic>Views</topic>
+    <topic>Regattas</topic>
+    <topic>Waterways</topic>
+    <topic>Celebrations</topic>
+    <geographic>Gorge, The, BC</geographic>
+    <cartographics>
+      <coordinates>+48.44639,-123.4</coordinates>
+    </cartographics>
+  </subject>
+</mods>

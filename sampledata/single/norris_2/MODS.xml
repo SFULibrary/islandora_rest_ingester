@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<mods xmlns="http://www.loc.gov/mods/v3" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <name type="personal">
+    <namePart>Norris, Len</namePart>
+    <role>
+      <roleTerm type="text" authority="marcrelator">creator</roleTerm>
+    </role>
+    <role>
+      <roleTerm type="code" authority="marcrelator">cre</roleTerm>
+    </role>
+  </name>
+  <titleInfo>
+     <title>"... Pardon me ... but I was ahead of this gentleman ..."</title>
+  </titleInfo>
+  <physicalDescription>
+    <extent>31.2 cm x 21.1 cm</extent>
+  </physicalDescription>
+  <identifier type="local" displayLabel="Cartoon key">1-1954-11-19</identifier>
+  <note type="text">"... Pardon me ... but I was ahead of this gentleman ..."</note>
+  <genre authority="gmgpc">Editorial cartoons</genre>
+  <typeOfResource>still image</typeOfResource>
+  <identifier type="uuid">49b3bef9-62a0-488e-9506-7caa50882693</identifier>
+  <language>
+    <languageTerm type="text">English</languageTerm>
+    <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+  </language>
+  <originInfo>
+    <publisher>Vancouver Sun</publisher>
+    <dateIssued encoding="w3cdtf" keyDate="yes">1954-11-19</dateIssued>
+  </originInfo>
+  <subject authority="lctgm">
+    <topic>Robberies</topic>
+    <topic>Queues</topic>
+    <topic>Grocery stores</topic>
+  </subject>
+</mods>

@@ -168,13 +168,9 @@ abstract class Ingester
         if ($dsid && $dsid_path) {
             $files = array($dsid_path);
         } else {
-            // Get rid of . and .. directories and other junk.
+            // Get rid of . and .. directories and unwanted files.
             $files = array_slice(scandir(realpath($dir)), 2);
-            foreach ($files as &$file) {
-                if (in_array($file, $this->unwantedFiles)) {
-                    unset($file);
-                }
-            }
+            $files = array_diff($files, $this->unwantedFiles);
         }
         if (count($files)) {
             foreach ($files as $file) {

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<mods xmlns="http://www.loc.gov/mods/v3" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <titleInfo>
+    <title>Christian martyrdom in Russia: Persecution of the Doukhobors [Appendix IV: The story of the deliverance - The emigration to Cyprus and Canada, by Leo Tolstoy]</title>
+  </titleInfo>
+  <name>
+    <namePart>Chertkov, V. G. (Vladimir Grigorevich), 1854-1936 Tolstoy, Leo, graf, 1828-1910</namePart>
+  </name>
+  <originInfo>
+    <dateIssued encoding="w3cdtf" keyDate="yes">1900</dateIssued>
+  </originInfo>
+  <abstract/>
+  <physicalDescription>
+    <extent>19 pages, 21 x 30 cm</extent>
+  </physicalDescription>
+  <note displayLabel="Translated text"/>
+  <subject>
+    <topic>Colonization -- Cyprus</topic>
+    <topic>Colonization -- Saskatchewan</topic>
+    <topic>Dukhobors -- Government relations</topic>
+    <topic>Emigration and immigration</topic>
+    <topic>Maude, Aylmer, 1858-1938</topic>
+    <topic>Persecution</topic>
+    <topic>Society of Friends</topic>
+  </subject>
+  <genre>Books, book chapters, and articles</genre>
+  <note>Pages 61-78 of Christian martyrdom in Russia: The persecution of the Doukhobors,J.A. Forin's copy, with his marginalia,Summary: Relates contents of letters from several Doukhobor supporters, including the Friends' Committee (Quakers), Alymer Maude, and Arthur St. John. Describes good character of the Doukhobors, the suffering they had faced, and their life in the Caucasus. Details emigration to and life in Cyprus, as well as the difficulties of living in Cyprus. Describes emigration to Canada, including initial Doukhobor delegation accompanied by Alymer Maude and Prince Hilkoff, arrangements with the Canadian government, and costs. Provides extracts from several Canadian newspapers regarding the Doukhobors' arrival in Canada.</note>
+  <genre>text</genre>
+  <identifier type="uuid">4e88b70b-d2a4-44bc-be23-08302392d21b</identifier>
+</mods>

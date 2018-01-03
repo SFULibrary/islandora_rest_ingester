@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<mods xmlns="http://www.loc.gov/mods/v3" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <titleInfo>
+    <title>Hastings Street, Vancouver, B.C.</title>
+  </titleInfo>
+  <name>
+    <namePart/>
+    <role>
+      <roleTerm type="text" authority="marcrelator">photographer</roleTerm>
+      <roleTerm type="code" authority="marcrelator">pht</roleTerm>
+    </role>
+  </name>
+  <language>
+    <languageTerm type="text">English</languageTerm>
+  </language>
+  <genre authority="gmgpc">Postcards</genre>
+  <identifier type="local">MSC130-2882</identifier>
+  <physicalDescription>
+    <extent>1 postcard : b&amp;w ; 9 x 14 cm.</extent>
+  </physicalDescription>
+  <abstract>Hastings Street in Vancouver, B.C. A large number of pedestrians on either side of the street are shown, as well as several streetcars and automobiles.</abstract>
+  <accessCondition type="use and reproduction">Images from the British Columbia Postcards Collection have been made available by Simon Fraser University Library   under a Creative Commons attribution, non-commercial license at http://creativecommons.org/licenses/by-nc/3.0/. A   full legal outline of the license can be viewed at: http://creativecommons.org/licenses/by-nc/3.0/legalcode &lt;BR&gt;&lt;BR&gt;We encourage the appropriate open use of images from this collection for educational and other not-for-profit   purposes. Attribution/citation should be provided as follows:  Image [insert image number here, eg. MSC130-2144-01]   courtesy of the British Columbia Postcards Collection, a digital initiative of Simon Fraser University Library.   [Please include the website url when images are used in an offline or print-based context]. &lt;BR&gt;&lt;BR&gt;Parties interested in using high-resolution versions of the images from the British Columbia Postcards   Collection for commercial purposes should contact Special Collections and Rare Books, SFU Library.</accessCondition>
+  <typeOfResource>still image</typeOfResource>
+  <identifier type="uuid">f822a3c2-dbb9-4b19-8585-363f27e4aa39</identifier>
+  <originInfo>
+    <publisher>F. Gowen Co. Ltd., Vancouver (B.C.)</publisher>
+    <dateIssued encoding="w3cdtf" keyDate="yes"/>
+  </originInfo>
+  <originInfo eventType="manufacture">
+    <publisher/>
+  </originInfo>
+  <originInfo eventType="publication">
+    <dateIssued encoding="w3cdtf">1916</dateIssued>
+  </originInfo>
+  <subject>
+    <topic>Streets</topic>
+    <topic>Pedestrians</topic>
+    <topic>Storefronts</topic>
+    <topic>Street railroads</topic>
+    <topic>Automobiles</topic>
+    <geographic>Vancouver, BC</geographic>
+    <cartographics>
+      <coordinates>+49.25,-123.11667</coordinates>
+    </cartographics>
+  </subject>
+</mods>

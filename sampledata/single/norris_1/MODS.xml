@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<mods xmlns="http://www.loc.gov/mods/v3" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <name type="personal">
+    <namePart>Norris, Len</namePart>
+    <role>
+      <roleTerm type="text" authority="marcrelator">creator</roleTerm>
+    </role>
+    <role>
+      <roleTerm type="code" authority="marcrelator">cre</roleTerm>
+    </role>
+  </name>
+  <titleInfo>
+     <title>"No ... it WON'T help if you quit ..."</title>
+  </titleInfo>
+  <physicalDescription>
+    <extent>31.2 cm x 21.0 cm</extent>
+  </physicalDescription>
+  <identifier type="local" displayLabel="Cartoon key">1-1954-02-17</identifier>
+  <note type="text">"No ... it WON'T help if you quit ..."</note>
+  <genre authority="gmgpc">Editorial cartoons</genre>
+  <typeOfResource>still image</typeOfResource>
+  <identifier type="uuid">df1d0b0a-fa9d-4466-a297-b15dadf33544</identifier>
+  <language>
+    <languageTerm type="text">English</languageTerm>
+    <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+  </language>
+  <originInfo>
+    <publisher>Vancouver Sun</publisher>
+    <dateIssued encoding="w3cdtf" keyDate="yes">1954-02-17</dateIssued>
+  </originInfo>
+  <subject>
+    <topic>Dropouts</topic>
+    <topic>School budgets</topic>
+  </subject>
+</mods>
