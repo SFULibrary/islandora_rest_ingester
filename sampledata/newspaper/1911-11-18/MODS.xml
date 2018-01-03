@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<mods xmlns="http://www.loc.gov/mods/v3" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <titleInfo>
+    <nonSort>The</nonSort>
+    <title>British Columbia Federationist</title>
+  </titleInfo>
+  <language>
+    <languageTerm type="text">English</languageTerm>
+    <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+  </language>
+  <genre authority="lcgft">newspapers</genre>
+  <accessCondition type="use and reproduction">Some rights reserved</accessCondition>
+  <typeOfResource>text</typeOfResource>
+  <identifier type="uuid">efa7fa45-ee80-4ed7-b03d-a9bc52357a3c</identifier>
+  <subject authority="lcsh">
+    <topic>Labor movement--British Columbia--Newspapers</topic>
+    <topic>Labor unions--British Columbia--Newspapers</topic>
+    <topic>Labor movement--Newspapers</topic>
+    <topic>Labor unions--Newspapers</topic>
+    <geographic>British Columbia--Newspapers</geographic>
+  </subject>
+  <originInfo>
+    <place>
+      <placeTerm type="code" authority="marccountry">bcc</placeTerm>
+      <placeTerm type="text">Vancouver, B.C.</placeTerm>
+    </place>
+    <publisher>Vancouver Trades and Labor Council</publisher>
+    <dateIssued encoding="w3cdtf" keyDate="yes">1911-11-18</dateIssued>
+  </originInfo>
+</mods>
