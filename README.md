@@ -174,6 +174,9 @@ INPUT_DIR
 -u/--user <argument>
      Required. REST user name.
 
+-d/--delete_input
+     Whether or not to delete the input files for an object after they have been successfully ingested.
+
 --help
      Show the help page for this script.
 ```
@@ -200,7 +203,7 @@ This content model is used instead of the one provided in the `--cmodel` option.
 
 ### Generating DC XML
 
-All Fedora objects are assigned a default DC datastream that contains only the object label and its PID. Islandora generates richer DC XML from the MODS (or other XML) datastream either via XML Forms if the object is ingested using the Web interface or one of the batch modules. Islandora REST bypasses both, so objects ingested via REST only get the default Fedora DC XML datastream.
+All Fedora objects are assigned a default DC datastream that contains only the object label and its PID. Islandora generates richer DC XML from the MODS (or other XML) datastream either via XML Forms if the object is ingested using the Web interface or via one of the batch ingest modules. Islandora REST bypasses both, so objects ingested via REST only get the default Fedora DC XML datastream.
 
 To generate DC from MODS or another XML datastream, install and enable the [Islandora REST Ingester Extras](https://github.com/mjordan/islandora_rest_ingester_extras) module.
 
@@ -232,9 +235,7 @@ URL-encoding the directory names as `foo%3A1`, `bar%3A1`, etc. would be valid as
 
 The ingest command should omit the `--namespace` option. For example, the following command will ingest the three objects in the above sample directory and assign each the PID encoded in the object-level directory:
 
-```
-php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_basic_image -p test:collection -o admin -u admin -t admin pidsample
-```
+`php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_basic_image -p test:collection -o admin -u admin -t admin pidsample`
 
 ### The log file
 

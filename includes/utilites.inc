@@ -387,3 +387,21 @@ function get_cmodel_from_cmodel_txt($dir)
         return false;
     }
 }
+
+/**
+ * Recursively delete a directory.
+ *
+ * @param $dir string
+ *   Path to the directory.
+ *
+ * @return bool
+ *   True if successful, false if not.
+ */
+function rm_tree($dir)
+{
+    $files = array_diff(scandir($dir), array('.','..'));
+    foreach ($files as $file) {
+        (is_dir("$dir/$file")) ? rm_tree("$dir/$file") : unlink("$dir/$file");
+    }
+    return rmdir($dir);
+}

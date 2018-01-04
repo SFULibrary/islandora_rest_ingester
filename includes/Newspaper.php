@@ -18,6 +18,18 @@ class NewspaperIssue extends Ingester
         parent::__construct($log, $command);
     }
 
+    /**
+     * Package the object.
+     *
+     * Inspect the object-level input directory, get the
+     * object's title, and ingest any children.
+     *
+     * @param string $object_dir
+     *    The absolute path to the object's input directory.
+     *
+     * @return string|bool
+     *    The new object's PID, FALSE if it wasn't ingested.
+     */
     public function packageObject($dir)
     {
         // Get the issue object's label from the MODS.xml file. If there
@@ -186,6 +198,12 @@ class NewspaperIssue extends Ingester
             unlink($path_to_tn_file);
         } else {
             $this->log->addWarning("TN for newspaper issue object $issue_pid not replaced with TN for first page");
+        }
+
+        if ($issue_pid) {
+            return $issue_pid;
+        } else {
+            return false;
         }
     }
 }

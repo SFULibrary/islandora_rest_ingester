@@ -18,6 +18,18 @@ class Compound extends Ingester
         parent::__construct($log, $command);
     }
 
+    /**
+     * Package the object.
+     *
+     * Inspect the object-level input directory, get the
+     * object's title, and ingest any children.
+     *
+     * @param string $object_dir
+     *    The absolute path to the object's input directory.
+     *
+     * @return string|bool
+     *    The new object's PID, FALSE if it wasn't ingested.
+     */
     public function packageObject($dir)
     {
         // Get the compound object's label from the MODS.xml file. If there
@@ -139,6 +151,12 @@ class Compound extends Ingester
             unlink($path_to_tn_file);
         } else {
             $this->log->addWarning("TN for compound object $cpd_pid not replaced with TN for first child");
+        }
+
+        if ($cpd_pid) {
+            return $cpd_pid;
+        } else {
+            return false;
         }
     }
 }

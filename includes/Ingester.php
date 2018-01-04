@@ -45,6 +45,9 @@ abstract class Ingester
      *
      * @param string $object_dir
      *    The absolute path to the object's input directory.
+     *
+     * @return string|bool
+     *    The new object's PID, FALSE if it wasn't ingested.
      */
     abstract public function packageObject($object_dir);
 
@@ -71,7 +74,7 @@ abstract class Ingester
             $namespace = urldecode($namespace);
         }
 
-        // If the value of $namespace" is a valid PID, check to see if the object exists.
+        // If the value of $namespace is a valid PID, check to see if the object exists.
         if (is_valid_pid($namespace)) {
             $url = $this->command['e'] . '/object/' . $namespace;
             $http_status = ping_url($url, $this->command, $this->log);

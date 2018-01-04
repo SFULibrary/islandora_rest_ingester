@@ -72,6 +72,11 @@ $cmd->option('l')
     ->aka('log')
     ->describedAs('Path to the log. Default is ./ingester.log')
     ->default('./ingester.log');
+$cmd->option('d')
+    ->aka('delete_input')
+    ->describedAs('Whether or not to delete the input files for an object after they have been successfully ingested.')
+    ->boolean()
+    ->default(false);
 
 $path_to_log = $cmd['l'];
 $log = new Monolog\Logger('Islandora REST Ingester');
@@ -114,7 +119,14 @@ switch ($cmd['m']) {
 
 $object_dirs = new FilesystemIterator($cmd[0]);
 foreach ($object_dirs as $object_dir) {
-    if (!$ingester->packageObject($object_dir->getPathname())) {
+    if ($pid = $ingester->packageObject($object_dir->getPathname())) {
+        if ($cmd['delete_input']) {
+            if (rm_tree($object_dir->getPathname())) {
+                $log->addInfo("Input files for object $pid (including all children files) deleted from " .
+                    $object_dir->getPathname());
+            }
+        }
+    } else {
         continue;
     }
 }

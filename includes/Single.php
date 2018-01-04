@@ -18,6 +18,18 @@ class Single extends Ingester
         parent::__construct($log, $command);
     }
 
+    /**
+     * Package the object.
+     *
+     * Inspect the object-level input directory, get the
+     * object's title, and ingest any children.
+     *
+     * @param string $object_dir
+     *    The absolute path to the object's input directory.
+     *
+     * @return string|bool
+     *    The new object's PID, FALSE if it wasn't ingested.
+     */
     public function packageObject($dir)
     {
         // Get the object's label from the MODS.xml file. If there is
@@ -56,6 +68,12 @@ class Single extends Ingester
             $message = "Object $pid ingested from " . realpath($dir);
             $this->log->addInfo($message);
             print $message . "\n";
+        }
+
+        if ($pid) {
+            return $pid;
+        } else {
+            return false;
         }
     }
 }
