@@ -206,16 +206,16 @@ To generate DC from MODS or another XML datastream, install and enable the [Isla
 
 ### Replacing objects by providing PIDs
 
-The Islandora REST interface allows you to provide a full PID when ingesting an object. This means that we can replace/restore objects. This is not an update operation; if an object with the specified PID exists, it must be purged before the PID can be reused.
+The Islandora REST interface allows you to provide a full PID when ingesting an object, allowing us to replace/restore objects. This is not an update operation; if an object with the specified PID exists, it must be purged before the PID can be reused.
 
-If you omit the `-n` option, the Ingester assumes that each object-level directory encodes the PID it should use when ingesting the object. Directory names should be the same as the PID, e.g. `test:245`. If your PIDs contain characters that may not be safe in filenames (for example, `:` on Windows), you can URL-endcode them (e.g., `test%3A245`); the Ingester will automatically decode them to get the PID.
+If you omit the `--namespace` option, the Ingester assumes that each object-level directory encodes the PID it should use when ingesting the object. Directory names should be the same as the PID, e.g. `test:245`. If your PIDs contain characters that may not be safe in filenames (for example, `:` on Windows), you can URL-endcode them (e.g., `test%3A245`); the Ingester will automatically decode them to get the PID.
 
 Note that this only works for top-level objects in the input directory; pages, and children of compound objects, cannot reuse PIDS.
 
 Changing our examples above so that the object directories encode PIDs would look like this:
 
 ```
-sampleinput/
+pidsample/
  ├── foo:1
  │   ├── MODS.xml
  │   └── OBJ.png
@@ -229,6 +229,12 @@ sampleinput/
 ```
 
 URL-encoding the directory names as `foo%3A1`, `bar%3A1`, etc. would be valid as well.
+
+The ingest command should omit the `--namespace` option. For example, the following command will ingest the three objects in the above sample directory and assign each the PID encoded in the object-level directory:
+
+```
+php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_basic_image -p test:collection -o admin -u admin -t admin pidsample
+```
 
 ### The log file
 
