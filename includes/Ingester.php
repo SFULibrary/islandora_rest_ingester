@@ -27,7 +27,14 @@ abstract class Ingester
         $this->client = new \GuzzleHttp\Client();
 
         // These files are skipped for the purpose of creating datastreams.
-        $this->unwantedFiles = array('cmodel.txt', '.Thumbs.db', 'Thumbs.db', '.DS_Store', 'DS_Store');
+        $this->unwantedFiles = array(
+            'cmodel.txt',
+            'foxml.xml',
+            '.Thumbs.db',
+            'Thumbs.db',
+            '.DS_Store',
+            'DS_Store'
+        );
     }
 
     /**
@@ -64,7 +71,7 @@ abstract class Ingester
             $namespace = urldecode($namespace);
         }
 
-        // If the "namespace" is a valid PID, check to see if the object exists.
+        // If the value of $namespace" is a valid PID, check to see if the object exists.
         if (is_valid_pid($namespace)) {
             $url = $this->command['e'] . '/object/' . $namespace;
             $http_status = ping_url($url, $this->command, $this->log);

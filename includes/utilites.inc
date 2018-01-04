@@ -63,7 +63,6 @@ function describe_object($pid, $cmd, $log)
             $log->addError(Psr7\str($e->getRequest()));
             if ($e->hasResponse()) {
                 $log->addError(Psr7\str($e->getResponse()));
-                print Psr7\str($e->getResponse()) . "\n";
             }
             return;
         }
