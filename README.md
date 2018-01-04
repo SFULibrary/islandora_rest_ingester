@@ -7,7 +7,7 @@ Script to ingest Islandora objects using Islandora's REST interface.
 * On the target Islandora instance
   * [Islandora REST](https://github.com/discoverygarden/islandora_rest)
   * [Islandora REST Authen](https://github.com/mjordan/islandora_rest_authen)
-  * Optionally, [Islandora REST Ingester Extras](https://github.com/mjordan/islandora_rest_ingester_extras) See "Generating DC XML" below for more information.
+  * Optionally, [Islandora REST Ingester Extras](https://github.com/mjordan/islandora_rest_ingester_extras) (see "Generating DC XML" below for more information).
 * On the system where the script is run
   * PHP 5.5.0 or higher.
   * [Composer](https://getcomposer.org)
@@ -132,34 +132,6 @@ input/
     └── MODS.xml
 ```
 
-
-### Replacing objects by providing PIDs
-
-The Islandora REST interface allows you to provide a full PID when ingesting an object. This means that we can replace/restore objects. This is not an update operation; if an object with the specified PID exists, it must be purged before the PID can be reused.
-
-If the value of `-n` is a full (and valid) PID, an object with that PID will be created. If an object with that PID already exists, it will be skipped and logged. However, providing a full PID as the value of `-n` is only useful if your input directory contains a single object directory.
-
-If you omit the `-n` option, the Ingester assumes that each object-level directory encodes the PID it should use when ingesting the object. Directory names should be the same as the PID, e.g. `test:245`. If your PIDs contain characters that may not be safe in filenames (for example, `:` on Windows), you can URL-endcode them (e.g., `test%3A245`); the Ingester will automatically decode them to get the PID.
-
-Changing our examples above so that the object directories encode PIDs would look like this:
-
-```
-sampleinput/
- ├── foo:1
- │   ├── MODS.xml
- │   └── OBJ.png
- ├── bar:1
- │   ├── MODS.xml
- │   └── OBJ.jpg
- ├── empty:1
- └── baz:1
-    ├── MODS.xml
-    ├── TN.png
-    └── OJB.jpg
-```
-
-URL-encoding the directory names as `foo%3A1`, `bar%3A1`, etc. would be valid as well.
-
 ### Running the script
 
 `php ingest.php [options] INPUT_DIR`
@@ -224,12 +196,39 @@ The content model for any object can be overridden by the presence of a file cal
 ```
 islandora:binaryObjectCModel
 ```
+This content model is used instead of the one provided in the `--cmodel` option.
 
 ### Generating DC XML
 
-All Fedora objects are assigned a default DC datastream that contains only the object label and its PID. Islandora generates richer DC XML from the MODS (or other XM) datastream either via XML Forms if the object is ingested using the Web interface or one of the batch modules. Islandora REST bypasses both, so objects ingested via REST only get the default Fedora DC XML datastream.
+All Fedora objects are assigned a default DC datastream that contains only the object label and its PID. Islandora generates richer DC XML from the MODS (or other XML) datastream either via XML Forms if the object is ingested using the Web interface or one of the batch modules. Islandora REST bypasses both, so objects ingested via REST only get the default Fedora DC XML datastream.
 
 To generate DC from MODS or another XML datastream, install and enable the [Islandora REST Ingester Extras](https://github.com/mjordan/islandora_rest_ingester_extras) module.
+
+### Replacing objects by providing PIDs
+
+The Islandora REST interface allows you to provide a full PID when ingesting an object. This means that we can replace/restore objects. This is not an update operation; if an object with the specified PID exists, it must be purged before the PID can be reused.
+
+If you omit the `-n` option, the Ingester assumes that each object-level directory encodes the PID it should use when ingesting the object. Directory names should be the same as the PID, e.g. `test:245`. If your PIDs contain characters that may not be safe in filenames (for example, `:` on Windows), you can URL-endcode them (e.g., `test%3A245`); the Ingester will automatically decode them to get the PID.
+
+Note that this only works for top-level objects in the input directory; pages, and children of compound objects, cannot reuse PIDS.
+
+Changing our examples above so that the object directories encode PIDs would look like this:
+
+```
+sampleinput/
+ ├── foo:1
+ │   ├── MODS.xml
+ │   └── OBJ.png
+ ├── bar:1
+ │   ├── MODS.xml
+ │   └── OBJ.jpg
+ └── baz:1
+    ├── MODS.xml
+    ├── TN.png
+    └── OJB.jpg
+```
+
+URL-encoding the directory names as `foo%3A1`, `bar%3A1`, etc. would be valid as well.
 
 ### The log file
 

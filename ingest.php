@@ -114,7 +114,9 @@ switch ($cmd['m']) {
 
 $object_dirs = new FilesystemIterator($cmd[0]);
 foreach ($object_dirs as $object_dir) {
-    $ingester->packageObject($object_dir->getPathname());
+    if (!$ingester->packageObject($object_dir->getPathname())) {
+        continue;
+    }
 }
 
 $log->addInfo("ingest.php finished at ". date("F j, Y, g:i a"));
