@@ -7,6 +7,7 @@ Script to ingest Islandora objects using Islandora's REST interface.
 * On the target Islandora instance
   * [Islandora REST](https://github.com/discoverygarden/islandora_rest)
   * [Islandora REST Authen](https://github.com/mjordan/islandora_rest_authen)
+  * Optionally, [Islandora REST Ingester Extras](https://github.com/mjordan/islandora_rest_ingester_extras) See "Generating DC XML" below for more information.
 * On the system where the script is run
   * PHP 5.5.0 or higher.
   * [Composer](https://getcomposer.org)
@@ -223,6 +224,12 @@ The content model for any object can be overridden by the presence of a file cal
 ```
 islandora:binaryObjectCModel
 ```
+
+### Generating DC XML
+
+All Fedora objects are assigned a default DC datastream that contains only the object label and its PID. Islandora generates richer DC XML from the MODS (or other XM) datastream either via XML Forms if the object is ingested using the Web interface or one of the batch modules. Islandora REST bypasses both, so objects ingested via REST only get the default Fedora DC XML datastream.
+
+To generate DC from MODS or another XML datastream, install and enable the [Islandora REST Ingester Extras](https://github.com/mjordan/islandora_rest_ingester_extras) module.
 
 ### The log file
 
