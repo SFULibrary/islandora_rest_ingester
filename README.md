@@ -20,6 +20,19 @@ Script to ingest Islandora objects using Islandora's REST interface.
 
 ## Overview and usage
 
+### Use cases
+
+[Islandora Batch](https://github.com/Islandora/islandora_batch), [Islandora Book Batch](https://github.com/Islandora/islandora_book_batch), and [Islandora Newspaper Batch](https://github.com/Islandora/islandora_newspaper_batch) are the standard go-to tools for batch ingestion of content into Islandora. Other batch ingest modules also exist, such as [Islandora Compound Batch](https://github.com/MarcusBarnes/islandora_compound_batch). The command-line interfaces to these tools enable batches of thousands of objects and also allow for scripted ingests, for example in automated workflows. But, they all need to be run as `drush` commands on the Islandora server.
+
+The Islandora REST Ingester offers the ability to ingest content from any location that has HTTP access to your Islandora server. Some use cases for this ability include:
+
+* the tasks involded in preparing your content for ingestion are performed in locations from which it is difficult to copy to your Islandora server
+* the content is prepared by external partners (service providers, other libraries, etc.) and you want to allow them to ingest that content
+* for security policay reasons, it is problematic to have people logging into your Islandora server to run `drush` commands
+* during batch ingest, you will need to have enough disk space on your Islandora server for both the raw input data and the copies in Islandora created during ingestion (in other words, double the disk space taken up by your content)
+
+One advantage that the `drush`-based batch modules have over the Islandora REST Ingester is that they can ingest datastream files that exceed the Islandora server's maximum file upload setting. This setting is configurable but has practical limits. The best method for ingesting a video object whose OBJ is 3 GB is to use Islandora Batch's `drush` interface. Because the Islandora REST Ingester ingests objects over HTTP, it is also succeptible to this maxiumum file size.
+
 ### Preparing content for ingestion
 
 Currently, this tool ingests single-file Islandora objects (basic and large image, PDF, video, etc.), collection objects, compound objects, book objects, and newspaper issue objects (not newspaper objects).
