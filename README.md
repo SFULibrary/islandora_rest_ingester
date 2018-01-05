@@ -227,6 +227,7 @@ pidsample/
  │   └── OBJ.png
  ├── bar:1
  │   ├── MODS.xml
+ │   ├── foxml.xml
  │   └── OBJ.jpg
  └── baz:1
     ├── MODS.xml
@@ -239,6 +240,8 @@ URL-encoding the directory names as `foo%3A1`, `bar%3A1`, etc. would be valid as
 The ingest command should omit the `--namespace` option. For example, the following command will ingest the three objects in the above sample directory and assign each the PID encoded in the object-level directory:
 
 `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_basic_image -p test:collection -o admin -u admin -t admin pidsample`
+
+Note that the restored object's owner, label, and state are assigned like they are for any other ingested object. However, if a 'foxml.xml' file is present in the object's input directory (like in the 'bar:1' object above), the owner, label, and state are taken from it.
 
 ### The log file
 
