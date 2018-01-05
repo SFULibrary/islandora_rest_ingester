@@ -89,8 +89,8 @@ abstract class Ingester
         // If foxml.xml exists in the object directory, parse it and get
         // the object owner, label, and state.
         $state_from_foxml = null;
-        if (file_exists(realpath($dir . DIRECTORY_SEPARATOR . 'premis.xml'))) {
-            $props = get_properties_from_foxml(realpath($dir . DIRECTORY_SEPARATOR . 'premis.xml'));
+        if (file_exists(realpath($dir . DIRECTORY_SEPARATOR . 'foxml.xml'))) {
+            $props = get_properties_from_foxml(realpath($dir . DIRECTORY_SEPARATOR . 'foxml.xml'));
             $owner_id = $props['object']['ownerId'];
             $label = $props['object']['label'];
             $state_from_foxml = $props['object']['state'];
@@ -131,6 +131,16 @@ abstract class Ingester
         }
         if ($state_from_foxml) {
             $this->setObjectState($pid, $state_from_foxml);
+        }
+
+        // Add any relationships expressed in the object-level relationships.json file.
+        if (file_exists(realpath($dir . DIRECTORY_SEPARATOR . 'relationships.json'))) {
+            $rels = file_get_contents(realpath($dir . DIRECTORY_SEPARATOR . 'relationships.json'));
+            $rels = json_decode($rels, true);
+            $rels = $rels['relationships'];
+            foreach ($rels as $relationship) {
+                $this->addRelationship($pid, $relationship);
+            }
         }
 
         return $pid;

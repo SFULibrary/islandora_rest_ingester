@@ -210,6 +210,30 @@ All Fedora objects are assigned a default DC datastream that contains only the o
 
 To generate DC from MODS or another XML datastream, install and enable the [Islandora REST Ingester Extras](https://github.com/mjordan/islandora_rest_ingester_extras) module.
 
+### Adding extra relationships
+
+All relationships defining content models, collection membership, and parent/page or parent/child relationships are added to objects automatically, but additional relationships can be added to objects by specifying them in a file named "relationships.json" within the object-level input directory. The relationships are expressed in a JSON structure like this:
+
+```javascript
+{
+  "relationships": [
+    {
+      "uri": "info:fedora/fedora-system:def/relations-external#",
+      "predicate": "isMemberOfCollection",
+      "object": "myother:collection",
+      "type": "uri"
+    },
+    {
+      "uri": "info:fedora/fedora-system:def/relations-external#",
+      "predicate": "isMemberOfCollection",
+      "object": "yetanother:collection",
+      "type": "uri"
+    }
+  ]
+}
+```
+This relationships.json file will add the object to two additional collections, `myother:collection` and `yetanother:collection`.
+
 ### Replacing objects by providing PIDs
 
 The Islandora REST interface allows you to provide a full PID when ingesting an object, allowing us to replace/restore objects. This is not an update operation; if an object with the specified PID exists, it must be purged before the PID can be reused.

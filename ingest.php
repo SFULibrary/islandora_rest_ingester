@@ -123,7 +123,7 @@ switch ($cmd['m']) {
 
 $object_dirs = new FilesystemIterator($cmd[0]);
 foreach ($object_dirs as $object_dir) {
-    if ($pid = $ingester->packageObject($object_dir->getPathname())) {
+    if ($pid = $ingester->packageObject(rtrim($object_dir->getPathname(), DIRECTORY_SEPARATOR))) {
         if ($cmd['delete_input']) {
             if (rm_tree($object_dir->getPathname())) {
                 $log->addInfo("Input files for object $pid (including all children files) deleted from " .
