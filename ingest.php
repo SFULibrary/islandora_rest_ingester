@@ -72,6 +72,10 @@ $cmd->option('l')
     ->aka('log')
     ->describedAs('Path to the log. Default is ./ingester.log')
     ->default('./ingester.log');
+$cmd->option('s')
+    ->aka('state')
+    ->describedAs('Object state. Default is A (active). Allowed values are I (inactive) and D (deleted).')
+    ->default('A');
 $cmd->option('d')
     ->aka('delete_input')
     ->describedAs('Whether or not to delete the input files for an object after they have been successfully ingested.')

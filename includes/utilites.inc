@@ -282,6 +282,18 @@ function get_properties_from_foxml($path)
         $short_name = ltrim($short_name, '#');
         $value = $object_property->getAttribute("VALUE");
         $properties['object'][$short_name] = $value;
+
+        // state values are stored in FOXML as words, but the REST
+        // interface uses capitalized letters.
+        if ($properties['object']['state'] == 'Active') {
+            $properties['object']['state'] = 'A';
+        }
+        if ($properties['object']['state'] == 'Inactive') {
+            $properties['object']['state'] = 'I';
+        }
+        if ($properties['object']['state'] == 'Deleted') {
+            $properties['object']['state'] = 'D';
+        }
     }
 
     $datastreams = $dom->getElementsByTagNameNS("info:fedora/fedora-system:def/foxml#", 'datastream');

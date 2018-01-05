@@ -86,12 +86,25 @@ abstract class Ingester
             }
         }
 
+        // If foxml.xml exists in the object directory, parse it and get
+        // the object owner, label, and state.
+        $state_from_foxml = null;
+        if (file_exists(realpath($dir . DIRECTORY_SEPARATOR . 'premis.xml'))) {
+            $props = get_properties_from_foxml(realpath($dir . DIRECTORY_SEPARATOR . 'premis.xml'));
+            $owner_id = $props['object']['ownerId'];
+            $label = $props['object']['label'];
+            $state_from_foxml = $props['object']['state'];
+        } else {
+            // label is set above, and state defaults to A.
+            $owner_id = $this->command['o'];
+        }
+
         // Ingest Islandora object.
         try {
             $object_response = $this->client->request('POST', $this->command['e'] . '/object', [
                 'form_params' => [
                     'namespace' => $namespace,
-                    'owner' => $this->command['o'],
+                    'owner' => $owner_id,
                     'label' => $label,
                 ],
                 'headers' => [
@@ -104,7 +117,6 @@ abstract class Ingester
                 $this->log->addError(Psr7\str($e->getRequest()));
                 if ($e->hasResponse()) {
                     $this->log->addError(Psr7\str($e->getResponse()));
-                    print Psr7\str($e->getResponse()) . "\n";
                 }
                 return false;
             }
@@ -113,6 +125,13 @@ abstract class Ingester
         $object_response_body = $object_response->getBody();
         $object_response_body_array = json_decode($object_response_body, true);
         $pid = $object_response_body_array['pid'];
+
+        if ($pid && $this->command['s'] != 'A') {
+            $this->setObjectState($pid, $this->command['s']);
+        }
+        if ($state_from_foxml) {
+            $this->setObjectState($pid, $state_from_foxml);
+        }
 
         return $pid;
     }
@@ -154,6 +173,41 @@ abstract class Ingester
                 return;
             }
         }
+    }
+
+    /**
+     * Set object state.
+     *
+     * We cannot do this on ingesting via POST, it must be done via a secondary PUT.
+     *
+     * @param string $pid
+     *    The PID of the subject of the relationship.
+     * @param string $state
+     *     One of 'A' (default), 'I', or 'D'.
+     */
+    public function setObjectState($pid, $state = 'A')
+    {
+        try {
+            $put_response = $this->client->request('PUT', $this->command['e'] . '/object/' . $pid, [
+                'json' => [
+                    'state' => $state,
+                ],
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'X-Authorization-User' => $this->command['u'] . ':' . $this->command['t'],
+                ]
+            ]);
+            $status_code = $put_response->getStatusCode();
+        } catch (Exception $e) {
+            if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException) {
+                $this->log->addError(Psr7\str($e->getRequest()));
+                if ($e->hasResponse()) {
+                    $this->log->addError(Psr7\str($e->getResponse()));
+                }
+                return false;
+            }
+        }
+        return $status_code;
     }
 
     /**

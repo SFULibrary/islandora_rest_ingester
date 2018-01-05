@@ -156,6 +156,9 @@ INPUT_DIR
 -o/--owner <argument>
      Required. Object's owner.
 
+-s/--state <argument>
+     Object state. Default is A (active). Allowed values are I (inactive) and D (deleted).
+
 -p/--parent <argument>
      Required. PID of the object's parent collection, book, newspaper issue, compound object, etc.
 
