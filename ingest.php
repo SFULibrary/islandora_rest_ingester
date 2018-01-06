@@ -117,8 +117,18 @@ switch ($cmd['m']) {
     case 'islandora:compoundCModel':
         $ingester = new \islandora_rest_client\ingesters\Compound($log, $cmd);
         break;
-    default:
-        exit("Sorry, the content model " . $cmd['m'] . " is not recognized ." . PHP_EOL);
+}
+
+// Get any custom cmodel -> class mappings.
+if (file_exists('cmodel_classmap.txt')) {
+    if ($class = get_ingester($cmd)) {
+        $class_path = '\\islandora_rest_client\\ingesters\\' . $class;
+        $ingester = new $class_path($log, $cmd);
+    }
+}
+
+if (!isset($ingester)) {
+    exit("Error: Cannot find an ingester class associated with content model " . $cmd['m'] . "\n");
 }
 
 $object_dirs = new FilesystemIterator($cmd[0]);

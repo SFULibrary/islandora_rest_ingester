@@ -417,3 +417,25 @@ function rm_tree($dir)
     }
     return rmdir($dir);
 }
+
+/**
+ * Get custom content model -> Ingester class mappings.
+ *
+ * @param $cmd object
+ *   The Commando Command object.
+ *
+ * @return string|bool
+ *   The class name of the Ingester, false if none is found.
+ */
+function get_ingester($cmd)
+{
+    $mappings = file('cmodel_classmap.txt');
+    foreach ($mappings as &$mapping) {
+        $mapping = trim($mapping);
+        $cmodel_mapping = explode("\t", $mapping);
+        if ($cmd['m'] == $cmodel_mapping[0]) {
+            return $cmodel_mapping[1];
+        }
+    }
+    return false;
+}

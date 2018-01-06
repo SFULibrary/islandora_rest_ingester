@@ -313,6 +313,25 @@ The directory `sampledata` provides samples that are intended to illustrate how 
 * book: to ingest the sample book (there is only one, and to reduce the size of the sample data it only contains pages 1-4 and 17-19), run `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:bookCModel  -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/book`
 * newspaper issues: to ingest the two sample newspaper issues, create a newspaper object and run the command `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:newspaperIssueCModel -p my:newspaper -n mynamespace -o admin -u admin -t admintoken sampledata/newspaper`
 
+## Ingesting custom content models
+
+You can extend this tool to ingest objects that have content models not already represented by doing the following:
+
+1. creating a content-model -> Ingester class mapping
+1. writing a PHP class that extends `islandora_rest_client\ingesters\Ingester`
+
+### The content-model -> Ingester class mapping
+
+You can define custom mappings between content models and Ingester classes in a file named `cmodel_classmap.txt` in the same directory as `ingest.php`. This file should contain one mapping per line, and each line should have two columns separated by a tab. In the left column is the content model PID and in the right column is the class name:
+
+```
+islandora:foo   MyIngester
+islandora:bar   Example
+```
+### Extending the base Ingester class
+
+Custom Ingester class files must be placed in the `includes` directory. An example annotate Ingester is provided at `includes/Example.php`. After you put new class files in the `includes` directory, be sure to run `composer dump-autoload` to update the application's classmap.
+
 ## Maintainer
 
 * [Mark Jordan](https://github.com/mjordan)
