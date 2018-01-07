@@ -387,7 +387,7 @@ php iipqa --strict -m newspapers -l /tmp/sample_iipaq.log /tmp/sample_packages
 
 # Change to the Islandora REST Ingester directory and run it.
 cd /path/to/rest_ingester
-php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:newspaperIssueCModel -p my:newspaper -n mynamespace -o admin -u admin -t admintoken /tmp/sample_packages`
+php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:newspaperIssueCModel -p my:newspaper -n mynamespace -o admin -u admin -t admintoken /tmp/sample_packages
 ```
 
 ## Maintainer

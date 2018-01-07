@@ -7,30 +7,32 @@
  *
  * This script will convert the output of MIK's single-file toolchains:
  *
- sampleoutput/
- ├── foo.xml
- ├── foo.jpg
- ├── bar.xml
- ├── bar.jpg
- ├── baz.jpg
- └── baz.xml
+ * sampleoutput/
+ * ├── foo.xml
+ * ├── foo.jpg
+ * ├── bar.xml
+ * ├── bar.jpg
+ * ├── baz.jpg
+ * └── baz.xml
+ *
  * to the REST Ingesters's input format for single-file content models:
  *
- sampleinput/
- ├── foo
- │   ├── MODS.xml
- │   └── OBJ.png
- ├── bar
- │   ├── MODS.xml
- │   └── OBJ.jpg
- └── baz
-    ├── MODS.xml
-    ├── TN.png
-    └── OJB.jpg
+ * sampleinput/
+ * ├── foo
+ * │   ├── MODS.xml
+ * │   └── OBJ.png
+ * ├── bar
+ * │   ├── MODS.xml
+ * │   └── OBJ.jpg
+ * └── baz
+ *  ├── MODS.xml
+ *  ├── TN.png
+ *  └── OJB.jpg
  *
  * To use this script, register it in your MIK .ini file's WRITER section like this:
-[WRITER]
-postwritehooks[] = "/usr/bin/php extras/scripts/postwritehooks/repackage_for_rest_ingester.php"
+ *
+ * [WRITER]
+ * postwritehooks[] = "/usr/bin/php extras/scripts/postwritehooks/repackage_for_rest_ingester.php"
  */
 
 // MIK post-write hook script setup stuff.
