@@ -338,12 +338,16 @@ Custom Ingester class files must be placed in the `includes` directory. An examp
 
 ### Move to Islandora Kit
 
-MIK's output can be used as the REST Ingester's input, except for its output for single-file objects. However, MIK can be configured to output single-file objects in the required format as follows:
+[Move to Islandora Kit](https://github.com/MarcusBarnes/mik)'s output can be used as the REST Ingester's input, except for its output for single-file objects. However, MIK can be configured to output single-file objects in the required format as follows:
 
 1. copy `extras/MIK/repackage_for_rest_ingester.php` to MIK's post-write hook script directory (`extras/scripts/postwritehooks`)
 1. register the script in your MIK .ini file's `[WRITER]` section as you would any other post-write hook script: `postwritehooks[] = "/usr/bin/php extras/scripts/postwritehooks/repackage_for_rest_ingester.php"`
 
 If you would rather not copy the script to the MIK directory, provide a full path in the .ini file entry to its location.
+
+### Islandora Import Package QA Tool
+
+The [Islandora Import Package QA Tool](https://github.com/mjordan/iipqa) can validate the REST Ingester's input. Since the REST Ingester's input for single-file objects differs from Islandora Batch's, iipqa uses a custom value for its `--content_model` option, `single_rest_ingester`. Also, when validating compound objects, include the `--skip_structure` option.
 
 ## Maintainer
 
