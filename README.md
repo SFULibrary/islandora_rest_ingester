@@ -334,6 +334,17 @@ islandora:bar   Example
 
 Custom Ingester class files must be placed in the `includes` directory. An example annotate Ingester is provided at `includes/Example.php`. After you put new class files in the `includes` directory, be sure to run `composer dump-autoload` to update the application's classmap.
 
+## Integrating the Islandora REST Ingester with other tools
+
+### Move to Islandora Kit
+
+MIK's output can be used as the REST Ingester's input, except for its output for single-file objects. However, MIK can be configured to output single-file objects in the required format as follows:
+
+1. copy `extras/MIK/repackage_for_rest_ingester.php` to MIK's post-write hook script directory (`extras/scripts/postwritehooks`)
+1. register the script in your MIK .ini file's `[WRITER]` section as you would any other post-write hook script: `postwritehooks[] = "/usr/bin/php extras/scripts/postwritehooks/repackage_for_rest_ingester.php"`
+
+If you would rather not copy the script to the MIK directory, provide a full path in the .ini file entry to its location.
+
 ## Maintainer
 
 * [Mark Jordan](https://github.com/mjordan)
