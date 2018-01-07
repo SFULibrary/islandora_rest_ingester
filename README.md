@@ -349,6 +349,47 @@ If you would rather not copy the script to the MIK directory, provide a full pat
 
 The [Islandora Import Package QA Tool](https://github.com/mjordan/iipqa) can validate the REST Ingester's input. Since the REST Ingester's input for single-file objects differs from Islandora Batch's, iipqa uses a custom value for its `--content_model` option, `single_rest_ingester`. Also, when validating compound objects, include the `--skip_structure` option.
 
+### Automating ingests
+
+The Islandora REST Ingester works well within scripted jobs. For example, you could schedule the script below to run overnight, in order to ingest newspaper issues prepared during the previous day. In this example, the ingest packsges are produced by the Move to Islandora Kit, they are then validated by the Islandora Ingest Package QA Tool, and finally, are ingested useing the REST Ingester. If either MIK or the iipqa fail, the script exits before the Ingester in run.
+
+```bash
+#!/bin/bash
+#######################################################################
+# Sample bash script to automate ingestion of content into Islandora. #
+# using the Move to Islandora Kit, Islandora Ingest Package QA Tool,  #
+# and the Islandora REST Ingester.                                    #
+#                                                                     #
+# Usage: ./sample_scripted_workflow.sh                                #
+#######################################################################
+
+# 'set -e' tells the shell script to stop running if any commands
+# within it exit with a non-0 value.
+set -e
+
+# Change into the MIK directory and run MIK. The .ini file includes
+# tells MIK to write its output to /tmp/sample_packages. Also,
+# we run MIK in 'realtime' input validation mode, so it skips
+# packages with malformed input.
+cd /path/to/mik
+php mik -c sample_config.ini
+
+# Delete log files, or better yet move them somewhere for analysis
+# in case something goes wrong.
+rm /tmp/sample_packages/*.log
+
+# Change into the Islandora Import Package QA Tool and run it.
+# We add the --strict option so it exists with 1 if any packages
+# have errors. We tell it this so the the next step, running
+# drush to ingest the content, does not happen.
+cd /path/to/iipqa
+php iipqa --strict -m newspapers -l /tmp/sample_iipaq.log /tmp/sample_packages
+
+# Change to the Islandora REST Ingester directory and run it.
+cd /path/to/rest_ingester
+php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:newspaperIssueCModel -p my:newspaper -n mynamespace -o admin -u admin -t admintoken /tmp/sample_packages`
+```
+
 ## Maintainer
 
 * [Mark Jordan](https://github.com/mjordan)
