@@ -31,9 +31,11 @@ The Islandora REST Ingester offers the ability to ingest content from any locati
 * during batch ingest, you will need to have enough disk space on your Islandora server for both the raw input data and the copies in Islandora created during ingestion (in other words, double the disk space taken up by your content)
 * in automated ingestion workflows, moving content from where it is being digitized and processed to the filesystem of your Islandora server is problematic
 
-Secondarily, ingestion tools that use Islandora's REST interface offer the potential for the development of desktop tools with graphical user interfaces (!) for ingesting content into Islandora, and for thinking about strategies and tools for batch ingesting content into Islandora CLAW, which will have its own REST interface.
+Secondarily, ingestion tools that use Islandora's REST interface demonstrate the potential for the development of desktop tools with graphical user interfaces (!) for ingesting content into Islandora, and for thinking about strategies and tools for batch ingesting content into Islandora CLAW, which will have its own REST interface.
 
-One advantage that the `drush`-based batch modules have over the Islandora REST Ingester is that they can ingest datastream files that exceed the Islandora server's maximum file upload setting. This setting is configurable but has practical limits. The best method for ingesting a video object whose OBJ is 3 GB is to use Islandora Batch's `drush` interface. Because the Islandora REST Ingester ingests objects over HTTP, it is also succeptible to this maxiumum file size.
+### When not to use the REST Ingester
+
+One significant advantage that the `drush`-based batch modules have over the Islandora REST Ingester is that they can ingest datastream files that exceed the Islandora server's maximum file upload setting. This setting is configurable but has practical limits. The best method for ingesting a video object whose OBJ is 3 GB is to use Islandora Batch's `drush` interface. Because the Islandora REST Ingester ingests objects over HTTP, it is also succeptible to this maxiumum file size.
 
 ### Preparing content for ingestion
 
