@@ -102,8 +102,8 @@ class Example extends Ingester
         // Iterate through subdirectories of the parent's input and create a child for each.
         // Note that recursing the parent object's directory to get its children is not
         // necessarily the only approach; for example, you could fetch them from remote URLs
-        // if you wanted to. If you did this, you would need to come up with a way to
-        // store and parse those URLs in your custom class.
+        // if you wanted to. If you did this, you would need to come up with a way in your
+        // custom class to find and parse those URLs.
 
         $child_dirs = new \FilesystemIterator(realpath($dir));
         foreach ($child_dirs as $child_dir) {

@@ -31,7 +31,7 @@ The Islandora REST Ingester offers the ability to ingest content from any locati
 * during batch ingest, you will need to have enough disk space on your Islandora server for both the raw input data and the copies in Islandora created during ingestion (in other words, double the disk space taken up by your content)
 * in automated ingestion workflows, moving content from where it is being digitized and processed to the filesystem of your Islandora server is problematic
 
-Secondarily, ingestion tools that use Islandora's REST interface also offer the potential for the development of desktop tools with graphical user interfaces (!) for ingesting content into Islandora, and for thinking about strategies and tools for ingesting large quantities of content into Islandora CLAW.
+Secondarily, ingestion tools that use Islandora's REST interface offer the potential for the development of desktop tools with graphical user interfaces (!) for ingesting content into Islandora, and for thinking about strategies and tools for batch ingesting content into Islandora CLAW, which will have its own REST interface.
 
 One advantage that the `drush`-based batch modules have over the Islandora REST Ingester is that they can ingest datastream files that exceed the Islandora server's maximum file upload setting. This setting is configurable but has practical limits. The best method for ingesting a video object whose OBJ is 3 GB is to use Islandora Batch's `drush` interface. Because the Islandora REST Ingester ingests objects over HTTP, it is also succeptible to this maxiumum file size.
 
@@ -315,12 +315,12 @@ The directory `sampledata` provides samples that are intended to illustrate how 
 
 ## Ingesting custom content models
 
-You can extend this tool to ingest objects that have content models not already represented by doing the following:
+You can extend this tool to ingest objects that have content models not already represented, or override the default functionality, by doing the following:
 
-1. creating a content-model -> Ingester class mapping
+1. mapping a content-model to an Ingester class
 1. writing a PHP class that extends `islandora_rest_client\ingesters\Ingester`
 
-### The content-model -> Ingester class mapping
+### The content-model - Ingester class mapping
 
 You can define custom mappings between content models and Ingester classes in a file named `cmodel_classmap.txt` in the same directory as `ingest.php`. This file should contain one mapping per line, and each line should have two columns separated by a tab. In the left column is the content model PID and in the right column is the class name:
 
