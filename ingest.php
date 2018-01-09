@@ -133,7 +133,20 @@ if (file_exists('cmodel_classmap.txt')) {
 }
 
 if (!isset($ingester)) {
-    exit("Error: Cannot find an ingester class associated with content model " . $cmd['m'] . "\n");
+    $message = "Error: Cannot find an ingester class associated with content model " . $cmd['m'];
+    $log->addError($message);
+    print $message . "\n";
+    exit;
+}
+
+$parent_url = $cmd['e'] . '/object/' . $cmd['p'];
+$parent_pid = ping_url($parent_url, $cmd, $log);
+if ($parent_pid != '200') {
+    $message = "Error: Object specified as --parent (" . $cmd['p'] . ") is not accessible (HTTP response code " .
+        $parent_pid . ")";
+    $log->addError($message);
+    print $message . "\n";
+    exit;
 }
 
 $object_dirs = new FilesystemIterator($cmd[0]);
