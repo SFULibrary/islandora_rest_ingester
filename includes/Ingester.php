@@ -261,6 +261,15 @@ abstract class Ingester
                     continue;
                 }
 
+                $file_size_in_bytes = filesize($path_to_file);
+                // Convert from bytes to MiB, same unit that PHP uses for its .ini settings.
+                $file_size_in_mib = number_format($file_size_in_bytes / 1048576);
+                if ((int) $file_size_in_mib > (int) $this->command['z']) {
+                    $this->log->addWarning("Datastream file $path_to_file is larger than " .
+                        $this->command['z'] . ' MB, skipping');
+                    continue;
+                }
+
                 // This is the POST request and multipart form data required
                 // to create a new datastream.
                 $post_request = $this->command['e'] . '/object/' . $pid . '/datastream';

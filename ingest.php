@@ -81,6 +81,11 @@ $cmd->option('d')
     ->describedAs('Whether or not to delete the input files for an object after they have been successfully ingested.')
     ->boolean()
     ->default(false);
+$cmd->option('z')
+    ->aka('max_file_size')
+    ->describedAs('Maximum size, in MiB, of datastream files to ingest. If a file is larger than this, ' .
+        ' its datastream is not ingested. Default is 500 MiB.')
+    ->default('500');
 
 $path_to_log = $cmd['l'];
 $log = new Monolog\Logger('Islandora REST Ingester');
