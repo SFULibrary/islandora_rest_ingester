@@ -7,7 +7,7 @@ Command-line tool to ingest Islandora objects using Islandora's REST interface.
 * On the target Islandora instance
   * [Islandora REST](https://github.com/discoverygarden/islandora_rest)
   * [Islandora REST Authen](https://github.com/mjordan/islandora_rest_authen)
-  * Optionally, [Islandora REST Ingester Extras](https://github.com/mjordan/islandora_rest_ingester_extras) (see "Generating DC XML" below for more information).
+  * Optionally, [Islandora REST Extras](https://github.com/mjordan/islandora_rest_extras) (see "Generating DC XML" below for more information).
 * On the system where the script is run
   * PHP 5.5.0 or higher.
   * [Composer](https://getcomposer.org)
@@ -230,7 +230,7 @@ This content model is used instead of the one provided in the `--cmodel` option.
 
 All Fedora objects are assigned a default DC datastream that contains only the object label and its PID. Islandora generates richer DC XML from the MODS (or other XML) datastream either via XML Forms if the object is ingested using the Web interface or via one of the batch ingest modules. Islandora REST bypasses both, so objects ingested via REST only get the default Fedora DC XML datastream.
 
-To generate DC from MODS or another XML datastream, install and enable the [Islandora REST Ingester Extras](https://github.com/mjordan/islandora_rest_ingester_extras) module.
+To generate DC from MODS or another XML datastream, install and enable the [Islandora REST Extras](https://github.com/mjordan/islandora_rest_extras) module.
 
 ### Adding extra relationships
 
