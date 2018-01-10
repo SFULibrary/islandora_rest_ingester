@@ -39,6 +39,10 @@ One significant advantage that the `drush`-based batch modules have over the Isl
 
 The Islandora REST Ingester provides an option, `--max_file_size`, that will skip ingesting any datastream above the specified number of megabytes. All datastreams skipped for this reason are logged.
 
+### Batch sets
+
+The REST Ingester does not use Islandora Batch's batch sets.
+
 ### Preparing content for ingestion
 
 Currently, this tool ingests single-file Islandora objects (basic and large image, PDF, video, etc.), collection objects, compound objects, book objects, and newspaper issue objects (not newspaper objects).
