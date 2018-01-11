@@ -125,7 +125,7 @@ input/
     └── MODS.xml
 ```
 
-Page directories can contain OCR.txt files or any other datastream files.
+Page directories can contain OCR.txt files or any other datastream files. If a MODS.xml file is present, the page's label is taken from its title elemennt.
 
 #### Newspaper issue objects
 
@@ -154,6 +154,8 @@ input/
     │   └── OBJ.tiff
     └── MODS.xml
 ```
+
+Page directories can contain OCR.txt files or any other datastream files. If a MODS.xml file is present, the page's label is taken from its title elemennt.
 
 ### Running the script
 

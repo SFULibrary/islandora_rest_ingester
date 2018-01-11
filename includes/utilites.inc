@@ -439,3 +439,30 @@ function get_ingester($cmd)
     }
     return false;
 }
+
+/**
+ * Gets a book or newspaper isssue page's label.
+ *
+ * @param string $page_dir
+ *    The absolute path to the page's input directory.
+ * @param $log object
+ *   The Monolog logger.
+ *
+ * @return string
+ *    The label.
+ */
+function get_page_label($page_dir, $log)
+{
+    // Get page/sequence number from directory name.
+    $page_dir_name = pathinfo($page_dir, PATHINFO_FILENAME);
+
+    // If there's a MODS file, get the label from it. Othewise, use the page directory name.
+    $page_mods_path = $page_dir . DIRECTORY_SEPARATOR . 'MODS.xml';
+    if ($label = get_value_from_mods($page_mods_path, '//mods:titleInfo/mods:title', $log)) {
+        $page_label = $label;
+    } else {
+        $page_label = 'Page ' . $page_dir_name;
+    }
+
+    return $page_label;
+}

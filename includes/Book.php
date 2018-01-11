@@ -82,9 +82,10 @@ class Book extends Ingester
             }
 
             // Get page/sequence number from directory name.
-            // @todo: If there's a MODS file, get the label from it?
             $page_dir_name = pathinfo($page_dir, PATHINFO_FILENAME);
-            $page_label = 'Page ' . $page_dir_name;
+
+            $page_label = get_page_label($page_dir, $this->log);
+
             $page_pid = $page_ingester->ingestObject($page_dir, $page_label);
 
             // If $page_pid is FALSE, log error and continue.
