@@ -409,7 +409,7 @@ php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m island
 
 * If you discover a bug, or have a use case not documented here, open an issue.
 * If you want to open a pull request, open an issue first.
-  * Check code style with `./vendor/bin/phpcs --standard=PSR2 ingest.php `and `./vendor/bin/phpcs --standard=PSR2 includes`
+  * Check code style with `composer style`
   * Use the pull request template.
 
 ## License

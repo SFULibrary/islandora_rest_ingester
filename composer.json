@@ -17,6 +17,7 @@
         "monolog/monolog": "~1.13"
     },
         "scripts": {
-        "test": "./vendor/bin/phpunit tests"
+        "test": "./vendor/bin/phpunit tests",
+        "style": "./vendor/bin/phpcs --standard=PSR2 includes ingest.php"
     }
 }
