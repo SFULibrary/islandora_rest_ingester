@@ -4,19 +4,13 @@ namespace islandora_rest_client\ingesters;
 
 use Monolog\Logger;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Exception\RequestException;
-
 class Utilities extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {
         require_once 'includes/utilites.inc';
 
+        // Use a null handler for Monolog so we don't write any files during our tests.
         $this->log = new \Monolog\Logger('Null handler');
         $handler = new \Monolog\Handler\NullHandler(Logger::INFO);
     }

@@ -409,7 +409,9 @@ php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m island
 
 * If you discover a bug, or have a use case not documented here, open an issue.
 * If you want to open a pull request, open an issue first.
+  * By opening a pull request, you agree to placing your contribution into the public domain.
   * Check code style with `composer style`
+  * If the work in your PR can be tested, write tests for it. Even if it can't, run `composer tests` to make sure you didn't break anything.
   * Use the pull request template.
 
 ## License
