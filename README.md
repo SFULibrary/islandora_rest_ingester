@@ -196,7 +196,7 @@ INPUT_DIR
 -z/--max_file_size <argument>
      Maximum size, in MiB, of datastream files to ingest. If a file is larger than this, its datastream is not ingested. Default is 500 MiB.
 
--l/--log/--log <argument>
+-l/--log <argument>
      Path to the log. Default is ./rest_ingest.log
 
 -t/--token <argument>
