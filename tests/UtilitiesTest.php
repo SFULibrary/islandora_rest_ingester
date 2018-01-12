@@ -6,13 +6,13 @@ use Monolog\Logger;
 
 class Utilities extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         require_once 'includes/utilites.inc';
 
         // Use a null handler for Monolog so we don't write any files during our tests.
         $this->log = new \Monolog\Logger('Null handler');
-        $handler = new \Monolog\Handler\NullHandler(Logger::INFO);
+        $handler = new \Monolog\Handler\NullHandler(Logger::EMERGENCY);
     }
 
     public function testGetValueFromMods()

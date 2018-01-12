@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\RequestException;
 
 class DescribeObjectTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
          $this->islandoraObject = '{
              "pid": "islandora:100",
