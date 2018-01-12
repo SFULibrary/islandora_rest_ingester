@@ -1,5 +1,7 @@
 <?php
 
+namespace islandora_rest_client\ingesters;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -9,11 +11,11 @@ use GuzzleHttp\Exception\RequestException;
 
 class DescribeObjectTest extends \PHPUnit\Framework\TestCase
 {
-     public function setUp()
-     {
+    public function setUp()
+    {
          $this->islandoraObject = '{
-             "pid": "islandora:root",
-             "label": "Root Object",
+             "pid": "islandora:100",
+             "label": "Mock Object",
              "owner": "fedoraAdmin",
              "models": ["islandora:collectionCModel"],
              "state": "A",
@@ -33,8 +35,9 @@ class DescribeObjectTest extends \PHPUnit\Framework\TestCase
             }';
     }
 
-    public function testGet () {
-        // Create a mock.
+    public function testGet()
+    {
+        // Create a mock response.
         $mock = new MockHandler([
             new Response(200, [], $this->islandoraObject),
         ]);
@@ -43,11 +46,11 @@ class DescribeObjectTest extends \PHPUnit\Framework\TestCase
         $client = new Client(['handler' => $handler]);
 
         // Queue a single response.
-        $body = (string) $client->request('GET', '/')->getBody();
+        $body = $client->request('GET', 'http://example.org/islandora/rest/v1/object/islandora:100')->getBody();
+        $body = (string) $body;
         $describe_object = json_decode($body, true);
 
         // Make an assertion.
         $this->assertEquals('fedoraAdmin', $describe_object['owner']);
     }
 }
-

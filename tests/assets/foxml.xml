@@ -1,0 +1,1298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foxml:digitalObject VERSION="1.1" PID="islandora:101"
+xmlns:foxml="info:fedora/fedora-system:def/foxml#"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/definitions/1/0/foxml1-1.xsd">
+<foxml:objectProperties>
+<foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
+<foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="Test object"/>
+<foxml:property NAME="info:fedora/fedora-system:def/model#ownerId" VALUE="admin"/>
+<foxml:property NAME="info:fedora/fedora-system:def/model#createdDate" VALUE="2017-03-10T07:09:34.383Z"/>
+<foxml:property NAME="info:fedora/fedora-system:def/view#lastModifiedDate" VALUE="2017-10-07T16:23:17.457Z"/>
+</foxml:objectProperties>
+<foxml:datastream ID="AUDIT" STATE="A" CONTROL_GROUP="X" VERSIONABLE="false">
+<foxml:datastreamVersion ID="AUDIT.0" LABEL="Audit Trail for this object" CREATED="2017-03-10T07:09:34.383Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:format/xml.fedora.audit">
+<foxml:xmlContent>
+<audit:auditTrail xmlns:audit="info:fedora/fedora-system:def/audit#">
+<audit:record ID="AUDREC1">
+<audit:process type="Fedora API-M"/>
+<audit:action>addDatastream</audit:action>
+<audit:componentID>TECHMD</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-10T07:11:01.165Z</audit:date>
+<audit:justification>Copied datastream from islandora:4.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC2">
+<audit:process type="Fedora API-M"/>
+<audit:action>addDatastream</audit:action>
+<audit:componentID>TN</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-10T07:11:02.525Z</audit:date>
+<audit:justification>Copied datastream from islandora:4.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC3">
+<audit:process type="Fedora API-M"/>
+<audit:action>addDatastream</audit:action>
+<audit:componentID>MEDIUM_SIZE</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-10T07:11:03.919Z</audit:date>
+<audit:justification>Copied datastream from islandora:4.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC4">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-10T14:22:50.314Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC5">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-10T17:26:27.387Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC6">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-10T22:42:11.310Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC7">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-11T15:42:45.135Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC8">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-12T17:21:28.990Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC9">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-13T13:33:24.114Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC10">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-14T02:49:12.221Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC11">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-14T14:58:55.395Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC12">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-15T20:30:47.436Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC13">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-16T01:03:01.692Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC14">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-16T13:40:09.818Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC15">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-17T02:16:25.068Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC16">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-03-20T17:53:51.191Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC17">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-04-25T20:27:26.664Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC18">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-04-28T13:42:07.347Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC19">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-01T14:19:09.948Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC20">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-02T15:14:09.696Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC21">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-02T15:14:18.593Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC22">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-02T22:29:38.674Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC23">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-06T14:18:39.962Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC24">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-07T21:46:50.299Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC25">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-09T02:48:33.067Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC26">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-09T17:24:26.209Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC27">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-10T13:47:20.897Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC28">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-11T19:06:19.168Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC29">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-12T20:46:05.394Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC30">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-14T17:04:45.312Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC31">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-18T13:34:38.015Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC32">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-19T11:53:37.316Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC33">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-22T18:39:38.910Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC34">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-23T17:19:13.478Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC35">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-24T01:41:15.986Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC36">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-24T14:10:17.214Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC37">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-25T23:42:46.883Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC38">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-29T15:03:36.442Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC39">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-05-31T03:09:16.428Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC40">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-01T14:49:30.425Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC41">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-01T23:06:45.765Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC42">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-05T14:05:18.900Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC43">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-06T14:18:32.349Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC44">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-07T18:07:56.880Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC45">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-08T17:31:43.717Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC46">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-12T15:02:19.709Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC47">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-13T23:17:19.772Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC48">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-14T13:36:49.059Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC49">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-14T21:09:41.952Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC50">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-15T20:17:50.949Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC51">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-16T06:38:32.366Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC52">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-17T00:54:11.321Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC53">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-20T21:21:33.219Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC54">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-26T13:56:44.475Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC55">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T20:22:40.665Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC56">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T20:24:23.257Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC57">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T20:28:08.893Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC58">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T20:37:36.715Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC59">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T20:37:46.767Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC60">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T20:38:52.154Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC61">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T20:39:01.330Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC62">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T20:39:06.759Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC63">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T20:39:13.644Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC64">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:22:28.391Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC65">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:29:19.304Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC66">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:31:11.928Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC67">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:40:24.477Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC68">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:41:04.087Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC69">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:41:51.659Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC70">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:43:51.888Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC71">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:44:32.529Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC72">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:45:01.136Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC73">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:49:34.099Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC74">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:50:17.839Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC75">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:53:03.206Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC76">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:53:26.741Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC77">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:53:36.215Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC78">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:54:44.882Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC79">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T21:56:15.579Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC80">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T23:12:34.416Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC81">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T23:13:46.536Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC82">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T23:16:07.005Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC83">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T23:22:34.700Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC84">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T23:25:44.988Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC85">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T23:28:12.888Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC86">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T23:31:49.556Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC87">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>DC</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T23:31:49.688Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC88">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MODS</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T23:33:46.007Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC89">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>DC</audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-27T23:33:46.164Z</audit:date>
+<audit:justification></audit:justification>
+</audit:record>
+<audit:record ID="AUDREC90">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-28T21:26:16.781Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC91">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-29T19:54:37.886Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC92">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-06-30T13:23:58.367Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC93">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-05T22:54:11.214Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC94">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-08T13:22:44.696Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC95">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-11T03:57:37.100Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC96">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-12T13:48:10.189Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC97">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-15T15:07:45.696Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC98">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-16T14:19:25.047Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC99">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-17T13:14:53.944Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC100">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-18T17:57:50.912Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC101">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-20T13:33:17.202Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC102">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-21T13:26:14.589Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC103">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-24T17:23:50.260Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC104">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-25T14:18:53.585Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC105">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-26T14:09:12.063Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC106">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-26T23:16:24.578Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC107">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-07-27T14:09:47.516Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC108">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-08-01T21:04:07.214Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC109">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-08-22T17:38:11.400Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC110">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-08-24T13:59:29.639Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC111">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-08-27T16:35:01.135Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC112">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-08-29T19:23:59.230Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC113">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-08-31T19:52:02.926Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC114">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-17T14:24:25.306Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC115">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-18T00:33:32.559Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC116">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-18T21:05:28.818Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC117">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-19T13:39:59.121Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+MODS+MODS.33; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC118">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-19T13:39:59.259Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC119">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-20T13:44:34.878Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+MODS+MODS.33; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC120">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-20T13:44:34.991Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC121">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-22T04:34:25.398Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+MODS+MODS.33; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC122">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-22T04:34:25.461Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC123">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-24T14:01:14.674Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+MODS+MODS.33; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC124">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-24T14:01:14.757Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC125">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-25T14:06:39.197Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+MODS+MODS.33; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC126">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-25T14:06:39.280Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC127">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-28T00:41:11.710Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+MODS+MODS.33; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC128">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-28T00:41:12.182Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC129">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-29T13:29:23.451Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+MODS+MODS.33; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC130">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-09-29T13:29:23.873Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC131">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-10-01T13:52:36.244Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+MODS+MODS.33; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC132">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-10-01T13:52:36.326Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC133">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-10-03T17:42:56.847Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+MODS+MODS.33; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC134">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-10-03T17:42:57.124Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC135">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-10-07T16:23:17.389Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+MODS+MODS.33; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC136">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyObject</audit:action>
+<audit:componentID></audit:componentID>
+<audit:responsibility>admin</audit:responsibility>
+<audit:date>2017-10-07T16:23:17.457Z</audit:date>
+<audit:justification>PREMIS:file=islandora:4+OBJ+OBJ.0; PREMIS:eventType=fixity check; PREMIS:eventOutcome=SHA-1 checksum validated.</audit:justification>
+</audit:record>
+</audit:auditTrail>
+</foxml:xmlContent>
+</foxml:datastreamVersion>
+</foxml:datastream>
+<foxml:datastream ID="RELS-EXT" STATE="A" CONTROL_GROUP="X" VERSIONABLE="true">
+<foxml:datastreamVersion ID="RELS-EXT.0" LABEL="Fedora Object to Object Relationship Metadata." CREATED="2017-03-10T07:09:34.383Z" MIMETYPE="application/rdf+xml" FORMAT_URI="info:fedora/fedora-system:FedoraRELSExt-1.0" SIZE="565">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="8a034499c801448c18a46103d9a08577ef756ad6"/>
+<foxml:xmlContent>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:fedora="info:fedora/fedora-system:def/relations-external#" xmlns:fedora-model="info:fedora/fedora-system:def/model#" xmlns:islandora="http://islandora.ca/ontology/relsext#">
+  <rdf:Description rdf:about="info:fedora/islandora:4">
+    <fedora:isMemberOfCollection rdf:resource="info:fedora/islandora:sp_basic_image_collection"></fedora:isMemberOfCollection>
+    <fedora-model:hasModel rdf:resource="info:fedora/islandora:sp_basic_image"></fedora-model:hasModel>
+  </rdf:Description>
+</rdf:RDF>
+</foxml:xmlContent>
+</foxml:datastreamVersion>
+</foxml:datastream>
+<foxml:datastream ID="MODS" STATE="A" CONTROL_GROUP="M" VERSIONABLE="true">
+<foxml:datastreamVersion ID="MODS.0" LABEL="MODS Record" CREATED="2017-03-10T07:09:34.383Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-03-10T07:09:34.383Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.1" LABEL="MODS Record" CREATED="2017-06-27T20:22:40.665Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T20:22:40.665Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.2" LABEL="MODS Record" CREATED="2017-06-27T20:24:23.257Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T20:24:23.257Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.3" LABEL="MODS Record" CREATED="2017-06-27T20:28:08.893Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T20:28:08.893Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.4" LABEL="MODS Record" CREATED="2017-06-27T20:37:36.715Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T20:37:36.715Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.5" LABEL="MODS Record" CREATED="2017-06-27T20:37:46.767Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T20:37:46.767Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.6" LABEL="MODS Record" CREATED="2017-06-27T20:38:52.154Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T20:38:52.154Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.7" LABEL="MODS Record" CREATED="2017-06-27T20:39:01.330Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T20:39:01.330Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.8" LABEL="MODS Record" CREATED="2017-06-27T20:39:06.759Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T20:39:06.759Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.9" LABEL="MODS Record" CREATED="2017-06-27T20:39:13.644Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T20:39:13.644Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.10" LABEL="MODS Record" CREATED="2017-06-27T21:22:28.391Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:22:28.391Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.11" LABEL="MODS Record" CREATED="2017-06-27T21:29:19.304Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:29:19.304Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.12" LABEL="MODS Record" CREATED="2017-06-27T21:31:11.928Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:31:11.928Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.13" LABEL="MODS Record" CREATED="2017-06-27T21:40:24.477Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:40:24.477Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.14" LABEL="MODS Record" CREATED="2017-06-27T21:41:04.087Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:41:04.087Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.15" LABEL="MODS Record" CREATED="2017-06-27T21:41:51.659Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:41:51.659Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.16" LABEL="MODS Record" CREATED="2017-06-27T21:43:51.888Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:43:51.888Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.17" LABEL="MODS Record" CREATED="2017-06-27T21:44:32.529Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:44:32.529Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.18" LABEL="MODS Record" CREATED="2017-06-27T21:45:01.136Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:45:01.136Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.19" LABEL="MODS Record" CREATED="2017-06-27T21:49:34.099Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:49:34.099Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.20" LABEL="MODS Record" CREATED="2017-06-27T21:50:17.839Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:50:17.839Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.21" LABEL="MODS Record" CREATED="2017-06-27T21:53:03.206Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:53:03.206Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.22" LABEL="MODS Record" CREATED="2017-06-27T21:53:26.741Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:53:26.741Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.23" LABEL="MODS Record" CREATED="2017-06-27T21:53:36.215Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:53:36.215Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.24" LABEL="MODS Record" CREATED="2017-06-27T21:54:44.882Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:54:44.882Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.25" LABEL="MODS Record" CREATED="2017-06-27T21:56:15.579Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T21:56:15.579Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.26" LABEL="MODS Record" CREATED="2017-06-27T23:12:34.416Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T23:12:34.416Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.27" LABEL="MODS Record" CREATED="2017-06-27T23:13:46.536Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T23:13:46.536Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.28" LABEL="MODS Record" CREATED="2017-06-27T23:16:07.005Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T23:16:07.005Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.29" LABEL="MODS Record" CREATED="2017-06-27T23:22:34.700Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T23:22:34.700Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.30" LABEL="MODS Record" CREATED="2017-06-27T23:25:44.988Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T23:25:44.988Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.31" LABEL="MODS Record" CREATED="2017-06-27T23:28:12.888Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T23:28:12.888Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.32" LABEL="MODS Record" CREATED="2017-06-27T23:31:49.556Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T23:31:49.556Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MODS.33" LABEL="MODS Record" CREATED="2017-06-27T23:33:46.007Z" MIMETYPE="application/xml" SIZE="955">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="115bc2d6b28264016cecc244aa251ea963201cc8"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MODS/2017-06-27T23:33:46.007Z"/>
+</foxml:datastreamVersion>
+</foxml:datastream>
+<foxml:datastream ID="DC" STATE="A" CONTROL_GROUP="M" VERSIONABLE="true">
+<foxml:datastreamVersion ID="DC.0" LABEL="DC Record" CREATED="2017-03-10T07:09:34.383Z" MIMETYPE="application/xml" SIZE="734">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="90df68660055c940fe999c1af4c13e634ab9baa6"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/DC/2017-03-10T07:09:34.383Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="DC.1" LABEL="DC Record" CREATED="2017-06-27T23:31:49.688Z" MIMETYPE="application/xml" SIZE="1232">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="2dc0f4ba1b16af7502b8c6901aa64d51d63e4379"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/DC/2017-06-27T23:31:49.688Z"/>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="DC.2" LABEL="DC Record" CREATED="2017-06-27T23:33:46.164Z" MIMETYPE="application/xml" SIZE="1232">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="2dc0f4ba1b16af7502b8c6901aa64d51d63e4379"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/DC/2017-06-27T23:33:46.164Z"/>
+</foxml:datastreamVersion>
+</foxml:datastream>
+<foxml:datastream ID="OBJ" STATE="A" CONTROL_GROUP="M" VERSIONABLE="true">
+<foxml:datastreamVersion ID="OBJ.0" LABEL="OBJ Datastream" CREATED="2017-03-10T07:09:34.383Z" MIMETYPE="image/jpeg" SIZE="1910313">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="b714241f7851f30de46b08b7a006d8b985e31a5f"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/OBJ/2017-03-10T07:09:34.383Z"/>
+</foxml:datastreamVersion>
+</foxml:datastream>
+<foxml:datastream ID="TECHMD" STATE="A" CONTROL_GROUP="M" VERSIONABLE="true">
+<foxml:datastreamVersion ID="TECHMD.0" LABEL="TECHMD" CREATED="2017-03-10T07:11:01.165Z" MIMETYPE="application/xml" SIZE="10253">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="d1765c0f2300936c49617e8b8e2b2cea7251f4e6"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/TECHMD/2017-03-10T07:11:01.165Z"/>
+</foxml:datastreamVersion>
+</foxml:datastream>
+<foxml:datastream ID="TN" STATE="A" CONTROL_GROUP="M" VERSIONABLE="true">
+<foxml:datastreamVersion ID="TN.0" LABEL="TN" CREATED="2017-03-10T07:11:02.525Z" MIMETYPE="image/jpeg" SIZE="19363">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="7308c8da3195b258417ca5bb624b18c2056c8c5e"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/TN/2017-03-10T07:11:02.525Z"/>
+</foxml:datastreamVersion>
+</foxml:datastream>
+<foxml:datastream ID="MEDIUM_SIZE" STATE="A" CONTROL_GROUP="M" VERSIONABLE="true">
+<foxml:datastreamVersion ID="MEDIUM_SIZE.0" LABEL="MEDIUM_SIZE" CREATED="2017-03-10T07:11:03.919Z" MIMETYPE="image/jpeg" SIZE="34432">
+<foxml:contentDigest TYPE="SHA-1" DIGEST="32e4a1e2ca18235fb406526770b186c9cf76a526"/>
+<foxml:contentLocation TYPE="INTERNAL_ID" REF="http://localhost:8080/fedora/get/islandora:4/MEDIUM_SIZE/2017-03-10T07:11:03.919Z"/>
+</foxml:datastreamVersion>
+</foxml:datastream>
+</foxml:digitalObject>
