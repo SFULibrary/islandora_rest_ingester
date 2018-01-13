@@ -15,6 +15,7 @@
 
 require_once 'vendor/autoload.php';
 use Monolog\Logger;
+use Monolog\Handler\IngestErrorNotifier;
 
 require_once 'includes/utilites.inc';
 
@@ -89,8 +90,9 @@ $cmd->option('z')
 
 $path_to_log = $cmd['l'];
 $log = new Monolog\Logger('Islandora REST Ingester');
-$log_stream_handler= new Monolog\Handler\StreamHandler($path_to_log, Logger::INFO);
+$log_stream_handler = new Monolog\Handler\StreamHandler($path_to_log, Logger::INFO);
 $log->pushHandler($log_stream_handler);
+$error_notifier_handler = new Monolog\Handler\IngestErrorNotifier($log_stream_handler);
 
 $log->addInfo("ingest.php (endpoint " . $cmd['e'] . ") started at ". date("F j, Y, g:i a"));
 
@@ -151,6 +153,7 @@ if ($parent_pid != '200') {
 
 $object_dirs = new FilesystemIterator($cmd[0]);
 foreach ($object_dirs as $object_dir) {
+    $are_errors = false;
     try {
         $pid = $ingester->packageObject(rtrim($object_dir->getPathname(), DIRECTORY_SEPARATOR));
         if ($cmd['delete_input']) {
@@ -160,9 +163,17 @@ foreach ($object_dirs as $object_dir) {
             }
         }
     } catch (Exception $e) {
-        if ($pid) {
-            $log->addError("Error with object $pid from input directory " . $object_dir->getPathname() .
-                "; more information may be available in the log.");
+        if ($log->pushHandler($error_notifier_handler)) {
+            $are_errors = true;
+        }
+        if (isset($pid) && $pid) {
+            if ($pid) {
+                $log->addError("Error with object $pid from input directory " . $object_dir->getPathname() .
+                    "; more information may be available in the log.");
+            } else {
+                $log->addError("Error with object $pid from input directory " . $object_dir->getPathname() .
+                    " (PID not available) ; more information may be available in the log.");
+            }
         } else {
             $log->addError("Error with object from input directory " . $object_dir->getPathname() .
                 " (PID not available) ; more information may be available in the log.");
@@ -172,3 +183,6 @@ foreach ($object_dirs as $object_dir) {
 }
 
 $log->addInfo("ingest.php finished at ". date("F j, Y, g:i a"));
+if ($are_errors) {
+    print "There are one or more errors in your log at " . $cmd['l'] .".\n";
+}
