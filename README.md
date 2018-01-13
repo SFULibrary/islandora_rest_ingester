@@ -315,7 +315,7 @@ The log file records when the Islandora REST Ingester was run, what objects and 
 [2017-07-17 07:13:48] Islandora REST Ingester.INFO: ingest.php finished at July 17, 2017, 7:13 am [] []
 ```
 
-You can specify the location of the log file with the `-l` option.
+You can specify the location of the log file with the `-l` option. If there are any error entries in your log, the REST Ingester will tell you, but it won't inform you of other types of log entries.
 
 ### Sample content
 
