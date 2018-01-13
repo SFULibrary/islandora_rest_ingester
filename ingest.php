@@ -151,14 +151,22 @@ if ($parent_pid != '200') {
 
 $object_dirs = new FilesystemIterator($cmd[0]);
 foreach ($object_dirs as $object_dir) {
-    if ($pid = $ingester->packageObject(rtrim($object_dir->getPathname(), DIRECTORY_SEPARATOR))) {
+    try {
+        $pid = $ingester->packageObject(rtrim($object_dir->getPathname(), DIRECTORY_SEPARATOR));
         if ($cmd['delete_input']) {
             if (rm_tree($object_dir->getPathname())) {
                 $log->addInfo("Input files for object $pid (including all children files) deleted from " .
                     $object_dir->getPathname());
             }
         }
-    } else {
+    } catch (Exception $e) {
+        if ($pid) {
+            $log->addError("Error with object $pid from input directory " . $object_dir->getPathname() .
+                "; more information may be available in the log.");
+        } else {
+            $log->addError("Error with object from input directory " . $object_dir->getPathname() .
+                " (PID not available) ; more information may be available in the log.");
+        }
         continue;
     }
 }
