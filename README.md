@@ -326,7 +326,7 @@ Multiple plugins can be invoked by specifying their names in a comma-separated l
 
 #### Writing plugins 
 
-The ingester looks for plugin files in the `includes` directory. Each plugin file is a PHP class file named `[classname].plugin.php` and if found, instantiate the plugin's class. Each plugin class has one required method, -execute() and inherits the current object directory, Monolog logger, and Commando command. See `includes/Example.plugin.php` and 'includes/CreateModsStub.plugin.php` for examples.
+The ingester looks for plugin files in the `includes` directory. Each plugin file is a PHP class file named `[classname].plugin.php` and if found, instantiate the plugin's class. Each plugin class has one required method, `execute()`, and inherits the current object directory, Monolog logger, and Commando command. See `includes/Example.plugin.php` and `includes/CreateModsStub.plugin.php` for examples.
 
 ### Sample content
 
