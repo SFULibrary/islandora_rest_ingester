@@ -26,10 +26,10 @@
  * │   └── OBJ.jpg
  * └── baz
  *  ├── MODS.xml
- *  ├── TN.png
  *  └── OJB.jpg
  *
- * To use this script, register it in your MIK .ini file's WRITER section like this:
+ * To use this script, copy it to your MIK extras/scripts directory, and register it in your
+ * MIK .ini file's WRITER section like this:
  *
  * [WRITER]
  * postwritehooks[] = "/usr/bin/php extras/scripts/postwritehooks/repackage_for_rest_ingester.php"
