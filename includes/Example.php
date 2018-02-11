@@ -5,7 +5,7 @@
  * This is an example class file for Ingesters. Do not use it in production.
  */
 
-namespace islandora_rest_client\ingesters;
+namespace islandora_rest_ingester\ingesters;
 
 /**
  * Islandora REST Ingester example class file.
@@ -97,7 +97,7 @@ class Example extends Ingester
         // Since each child is an object in its own right, you can pass off its
         // ingestion to another Ingester. In this example, we assume that the child
         // objects are single-file objects.
-        $child_ingester = new \islandora_rest_client\ingesters\Single($this->log, $this->command);
+        $child_ingester = new \islandora_rest_ingester\ingesters\Single($this->log, $this->command);
 
         // Iterate through subdirectories of the parent's input and create a child for each.
         // Note that recursing the parent object's directory to get its children is not

@@ -1,6 +1,6 @@
 <?php
 
-namespace islandora_rest_client\ingesters;
+namespace islandora_rest_ingester\ingesters;
 
 /**
  * Islandora REST Ingester Compound (islandora:compoundCModel) class.
@@ -72,7 +72,7 @@ class Compound extends Ingester
 
         // Get the child object directories and ingest each child.
         $child_pids = array();
-        $child_ingester = new \islandora_rest_client\ingesters\Single($this->log, $this->command);
+        $child_ingester = new \islandora_rest_ingester\ingesters\Single($this->log, $this->command);
         $child_dirs = new \FilesystemIterator(realpath($dir));
         foreach ($child_dirs as $child_dir) {
             $child_dir = $child_dir->getPathname();

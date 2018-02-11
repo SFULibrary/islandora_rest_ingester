@@ -77,6 +77,9 @@ $cmd->option('s')
     ->aka('state')
     ->describedAs('Object state. Default is A (active). Allowed values are I (inactive) and D (deleted).')
     ->default('A');
+$cmd->option('g')
+    ->aka('plugins')
+    ->describedAs('A comma-separated list of plugin names.');
 $cmd->option('d')
     ->aka('delete_input')
     ->describedAs('Whether or not to delete the input files for an object after they have been successfully ingested.')
@@ -113,23 +116,23 @@ switch ($cmd['m']) {
     case 'islandora:personCModel':
     case 'islandora:organizationCModel':
     case 'islandora:sp_web_archive':
-        $ingester = new \islandora_rest_client\ingesters\Single($log, $cmd);
+        $ingester = new \islandora_rest_ingester\ingesters\Single($log, $cmd);
         break;
     case 'islandora:newspaperIssueCModel':
-        $ingester = new \islandora_rest_client\ingesters\NewspaperIssue($log, $cmd);
+        $ingester = new \islandora_rest_ingester\ingesters\NewspaperIssue($log, $cmd);
         break;
     case 'islandora:bookCModel':
-        $ingester = new \islandora_rest_client\ingesters\Book($log, $cmd);
+        $ingester = new \islandora_rest_ingester\ingesters\Book($log, $cmd);
         break;
     case 'islandora:compoundCModel':
-        $ingester = new \islandora_rest_client\ingesters\Compound($log, $cmd);
+        $ingester = new \islandora_rest_ingester\ingesters\Compound($log, $cmd);
         break;
 }
 
 // Get any custom cmodel -> class mappings.
 if (file_exists('cmodel_classmap.txt')) {
     if ($class = get_ingester($cmd)) {
-        $class_path = '\\islandora_rest_client\\ingesters\\' . $class;
+        $class_path = '\\islandora_rest_ingester\\ingesters\\' . $class;
         $ingester = new $class_path($log, $cmd);
     }
 }

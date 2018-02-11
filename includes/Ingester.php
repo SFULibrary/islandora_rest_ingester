@@ -1,6 +1,6 @@
 <?php
 
-namespace islandora_rest_client\ingesters;
+namespace islandora_rest_ingester\ingesters;
 
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
@@ -50,6 +50,25 @@ abstract class Ingester
      *    The new object's PID, FALSE if it wasn't ingested.
      */
     abstract public function packageObject($object_dir);
+
+    public function executePlugins($object_dir)
+    {
+        if (strlen($this->command['g'])) {
+            $plugins = $this->command['g'];
+            $plugins = explode(',', $this->command['g']);
+            foreach ($plugins as $plugin_file) {
+                $plugin_path = dirname(__DIR__) . '/includes/' . $plugin_file . '.plugin.php';           
+                if (file_exists($plugin_path)) {
+                    $this->log->addInfo("Found plugin file at " . $plugin_path);
+                    $class_name = '\\islandora_rest_ingester\\plugins\\' . $plugin_file;
+                    $plugin = new $class_name($object_dir, $this->log, $this->command);
+                    $plugin->execute();
+                } else {
+                    $this->log->addWarning("Cannot find plugin file at " . $plugin_path);
+                }
+            }
+        }
+    }
 
     /**
      * Ingests the Islandora object vi the REST interface.

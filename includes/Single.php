@@ -1,6 +1,6 @@
 <?php
 
-namespace islandora_rest_client\ingesters;
+namespace islandora_rest_ingester\ingesters;
 
 /**
  * Islandora REST Ingester Single (e.g. basic image, PDF, etc.) class.
@@ -32,6 +32,8 @@ class Single extends Ingester
      */
     public function packageObject($dir)
     {
+        $this->executePlugins($dir);
+
         // Get the object's label from the MODS.xml file. If there is
         // no MODS.xml file in the input directory, move on to the
         // next directory.

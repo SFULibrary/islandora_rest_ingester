@@ -1,6 +1,6 @@
 <?php
 
-namespace islandora_rest_client\ingesters;
+namespace islandora_rest_ingester\ingesters;
 
 /**
  * Islandora REST Ingester Book (islandora:bookCModel) class.
@@ -72,7 +72,7 @@ class Book extends Ingester
 
         // Get the child (page) directories and ingest each one.
         $page_pids = array();
-        $page_ingester = new \islandora_rest_client\ingesters\Single($this->log, $this->command);
+        $page_ingester = new \islandora_rest_ingester\ingesters\Single($this->log, $this->command);
         $page_dirs = new \FilesystemIterator(realpath($dir));
         foreach ($page_dirs as $page_dir) {
             $page_dir = $page_dir->getPathname();

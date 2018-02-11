@@ -1,6 +1,6 @@
 <?php
 
-namespace islandora_rest_client\ingesters;
+namespace islandora_rest_ingester\ingesters;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
