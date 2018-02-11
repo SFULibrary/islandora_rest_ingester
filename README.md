@@ -317,6 +317,17 @@ The log file records when the Islandora REST Ingester was run, what objects and 
 
 You can specify the location of the log file with the `-l` option. If there are any error entries in your log, the REST Ingester will tell you, but it won't inform you of other types of log entries.
 
+### Plugins
+#### Using plugins 
+
+Plugins allow you to perform actions just before objects are packaged up for ingestion. Currently, the only plugin available is the `CreateModsStub` plugin, which generates a very basic MODS.xml file in each object directory if none is already present. This MODS file uses the object directory's name as the object title. To run this plugin, include `-g CreateModsStub` in your command.
+
+Multiple plugins can be invoked by specifying their names in a comma-separated list in the -g option, for example `-g Foo,Bar`. In this example, if the plugin files for both `Foo` and `Bar` plugins exist, code in those files would be executed in that order.
+
+#### Writing plugins 
+
+The ingester looks for plugin files in the `includes` directory. Each plugin file is a PHP class file named `[classname].plugin.php` and if found, instantiate the plugin's class. Each plugin class has one required method, -execute() and inherits the current object directory, Monolog logger, and Commando command. See `includes/Example.plugin.php` and 'includes/CreateModsStub.plugin.php` for examples.
+
 ### Sample content
 
 The directory `sampledata` provides samples that are intended to illustrate how input should be arranged, and to let you try ingesting objects quickly. All objects are from Simon Fraser University's Islandora instance at http://digital.lib.sfu.ca; a few are concocted, such as the same binary object.

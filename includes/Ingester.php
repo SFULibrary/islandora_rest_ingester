@@ -57,7 +57,7 @@ abstract class Ingester
             $plugins = $this->command['g'];
             $plugins = explode(',', $this->command['g']);
             foreach ($plugins as $plugin_file) {
-                $plugin_path = dirname(__DIR__) . '/includes/' . $plugin_file . '.plugin.php';           
+                $plugin_path = dirname(__DIR__) . '/includes/' . $plugin_file . '.plugin.php';
                 if (file_exists($plugin_path)) {
                     $this->log->addInfo("Found plugin file at " . $plugin_path);
                     $class_name = '\\islandora_rest_ingester\\plugins\\' . $plugin_file;

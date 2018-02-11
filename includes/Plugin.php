@@ -26,5 +26,4 @@ abstract class Plugin
      * Execute the plugin.
      */
     abstract public function execute();
-
 }
