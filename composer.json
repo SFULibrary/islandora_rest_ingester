@@ -14,10 +14,11 @@
         "guzzlehttp/guzzle": "~6.0",
         "nategood/commando": "*",
         "ralouphie/mimey": "*",
-        "monolog/monolog": "~1.13"
+        "monolog/monolog": "~1.13",
+        "mjordan/irc": "dev-master"
     },
         "scripts": {
         "tests": "./vendor/bin/phpunit tests",
-        "style": "./vendor/bin/phpcs --standard=PSR2 includes ingest.php tests"
+        "style": "./vendor/bin/phpcs --standard=PSR2 includes tests"
     }
 }

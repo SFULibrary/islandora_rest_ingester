@@ -199,6 +199,9 @@ INPUT_DIR
 -l/--log <argument>
      Path to the log. Default is ./rest_ingest.log
 
+-g/--plugins <argument>
+     A comma-separated list of plugin names.
+
 -t/--token <argument>
      Required. REST authentication token.
 
@@ -318,6 +321,7 @@ The log file records when the Islandora REST Ingester was run, what objects and 
 You can specify the location of the log file with the `-l` option. If there are any error entries in your log, the REST Ingester will tell you, but it won't inform you of other types of log entries.
 
 ### Plugins
+
 #### Using plugins 
 
 Plugins allow you to perform actions just before objects are packaged up for ingestion. Currently, the only plugin available is the `CreateModsStub` plugin, which generates a very basic MODS.xml file in each object directory if none is already present. This MODS file uses the object directory's name as the object title. To run this plugin, include `-g CreateModsStub` in your command.
@@ -354,7 +358,7 @@ islandora:bar   Example
 ```
 ### Extending the base Ingester class
 
-Custom Ingester class files must be placed in the `includes` directory. An example annotate Ingester is provided at `includes/Example.php`. After you put new class files in the `includes` directory, be sure to run `composer dump-autoload` to update the application's classmap.
+Custom Ingester class files must be placed in the `includes` directory. Example Ingesters are provided at `includes/Example.php` and `includes\ESIngester.php`. After you put new class files in the `includes` directory, be sure to run `composer dump-autoload` to update the application's classmap.
 
 ## Integrating the Islandora REST Ingester with other tools
 

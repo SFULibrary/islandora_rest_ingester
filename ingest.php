@@ -97,6 +97,13 @@ $log_stream_handler = new Monolog\Handler\StreamHandler($path_to_log, Logger::IN
 $log->pushHandler($log_stream_handler);
 $error_notifier_handler = new Monolog\Handler\IngestErrorNotifier($log_stream_handler);
 
+function exception_handler($exception)
+{
+     print "Uncaught exception: " , $exception->getMessage(), "\n";
+}
+
+set_exception_handler('exception_handler');
+
 $log->addInfo("ingest.php (endpoint " . $cmd['e'] . ") started at ". date("F j, Y, g:i a"));
 
 switch ($cmd['m']) {
