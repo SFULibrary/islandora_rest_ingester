@@ -43,10 +43,15 @@ class ESIngester extends Ingester
      */
     public function packageObject($path)
     {
+        $pathinfo = pathinfo($path);
+
+        if (in_array($pathinfo['basename'], $this->unwantedFiles)) {
+            return;
+        }
+
         $this->executePlugins($path);
 
         // Get the object's label from the file.
-        $pathinfo = pathinfo($path);
         $label = trim($pathinfo['filename']);
 
         $cmodel = $this->command['m'];

@@ -35,7 +35,7 @@ Secondarily, ingestion tools that use Islandora's REST interface demonstrate the
 
 ### When not to use the REST Ingester
 
-One significant advantage that the `drush`-based batch modules have over the Islandora REST Ingester is that they can ingest datastream files that exceed the Islandora server's maximum file upload setting. This setting is configurable but has practical limits. The best method for ingesting a video object whose OBJ is 3 GB is to use Islandora Batch's `drush` interface. Because the Islandora REST Ingester ingests objects over HTTP, it is also succeptible to this maxiumum file size.
+One significant advantage that the `drush`-based batch modules have over the Islandora REST Ingester is that they can ingest datastream files that exceed the Islandora server's maximum file upload setting. This setting is configurable but has practical limits. Because the Islandora REST Ingester ingests objects over HTTP, it is also succeptible to this maxiumum file size.
 
 The Islandora REST Ingester provides an option, `--max_file_size`, that will skip ingesting any datastream above the specified number of megabytes. All datastreams skipped for this reason are logged.
 
