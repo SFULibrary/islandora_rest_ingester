@@ -401,21 +401,26 @@ function get_cmodel_from_cmodel_txt($dir)
 }
 
 /**
- * Recursively delete a directory.
+ * Recursively delete a directory, or delete a file.
  *
  * @param $dir string
- *   Path to the directory.
+ *   Path to the directory or to a file.
  *
  * @return bool
  *   True if successful, false if not.
  */
-function rm_tree($dir)
+function rm_tree($path)
 {
-    $files = array_diff(scandir($dir), array('.','..'));
-    foreach ($files as $file) {
-        (is_dir("$dir/$file")) ? rm_tree("$dir/$file") : unlink("$dir/$file");
+    if (is_dir($path)) {
+        $files = array_diff(scandir($path), array('.','..'));
+        foreach ($files as $file) {
+            (is_dir("$path/$file")) ? rm_tree("$path/$file") : unlink("$path/$file");
+        }
+        return rmdir($path);
     }
-    return rmdir($dir);
+    if (is_file($path)) {
+        return unlink($path);
+    }
 }
 
 /**

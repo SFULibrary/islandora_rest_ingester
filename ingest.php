@@ -99,7 +99,7 @@ $error_notifier_handler = new Monolog\Handler\IngestErrorNotifier($log_stream_ha
 
 function exception_handler($exception)
 {
-     print "Uncaught exception: " , $exception->getMessage(), "\n";
+     print "Uncaught exception: " . $exception->getMessage() . "\n";
 }
 
 set_exception_handler('exception_handler');
