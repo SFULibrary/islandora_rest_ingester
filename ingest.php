@@ -192,6 +192,12 @@ foreach ($object_dirs as $object_dir) {
     }
 }
 
+if (!isset($are_errors)) {
+    print "No input directories or files found. Please check " . $cmd[0] . ".\n";
+    $log->addInfo("ingest.php finished at ". date("F j, Y, g:i a"));
+    exit;
+}
+
 $log->addInfo("ingest.php finished at ". date("F j, Y, g:i a"));
 if ($are_errors) {
     print "There are one or more errors in your log at " . $cmd['l'] .".\n";

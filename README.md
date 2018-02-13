@@ -222,7 +222,29 @@ Please note:
 * when ingesting newspaper issues, the value of the `--cmodel` option should be "islandora:newspaperIssueCModel", and the value of the `--parent` option should be the PID of the newspaper object. You do not need to include the `--relationship` argument.
 * operating system junk files 'Thumbs.db' and 'DS_Store' are ignored.
 
-### Specifying the content model
+## The log file
+
+The log file records when the Islandora REST Ingester was run, what objects and datastreams it ingested, and checksum verifications (if checksums were enabled on datastreams). It also records any exceptions thown during REST requests:
+
+```
+[2017-07-17 07:12:35] Islandora REST Ingester.INFO: ingest.php (endpoint http://localhost:8000/islandora/rest/v1) started at July 17, 2017, 7:12 am [] []
+[2017-07-17 07:12:35] Islandora REST Ingester.WARNING: /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/bar appears to be empty, skipping. [] []
+[2017-07-17 07:12:35] Islandora REST Ingester.INFO: Object rest:172 ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz [] []
+[2017-07-17 07:12:36] Islandora REST Ingester.INFO: Object rest:172 datastream MODS ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz/MODS.xml [] []
+[2017-07-17 07:12:36] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:172 datastream MODS verified. [] []
+[2017-07-17 07:13:37] Islandora REST Ingester.INFO: Object rest:172 datastream OBJ ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz/OBJ.png [] []
+[2017-07-17 07:13:37] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:172 datastream OBJ verified. [] []
+[2017-07-17 07:13:38] Islandora REST Ingester.INFO: Object rest:173 ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo [] []
+[2017-07-17 07:13:38] Islandora REST Ingester.INFO: Object rest:173 datastream MODS ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo/MODS.xml [] []
+[2017-07-17 07:13:38] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:173 datastream MODS verified. [] []
+[2017-07-17 07:13:48] Islandora REST Ingester.INFO: Object rest:173 datastream OBJ ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo/OBJ.jpg [] []
+[2017-07-17 07:13:48] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:173 datastream OBJ verified. [] []
+[2017-07-17 07:13:48] Islandora REST Ingester.INFO: ingest.php finished at July 17, 2017, 7:13 am [] []
+```
+
+You can specify the location of the log file with the `-l` option. If there are any error entries in your log, the REST Ingester will tell you, but it won't inform you of other types of log entries.
+
+## Specifying the content model
 
 The `--cmodel` option tells the ingest.php script which ingester class to invoke for each object in the input directory. A default (paged) content model is applied to pages in books and newspaper issues, and the content model for each child element in a compound object is assigned based on the OBJ datastream file's extension. If the content model cannot be assigned from the extension, the child object is not ingested.
 
@@ -235,13 +257,13 @@ islandora:binaryObjectCModel
 ```
 This content model is used instead of the one provided in the `--cmodel` option.
 
-### Generating DC XML
+## Generating DC XML
 
 All Fedora objects are assigned a default DC datastream that contains only the object label and its PID. Islandora generates richer DC XML from the MODS (or other XML) datastream either via XML Forms if the object is ingested using the Web interface or via one of the batch ingest modules. Islandora REST bypasses both, so objects ingested via REST only get the default Fedora DC XML datastream.
 
 To generate DC from MODS or another XML datastream, install and enable the [Islandora REST Extras](https://github.com/mjordan/islandora_rest_extras) module.
 
-### Adding extra relationships
+## Adding extra relationships
 
 All relationships defining content models, collection membership, and parent/page or parent/child relationships are added to objects automatically, but additional relationships can be added to objects by specifying them in a file named "relationships.json" within the object-level input directory. The relationships are expressed in a JSON structure like this:
 
@@ -265,7 +287,7 @@ All relationships defining content models, collection membership, and parent/pag
 ```
 This relationships.json file will add the object to two additional collections, `myother:collection` and `yetanother:collection`.
 
-### Replacing objects by providing PIDs
+## Replacing objects by providing PIDs
 
 The Islandora REST interface allows you to provide a full PID when ingesting an object, allowing us to replace/restore objects. This is not an update operation; if an object with the specified PID exists, it must be purged before the PID can be reused.
 
@@ -298,48 +320,18 @@ The ingest command should omit the `--namespace` option. For example, the follow
 
 Note that the restored object's owner, label, and state are assigned like they are for any other ingested object. However, if a 'foxml.xml' file is present in the object's input directory (like in the 'bar:1' object above), the owner, label, and state are taken from it.
 
-### The log file
+## Plugins
 
-The log file records when the Islandora REST Ingester was run, what objects and datastreams it ingested, and checksum verifications (if checksums were enabled on datastreams). It also records any exceptions thown during REST requests:
-
-```
-[2017-07-17 07:12:35] Islandora REST Ingester.INFO: ingest.php (endpoint http://localhost:8000/islandora/rest/v1) started at July 17, 2017, 7:12 am [] []
-[2017-07-17 07:12:35] Islandora REST Ingester.WARNING: /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/bar appears to be empty, skipping. [] []
-[2017-07-17 07:12:35] Islandora REST Ingester.INFO: Object rest:172 ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz [] []
-[2017-07-17 07:12:36] Islandora REST Ingester.INFO: Object rest:172 datastream MODS ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz/MODS.xml [] []
-[2017-07-17 07:12:36] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:172 datastream MODS verified. [] []
-[2017-07-17 07:13:37] Islandora REST Ingester.INFO: Object rest:172 datastream OBJ ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/baz/OBJ.png [] []
-[2017-07-17 07:13:37] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:172 datastream OBJ verified. [] []
-[2017-07-17 07:13:38] Islandora REST Ingester.INFO: Object rest:173 ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo [] []
-[2017-07-17 07:13:38] Islandora REST Ingester.INFO: Object rest:173 datastream MODS ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo/MODS.xml [] []
-[2017-07-17 07:13:38] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:173 datastream MODS verified. [] []
-[2017-07-17 07:13:48] Islandora REST Ingester.INFO: Object rest:173 datastream OBJ ingested from /home/mark/Documents/hacking/islandora_rest_scripts/ingest_islandora_objects_via_rest/testinput/foo/OBJ.jpg [] []
-[2017-07-17 07:13:48] Islandora REST Ingester.INFO: SHA-1 checksum for object rest:173 datastream OBJ verified. [] []
-[2017-07-17 07:13:48] Islandora REST Ingester.INFO: ingest.php finished at July 17, 2017, 7:13 am [] []
-```
-
-You can specify the location of the log file with the `-l` option. If there are any error entries in your log, the REST Ingester will tell you, but it won't inform you of other types of log entries.
-
-### Plugins
-
-#### Using plugins 
+### Using plugins 
 
 Plugins allow you to perform actions just before objects are packaged up for ingestion. Currently, the only plugin available is the `CreateModsStub` plugin, which generates a very basic MODS.xml file in each object directory if none is already present. This MODS file uses the object directory's name as the object title. To run this plugin, include `-g CreateModsStub` in your command.
 
 Multiple plugins can be invoked by specifying their names in a comma-separated list in the -g option, for example `-g Foo,Bar`. In this example, if the plugin files for both `Foo` and `Bar` plugins exist, code in those files would be executed in that order.
 
-#### Writing plugins 
+### Writing plugins 
 
 The ingester looks for plugin files in the `includes` directory. Each plugin file is a PHP class file named `[classname].plugin.php` and if found, instantiate the plugin's class. Each plugin class has one required method, `execute()`, and inherits the current object directory, Monolog logger, and Commando command. See `includes/Example.plugin.php` and `includes/CreateModsStub.plugin.php` for examples.
 
-### Sample content
-
-The directory `sampledata` provides samples that are intended to illustrate how input should be arranged, and to let you try ingesting objects quickly. All objects are from Simon Fraser University's Islandora instance at http://digital.lib.sfu.ca; a few are concocted, such as the same binary object.
-
-* single file objects: to ingest these three objects (two editorial cartoons and one binary object), run the command `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_large_image_cmodel -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/single`
-* compound objects: to ingest these two objects (two postcards), run `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:compoundCModel -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/compound`
-* book: to ingest the sample book (there is only one, and to reduce the size of the sample data it only contains pages 1-4 and 17-19), run `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:bookCModel  -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/book`
-* newspaper issues: to ingest the two sample newspaper issues, create a newspaper object and run the command `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:newspaperIssueCModel -p my:newspaper -n mynamespace -o admin -u admin -t admintoken sampledata/newspaper`
 
 ## Ingesting custom content models
 
@@ -358,7 +350,7 @@ islandora:bar   Example
 ```
 ### Extending the base Ingester class
 
-Custom Ingester class files must be placed in the `includes` directory. Example Ingesters are provided at `includes/Example.php` and `includes\ESIngester.php`. After you put new class files in the `includes` directory, be sure to run `composer dump-autoload` to update the application's classmap.
+Custom Ingester class files must be placed in the `includes` directory. Example Ingesters are provided at `includes/Example.php` and `includes/ESIngester.php`. After you put new class files in the `includes` directory, be sure to run `composer dump-autoload` to update the application's classmap.
 
 ## Integrating the Islandora REST Ingester with other tools
 
@@ -415,6 +407,15 @@ php iipqa --strict -m newspapers -l /tmp/sample_iipaq.log /tmp/sample_packages
 cd /path/to/rest_ingester
 php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:newspaperIssueCModel -p my:newspaper -n mynamespace -o admin -u admin -t admintoken /tmp/sample_packages
 ```
+
+## Sample content
+
+The directory `sampledata` provides samples that are intended to illustrate how input should be arranged, and to let you try ingesting objects quickly. All objects are from Simon Fraser University's Islandora instance at http://digital.lib.sfu.ca; a few are concocted, such as the same binary object.
+
+* single file objects: to ingest these three objects (two editorial cartoons and one binary object), run the command `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:sp_large_image_cmodel -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/single`
+* compound objects: to ingest these two objects (two postcards), run `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:compoundCModel -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/compound`
+* book: to ingest the sample book (there is only one, and to reduce the size of the sample data it only contains pages 1-4 and 17-19), run `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:bookCModel  -p restingester:collection -n mynamespace -o admin -u admin -t admintoken sampledata/book`
+* newspaper issues: to ingest the two sample newspaper issues, create a newspaper object and run the command `php ingest.php -l mylog.log -e http://localhost:8000/islandora/rest/v1 -m islandora:newspaperIssueCModel -p my:newspaper -n mynamespace -o admin -u admin -t admintoken sampledata/newspaper`
 
 ## Maintainer
 
