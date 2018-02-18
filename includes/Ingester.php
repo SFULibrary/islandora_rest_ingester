@@ -26,6 +26,17 @@ abstract class Ingester
 
         $this->client = new \GuzzleHttp\Client();
 
+        if (preg_match('#/$#', $command['e'])) {
+            $endpoint = $command['e'];
+        } else {
+            $endpoint = $command['e'] . '/';
+        }
+    
+        $this->client_defaults = array(
+            'base_uri' => $endpoint,
+            'headers' => array('X-Authorization-User' => $command['u'] . ':' . $command['t']),
+        );	
+
         // These files are skipped for the purpose of creating datastreams.
         $this->unwantedFiles = array(
             'cmodel.txt',
@@ -119,37 +130,20 @@ abstract class Ingester
         }
 
         // Ingest Islandora object.
-        try {
-            $object_response = $this->client->request('POST', $this->command['e'] . '/object', [
-                'form_params' => [
-                    'namespace' => $namespace,
-                    'owner' => $owner_id,
-                    'label' => $label,
-                ],
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'X-Authorization-User' => $this->command['u'] . ':' . $this->command['t'],
-                ]
-            ]);
-        } catch (Exception $e) {
-            if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException) {
-                $this->log->addError(Psr7\str($e->getRequest()));
-                if ($e->hasResponse()) {
-                    $this->log->addError(Psr7\str($e->getResponse()));
-                }
-                return false;
-            }
-        }
+        $object = new \mjordan\Irc\Object($this->client_defaults);
+        $object_response = $object->create(
+            $namespace,
+            $owner_id,
+            $label,
+            null,
+            null
+        );
 
-        $object_response_body = $object_response->getBody();
-        $object_response_body_array = json_decode($object_response_body, true);
-        $pid = $object_response_body_array['pid'];
-
-        if ($pid && $this->command['s'] != 'A') {
-            $this->setObjectState($pid, $this->command['s']);
+        if ($object->pid && $this->command['s'] != 'A') {
+            $this->setObjectState($object->pid, $this->command['s']);
         }
         if ($state_from_foxml) {
-            $this->setObjectState($pid, $state_from_foxml);
+            $this->setObjectState($object->pid, $state_from_foxml);
         }
 
         // Add any relationships expressed in the object-level relationships.json file.
@@ -158,11 +152,11 @@ abstract class Ingester
             $rels = json_decode($rels, true);
             $rels = $rels['relationships'];
             foreach ($rels as $relationship) {
-                $this->addRelationship($pid, $relationship);
+                $this->addRelationship($object->pid, $relationship);
             }
         }
 
-        return $pid;
+        return $object->pid;
     }
 
     /**
@@ -176,32 +170,8 @@ abstract class Ingester
      */
     public function addRelationship($pid, $params)
     {
-        try {
-            $response = $this->client->request('POST', $this->command['e'] . '/object/' .
-                $pid . '/relationship', [
-                    'form_params' => [
-                        'uri' => $params['uri'],
-                        'predicate' => $params['predicate'],
-                        'object' => $params['object'],
-                        'type' => $params['type'],
-                    ],
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'X-Authorization-User' => $this->command['u'] . ':' . $this->command['t'],
-                    ],
-                ]);
-        } catch (Exception $e) {
-            $this->log->addError("Relationship for $pid (predicate: " .
-                $params['predicate'] . " , object: " . $params['predicate'] .
-                " not added");
-            if ($e instanceof RequestException or $e instanceof ClientException or $e instanceof ServerException) {
-                $this->log->addError(Psr7\str($e->getRequest()));
-                if ($e->hasResponse()) {
-                    $this->log->addError(Psr7\str($e->getResponse()));
-                }
-                return;
-            }
-        }
+        $relationship = new \mjordan\Irc\Relationship($this->client_defaults);
+        $relationship_response = $relationship->create($pid, $params);
     }
 
     /**
@@ -288,90 +258,19 @@ abstract class Ingester
                         $this->command['z'] . ' MB, skipping');
                     continue;
                 }
-
-                // This is the POST request and multipart form data required
-                // to create a new datastream.
-                $post_request = $this->command['e'] . '/object/' . $pid . '/datastream';
-                $multipart = array(
-                    [
-                        'name' => 'file',
-                        'filename' => $pathinfo['basename'],
-                        'contents' => fopen($path_to_file, 'r'),
-                    ],
-                    [
-                        'name' => 'dsid',
-                        'contents' => $dsid,
-                    ],
-                    [
-                        'name' => 'checksumType',
-                        'contents' => $this->command['c'],
-                    ],
+                
+                $ds = new \mjordan\Irc\Datastream($this->client_defaults);
+                $ds_response = $ds->create(
+                    $pid,
+                    $dsid,
+                    $path_to_file,
+                    array('label' => $dsid)	
                 );
-                // However, before we create the datastream, we check to see if the
-                // datastream already exists, in which case we modify the request
-                // in order to replace the datastream content.
-                $ds_url = $this->command['e'] . '/object/' . $pid . '/datastream/' . $dsid . '?content=false';
-                $http_status = ping_url($ds_url, $this->command, $this->log);
-                // If the datastream already exists, change the POST values and
-                // URL to update the datastream's content.
-                if (is_string($http_status)) {
-                    if ($http_status == '200') {
-                        // This POST value is necessary for replacing the datastream content.
-                        $multipart[] = array(
-                            'name' => 'method',
-                            'contents' => 'PUT',
-                        );
-                        $post_request = $this->command['e'] . '/object/' . $pid . '/datastream/' . $dsid;
-                        $this->log->addInfo("Ping URL response code for object $pid datastream $dsid was " .
-                            "$http_status; will attempt to update datastream content.");
-                    } else {
-                        // If the status code was not 200, log it.
-                        if ($http_status == '404') {
-                            $this->log->addInfo("Ping URL response code for object $pid datastream $dsid " .
-                                "was $http_status (this is OK).");
-                        } else {
-                            $this->log->addInfo("Ping URL response code for object $pid datastream $dsid " .
-                                "was $http_status.");
-                        }
-                    }
-                } else {
-                    // If there was an error getting the status code, move on to
-                    // the next file. The exception will be logged from within
-                    // ping_url().
-                    continue;
-                }
-                // Now that we have the correct request URL and multipart form
-                // data, attempt to ingest the datastream if it doesn't already
-                // exist, or if it does, update its content.
-                try {
-                    $response = $this->client->request('POST', $post_request, [
-                       'multipart' => $multipart,
-                       'headers' => [
-                            'Accept' => 'application/json',
-                            'X-Authorization-User' => $this->command['u'] . ':' . $this->command['t'],
-                        ]
-                    ]);
-                    if ($response->getStatusCode() === 201) {
-                        $this->log->addInfo("Object $pid datastream $dsid ingested from $path_to_file");
-                    } else {
-                        $this->log->addInfo("Object $pid datastream $dsid not ingested from " .
-                            $path_to_file . "(HTTP response " . $response->getStatusCode() . ")");
-                    }
-                } catch (Exception $e) {
-                    if ($e instanceof RequestException or $e instanceof ClientException or
-                        $e instanceof ServerException) {
-                        $this->log->addError(Psr7\str($e->getRequest()));
-                        if ($e->hasResponse()) {
-                            $this->log->addError(Psr7\str($e->getResponse()));
-                            continue;
-                        }
-                    }
-                }
 
                 // Verify checksum of newly created datastream.
                 if ($this->command['c'] != 'none') {
                     $local_checksum = get_local_checksum($path_to_file, $this->command);
-                    $response_body = $response->getBody();
+                    $response_body = $ds_response->getBody();
                     $response_body_array = json_decode($response_body, true);
                     if ($local_checksum == $response_body_array['checksum']) {
                         $this->log->addInfo($this->command['c'] . " checksum for object $pid " .
